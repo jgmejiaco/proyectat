@@ -24,13 +24,136 @@
 @section('content')
     <div class="p-3 d-flex flex-column">
         <div class="p-0" style="border: solid 1px #337AB7; border-radius: 5px;">
-            <h5 class="border rounded-top text-white text-center pt-2 pb-2 m-0" style="background-color: #337AB7">Usuarios</h5>
+            <h5 class="border rounded-top text-white text-center pt-2 pb-2" style="background-color: #337AB7;">Usuarios</h5>
 
             <div class="row pe-3 mt-3">
                 <div class="col-12 d-flex justify-content-end">
-                    <a href="{{route('usuarios.create')}}" class="btn text-white" style="background-color:#337AB7">Crear Usuario</a>
+                    <button type="button" class="btn text-white" style="background-color:#337AB7" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Crear Usuario
+                    </button>
                 </div>
             </div>
+
+            {{-- INICIO Modal CREAR USUARIO --}}
+            <div class="modal fade modal-gral" id="modalCrearUsuario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" style="max-width: 60%;">
+                <div class="modal-dialog m-0 mw-100">
+                    <div class="modal-content border-0 p-3">
+                        <x-form
+                            action="{{route('usuarios.store')}}"
+                            method="POST"
+                            class="mt-0"
+                            id="formCrearUsuario"
+                            autocomplete="off"
+                        >
+                            <div class="rounded-top text-white text-center"
+                                style="background-color: #337AB7; border: solid 1px #337AB7;">
+                                <h5 class="" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Crear Usuario</h5>
+                            </div>
+
+                            <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
+                                <div class="row m-2">
+                                    <div class="col-12 col-md-6">
+                                        <x-input
+                                            name="nombre_usuario"
+                                            type="text"
+                                            label="Nombre Usuario"
+                                            id="nombre_usuario"
+                                            autocomplete="given-name"
+                                            required
+                                        />
+                                    </div>
+                                    
+                                    <div class="col-12 col-md-6">
+                                        <x-input
+                                            name="apellido_usuario"
+                                            type="text"
+                                            label="Apellido Usuario"
+                                            id="apellido_usuario"
+                                            autocomplete="family-name"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="row m-2">
+                                    <div class="col-12 col-md-6">
+                                        <x-input
+                                            name="correo"
+                                            type="email"
+                                            label="Correo"
+                                            id="correo"
+                                            autocomplete="email"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <x-select
+                                            name="id_rol"
+                                            label="Rol"
+                                            id="id_rol"
+                                            autocomplete="organization-title"
+                                            required
+                                        >
+                                            <option value="">Seleccionar...</option>
+                                            @foreach($roles as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </x-select>
+                                    </div>
+                                </div>
+
+                                <div class="row m-2">
+                                    <div class="col-12 col-md-6">
+                                        <x-input
+                                            name="clave"
+                                            type="password"
+                                            label="Clave"
+                                            id="clave"
+                                            autocomplete="password"
+                                            required
+                                        />
+                                    </div>
+                                    
+                                    <div class="col-12 col-md-6">
+                                        <x-input
+                                            name="confirmar_clave"
+                                            type="password"
+                                            label="Confirmar clave"
+                                            id="confirmar_clave"
+                                            autocomplete="password"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer d-block mt-0 border border-0">
+                                <!-- Contenedor para el GIF -->
+                                <div id="loadingIndicatorStore"
+                                    class="loadingIndicator">
+                                    <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                                </div>
+
+                                <div class="d-flex justify-content-around mt-3">
+                                    <button type="submit" id="btn_crear_user" class="btn btn-success">
+                                        <i class="fa-regular fa-floppy-disk"></i> Crear
+                                    </button>
+
+                                    <button type="button" id="btn_cancelar_user" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="fa fa-times"></i> Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </x-form>
+                    </div>
+                </div>
+            </div>
+            {{-- FINAL Modal CREAR USUARIO --}}
+
+            {{-- =============================================================== --}}
+            {{-- =============================================================== --}}
+            {{-- =============================================================== --}}
 
             <div class="col-12 p-3" id="">
                 <div class="table-responsive">
@@ -296,9 +419,6 @@
 {{-- =============================================================== --}}
 
 @section('scripts')
-    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
-    <script src="{{ asset('DataTables/Buttons-2.3.4/js/buttons.html5.min.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             // INICIO DataTable Lista Usuarios
@@ -324,146 +444,146 @@
             // CIERRE DataTable Lista Usuarios
 
             // ===========================================================================================
-        }); // FIN document.ready
+        
+            function validatePassword(claveValor) {
+                // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+                // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+-/¿¡])[A-Za-z\d@$!%*?&+-/¿¡]{6,}$/;
+                // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-/_¿¡#.,:;=~^(){}[\]<>`|"']) [A-Za-z\d@$!%*?&+\-/_¿¡#.,:;=~^(){}[\]<>`|"']{6,}$/;
+                let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-/_¿¡#.,:;=~^(){}\[\]<>`|"'])[A-Za-z\d@$!%*?&+\-/_¿¡#.,:;=~^(){}\[\]<>`|"']{6,}$/;
+                if (!regex.test(claveValor)) {
+                    return "La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número, un carácter especial, y ser de al menos 6 caracteres.";
+                }
+                return null;
+            }
 
-            // function validatePassword(nuevaClaveValor) {
-            //     let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-            //     if (!regex.test(nuevaClaveValor)) {
-            //         return "La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número, un carácter especial, y ser de al menos 6 caracteres.";
-            //     }
-            //     return null;
-            // }
+            // ===========================================================================================
 
-            // formCambiarClave para cargar gif en el submit
-            // $(document).on("submit", "form[id^='formCambiarClave_']", function(e) {
-            //     e.preventDefault(); // Evita el envío si hay errores
+            // formCrearUsuario para cargar gif en el submit
+            $(document).on("submit", "form[id^='formCrearUsuario']", function(e) {
+                e.preventDefault(); // Evita el envío si hay errores
 
-            //     const form = $(this);
-            //     const formId = form.attr('id'); // Obtenemos el ID del formulario
-            //     const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
+                const form = $(this);
+                const submitButton = form.find('button[type="submit"]');
+                const cancelButton = form.find('button[type="button"]');
+                const loadingIndicator = form.find("div[id^='loadingIndicatorStore']");
 
-            //     // Identificar campos de nueva clave y confirmación
-            //     const nuevaClave = `#nueva_clave_${id}`;
-            //     const confirmarClave = `#confirmar_clave_${id}`;
+                // Identificar campos de nueva clave y confirmación
+                const clave = '#clave';
+                const confirmarClave = '#confirmar_clave';
 
-            //     let nuevaClaveValor = $(nuevaClave).val();
-            //     let confirmarClaveValor = $(confirmarClave).val();
+                let claveValor = $(clave).val();
+                let confirmarClaveValor = $(confirmarClave).val();
 
-            //     if (nuevaClaveValor.trim() === '' || confirmarClaveValor.trim() === '') {
-            //         Swal.fire('Cuidado!', 'Ambos campos de contraseña deben estar diligenciados!', 'warning');
-            //         return;
-            //     }
+                console.log(claveValor);
+                console.log(confirmarClaveValor);
 
-            //     if (nuevaClaveValor !== confirmarClaveValor) {
-            //         Swal.fire('Error!', 'Las contraseñas no coinciden!', 'error');
-            //         return;
-            //     }
+                if (claveValor.trim() === '' || confirmarClaveValor.trim() === '') {
+                    Swal.fire('Cuidado!', 'Ambos campos de contraseña deben estar diligenciados!', 'warning');
+                    return;
+                }
 
-            //     // Validación de la seguridad de la contraseña
-            //     let errorMessage = validatePassword(nuevaClaveValor);
+                if (claveValor !== confirmarClaveValor) {
+                    Swal.fire('Error!', 'Las contraseñas no coinciden!', 'error');
+                    return;
+                }
 
-            //     if (errorMessage) {
-            //         Swal.fire('Error!', errorMessage, 'error');
-            //         return;
-            //     }
+                // Validación de la seguridad de la contraseña
+                // let errorMessage = validatePassword(claveValor);
+                let errorMessage = validatePassword(claveValor.trim());
 
-            //     // Deshabilitar campos
-            //     $(nuevaClave).prop("readonly", true);
-            //     $(confirmarClave).prop("readonly", true);
+                if (errorMessage) {
+                    Swal.fire('Error!', errorMessage, 'error');
+                    return;
+                }
 
-            //     // Capturar el indicador de carga y botones dinámicamente
-            //     const submitButton = $(`#btn_editar_clave_${id}`);
-            //     const cancelButton = $(`#btn_cancelar_clave_${id}`);
-            //     const loadingIndicator = $(`#loadingIndicatorEditClave_${id}`);
+                // Dessactivar Botones
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+                
+                // Mostrar Spinner
+                loadingIndicator.show();
 
-            //     // Lógica del botón
-            //     loadingIndicator.show();
-            //     cancelButton.prop("disabled", true);
-            //     submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
-
-            //     // Enviar formulario manualmente
-            //     this.submit();
-            // });
+                // Enviar formulario manualmente
+                this.submit();
+            });
 
             // ===========================================================================================
             
             // Botón de submit de editar usuario
-            // $(document).on("submit", "form[id^='formEditarUsuario_']", function(e) {
+            $(document).on("submit", "form[id^='formEditarUsuario_']", function(e) {
+                const form = $(this);
+                const formId = form.attr('id'); // Obtenemos el ID del formulario
+                const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
 
-            //     const form = $(this);
-            //     const formId = form.attr('id'); // Obtenemos el ID del formulario
-            //     const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
+                // Capturar el indicador de carga dinámicamente
+                const submitButton = $(`#btn_editar_user_${id}`);
+                const cancelButton = $(`#btn_cancelar_user_${id}`);
+                const loadingIndicator = $(`#loadingIndicatorEditUser_${id}`);
 
-            //     // Capturar el indicador de carga dinámicamente
-            //     const loadingIndicator = $(`#loadingIndicatorEditUser_${id}`);
+                // Lógica del botón
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html(
+                    "Procesando... <i class='fa fa-spinner fa-spin'></i>"
+                );
 
-            //     // Capturar el botón de submit dinámicamente
-            //     const submitButton = $(`#btn_editar_user_${id}`);
-
-            //     // Capturar el botón de cancelar
-            //     const cancelButton = $(`#btn_cancelar_user_${id}`);
-
-            //     // Lógica del botón
-            //     submitButton.prop("disabled", true).html(
-            //         "Procesando... <i class='fa fa-spinner fa-spin'></i>"
-            //     );
-
-            //     // Lógica del botón cancelar
-            //     cancelButton.prop("disabled", true);
-            //     loadingIndicator.show();
-            // });
+                // Mostrar Spinner
+                loadingIndicator.show();
+            });
 
             // ===========================================================================================
 
-            // $(document).on('shown.bs.modal', '.modal', function () {
-            //     // Buscar el select dentro del modal
-            //     let selectEstado = $(this).find('[id^=id_estado_]');
-                
-            //     if (selectEstado.length > 0) {
-            //         let idEstado = selectEstado.val(); // Obtener el valor actual del select
-            //         console.log(`Estado al abrir el modal: ${idEstado}`);
+            // formCambiarClave para cargar gif en el submit
+            $(document).on("submit", "form[id^='formCambiarClave_']", function(e) {
+                e.preventDefault(); // Evita el envío si hay errores
 
-            //         // Buscar los elementos dentro de este modal
-            //         let divFechaTerminacion = $(this).find('[id^=div_fecha_terminacion_contrato]');
-            //         let inputFechaTerminacion = $(this).find('[id^=fecha_terminacion_contrato]');
+                const form = $(this);
+                const formId = form.attr('id'); // Obtenemos el ID del formulario
+                const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
 
-            //         // Aplicar la lógica de ocultar o mostrar
-            //         if (idEstado == 1 || idEstado == '') {
-            //             divFechaTerminacion.hide();
-            //             inputFechaTerminacion.removeAttr('required');
-            //             inputFechaTerminacion.val('');
-            //         } else {
-            //             divFechaTerminacion.show();
-            //             inputFechaTerminacion.attr('required', 'required');
-            //         }
-            //     }
-            // });
+                // Identificar campos de nueva clave y confirmación
+                const nuevaClave = `#nueva_clave_${id}`;
+                const confirmarClave = `#confirmar_clave_${id}`;
 
-            // ===========================================================================================
+                let nuevaClaveValor = $(nuevaClave).val();
+                let confirmarClaveValor = $(confirmarClave).val();
 
-            // $(document).on('change', '[id^=id_estado_]', function () {
-            //     let idEstado = $(this).val();
-            //     console.log("Estado cambiado a:", idEstado);
+                if (nuevaClaveValor.trim() === '' || confirmarClaveValor.trim() === '') {
+                    Swal.fire('Cuidado!', 'Ambos campos de contraseña deben estar diligenciados!', 'warning');
+                    return;
+                }
 
-            //     // Buscar el modal más cercano donde está el select
-            //     let modal = $(this).closest('.modal');
+                if (nuevaClaveValor !== confirmarClaveValor) {
+                    Swal.fire('Error!', 'Las contraseñas no coinciden!', 'error');
+                    return;
+                }
 
-            //     // Buscar los elementos dentro de este modal
-            //     let divFechaTerminacion = modal.find('[id^=div_fecha_terminacion_contrato]');
-            //     let inputFechaTerminacion = modal.find('[id^=fecha_terminacion_contrato]');
+                // Validación de la seguridad de la contraseña
+                let errorMessage = validatePassword(nuevaClaveValor);
 
-            //     if (idEstado == 1) { // Activo
-            //         divFechaTerminacion.hide();
-            //         inputFechaTerminacion.removeAttr('required');
-            //         inputFechaTerminacion.val('');
-            //     } else if (idEstado == 2) { // Inactivo
-            //         divFechaTerminacion.show('slow');
-            //         inputFechaTerminacion.attr('required', 'required');
-            //     } else { // Seleccionar...
-            //         divFechaTerminacion.hide();
-            //         inputFechaTerminacion.removeAttr('required');
-            //     }
-            // });
-        
+                if (errorMessage) {
+                    Swal.fire('Error!', errorMessage, 'error');
+                    return;
+                }
+
+                // Deshabilitar campos
+                $(nuevaClave).prop("readonly", true);
+                $(confirmarClave).prop("readonly", true);
+
+                // Capturar el indicador de carga y botones dinámicamente
+                const submitButton = $(`#btn_editar_clave_${id}`);
+                const cancelButton = $(`#btn_cancelar_clave_${id}`);
+                const loadingIndicator = $(`#loadingIndicatorEditClave_${id}`);
+
+                // Lógica del botón
+                loadingIndicator.show();
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+
+                // Enviar formulario manualmente
+                this.submit();
+            });
+
+
+        }); // FIN document.ready
     </script>
 @stop

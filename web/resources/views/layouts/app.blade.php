@@ -32,8 +32,8 @@
         {{-- ========================================= --}}
 
         {{-- Sweetalert2 (No necesita jquery para funcionar) --}}
-        {{-- <link rel="stylesheet" type="text/css" href="{{asset('css/sweetalert2.css')}}"> --}}
-        {{-- <link rel="stylesheet" type="text/css" href="{{asset('css/sweetalert2.min.css')}}"> --}}
+        <link rel="stylesheet" type="text/css" href="{{asset('css/sweetalert2.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/sweetalert2.min.css')}}">
 
         {{-- ========================================= --}}
 
@@ -72,6 +72,9 @@
             @include('layouts.footer')
         @endif
 
+        <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
+        <script src="{{ asset('DataTables/Buttons-2.3.4/js/buttons.html5.min.js') }}"></script>
+
         {{-- ======================================================== --}}
         {{-- ======================================================== --}}
 
@@ -85,8 +88,8 @@
         {{-- ========================================================================= --}}
 
         {{-- Sweetalert (No necesita jquery para funcionar) --}}
-        {{-- <script src="{{asset('js/sweetalert2.all.js')}}"></script> --}}
-        {{-- <script src="{{asset('js/sweetalert2.min.js')}}"></script> --}}
+        <script src="{{asset('js/sweetalert2.all.js')}}"></script>
+        <script src="{{asset('js/sweetalert2.min.js')}}"></script>
 
         {{-- ========================================================================= --}}
         
