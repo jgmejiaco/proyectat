@@ -23,11 +23,11 @@ $router->get('/', function () use ($router) {
 // USUARIOS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('usuarios_index', 'usuarios\UsuariosController@index');
+    $router->post('query_correo_user', 'usuarios\UsuariosController@queryCorreoUser');
+    $router->post('query_usuario', 'usuarios\UsuariosController@queryUsuario');
+    $router->post('usuario_store', 'usuarios\UsuariosController@store');
 
 
-    // $router->post('query_identificacion', 'usuarios\UsuariosController@consultarId');
-    // $router->post('query_usuario', 'usuarios\UsuariosController@consultaUsuario');
-    // $router->post('usuario_store', 'usuarios\UsuariosController@store');
     // $router->post('query_usuario_update/{idUsuario}', 'usuarios\UsuariosController@queryUsuarioUpdate');
     // $router->put('usuario_update/{idUsuario}', 'usuarios\UsuariosController@update');
     // $router->post('cambiar_clave/{idUsuario}', 'usuarios\UsuariosController@cambiarClave');

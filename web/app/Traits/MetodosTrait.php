@@ -94,7 +94,7 @@ trait MetodosTrait
     {
         // Usuarios
         view()->share('estados', Estado::orderBy('estado','asc')->pluck('estado', 'id_estado'));
-        view()->share('roles', Rol::orderBy('rol','asc')->pluck('rol', 'id_rol'));
+        view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
 
     }
 }

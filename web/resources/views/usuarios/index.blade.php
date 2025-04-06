@@ -56,7 +56,7 @@
                                         <x-input
                                             name="nombre_usuario"
                                             type="text"
-                                            label="Nombre Usuario"
+                                            label="Nombres"
                                             id="nombre_usuario"
                                             autocomplete="given-name"
                                             required
@@ -67,7 +67,7 @@
                                         <x-input
                                             name="apellido_usuario"
                                             type="text"
-                                            label="Apellido Usuario"
+                                            label="Apellidos"
                                             id="apellido_usuario"
                                             autocomplete="family-name"
                                             required
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
 
-                            <div class="modal-footer d-block mt-0 border border-0">
+                            <div class="modal-footer d-block mt-0 border border-0 p-0">
                                 <!-- Contenedor para el GIF -->
                                 <div id="loadingIndicatorStore"
                                     class="loadingIndicator">
@@ -182,7 +182,7 @@
                                     <td>{{$usuario->usuario}}</td>
                                     <td>{{$usuario->correo}}</td>
                                     <td>{{$usuario->name}}</td>
-                                    <td>{{$usuario->estado}}Estado</td>
+                                    <td>{{$usuario->estado}}</td>
                                     <td>
                                         <button type="button" class="btn btn-success rounded-circle btn-circle"
                                             title="Editar" data-bs-toggle="modal"
@@ -346,7 +346,7 @@
                                                         </h5>
                                                     </div> --}}
 
-                                                    {{ Form::hidden('id_usuario', isset($usuario) ? $usuario->id_usuario : null, ['class' => '', 'id' => 'id_usuario', 'required' => 'required']) }}
+                                                    {{-- {{ Form::hidden('id_usuario', isset($usuario) ? $usuario->id_usuario : null, ['class' => '', 'id' => 'id_usuario', 'required' => 'required']) }} --}}
 
                                                     {{-- ====================================================== --}}
                                                     {{-- ====================================================== --}}

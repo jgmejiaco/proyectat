@@ -6,11 +6,14 @@ use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Traits\MetodosTrait;
 use App\Models\Usuario;
 use GuzzleHttp\Client;
 
 class UsuarioStore implements Responsable
 {
+    use MetodosTrait;
     protected $baseUri;
     protected $clientApi;
 
@@ -22,101 +25,136 @@ class UsuarioStore implements Responsable
 
     public function toResponse($request)
     {
-        $nombreUsuario = request('nombre_usuario', null);
-        $apellidoUsuario = request('apellido_usuario', null);
-        $idTipoDocumento = request('id_tipo_documento', null);
-        $identificacion = request('identificacion', null);
-        $email = request('email', null);
-        $idEstado = request('id_estado', null);
-        $idRol = request('id_rol', null);
-        $idTipoPersona = request('id_tipo_persona', null);
-        $numeroTelefono = request('numero_telefono', null);
-        $celular = request('celular', null);
-        $idGenero = request('id_genero', null);
-        $direccion = request('direccion', null);
-        $fechaContrato = request('fecha_contrato', null);
-        $fechaTerminacionContrato = request('fecha_terminacion_contrato', null);
+        // dd($request);
+        
+        $validator = Validator::make($request->all(), [
+            'nombre_usuario'    => 'required|string',
+            'apellido_usuario'  => 'required|string',
+            'correo'            => 'required|email',
+            'id_rol'            => 'required|integer',
+            'clave'             => 'required|string|min:6',
+            'confirmar_clave'   => 'required|same:clave',
+        ]);
 
-        if(strlen($identificacion) < 6)
-        {
-            alert()->info('Info', 'El documento debe se de mínimo 6 caracteres');
+        if ($validator->fails()) {
+            return response()->json([
+                'errores' => $validator->errors()
+            ], 422);
+        }
+
+        // Si pasa la validación
+        $nombreUsuario = $request->input('nombre_usuario');
+        $apellidoUsuario = $request->input('apellido_usuario');
+        $correo = $request->input('correo');
+        $idEstado = 1;
+        $idRol = $request->input('id_rol');
+        $clave = $request->input('clave');
+        $confirmarClave = $request->input('confirmar_clave');
+
+
+        if(!isset($correo) || empty($correo) || is_null($correo)) {
+            alert()->error('Error','El correo es requerido!');
             return back();
         }
-        
-        // Consultamos si ya existe un usuario con la cedula ingresada
-        $consultarIdentificacion = $this->consultarId($identificacion);
-        
-        if(isset($consultarIdentificacion) && !empty($consultarIdentificacion) && !is_null($consultarIdentificacion))
-        {
-            alert()->info('Info', 'Este número de documento ya existe.');
+
+        if(!isset($clave) || empty($clave) || is_null($clave) || !isset($confirmarClave) || empty($confirmarClave) || is_null($confirmarClave)) {
+            alert()->error('Error','Ambas Claves son requeridos!');
             return back();
-        } else
+        }
+
+        if($clave !== $confirmarClave) {
+            alert()->error('Error','Ambas Claves deben ser iguales!');
+            return back();
+        }
+
+        if (!$this->validarContrasena($clave)) {
+            alert()->info('Info', 'La contraseña no cumple con los requisitos de seguridad.');
+            return back();
+        }
+
+        // Consultamos si ya existe un usuario con ese correo
+        $consultarCorreoUser = $this->consultarCorreoUser($correo);
+        // dd($consultarCorreoUser);
+        
+        // Juanchito1974+
+
+        if($consultarCorreoUser == 'si_correo') {
+            alert()->info('Info', 'Este correo ya existe.');
+            return back();
+        }
+
+        // Contruimos el nombre de usuario
+        $separarApellidos = explode(" ", $apellidoUsuario);
+        $usuario = substr($this->quitarCaracteresEspeciales(trim($nombreUsuario)), 0,1) . trim($this->quitarCaracteresEspeciales($separarApellidos[0]));
+        $usuario = preg_replace("/(Ñ|ñ)/", "n", $usuario);
+        $usuario = strtolower($usuario);
+        $complemento = "";
+
+        // dd($consultarCorreoUser);
+
+        while($this->consultaUsuario($usuario.$complemento))
         {
-            // Contruimos el nombre de usuario
-            $separarApellidos = explode(" ", $apellidoUsuario);
-            $usuario = substr($this->quitarCaracteresEspeciales(trim($nombreUsuario)), 0,1) . trim($this->quitarCaracteresEspeciales($separarApellidos[0]));
-            $usuario = preg_replace("/(Ñ|ñ)/", "n", $usuario);
-            $usuario = strtolower($usuario);
-            $complemento = "";
+            $complemento++;
+        }
 
-            while($this->consultaUsuario($usuario.$complemento))
+        try {
+            $peticionUsuarioStore = $this->clientApi->post($this->baseUri.'usuario_store', [
+                'timeout' => 10,
+                'json' => [
+                    'nombre_usuario' => $nombreUsuario,
+                    'apellido_usuario' => $apellidoUsuario,
+                    'correo' => $correo,
+                    'id_estado' => $idEstado,
+                    'id_rol' => $idRol,
+                    'usuario' => $usuario.$complemento,
+                    'clave' => Hash::make($clave),
+                    'clave_fallas' => 0
+
+                ]
+            ]);
+
+            $resUsuarioStore = json_decode($peticionUsuarioStore->getBody()->getContents());
+            
+            if(isset($resUsuarioStore) && !empty($resUsuarioStore) && $resUsuarioStore->success)
             {
-                $complemento++;
+                return $this->respuestaExito(
+                    "Usuario creado satisfactoriamente.<br>
+                    El usuario es: <strong>" .  $resUsuarioStore->usuario->usuario . "</strong>",
+                    'usuarios.index'
+                );
             }
-
-            try
-            {
-                $peticionUsuarioStore = $this->clientApi->post($this->baseUri.'usuario_store', [
-                    'json' => [
-                        'nombre_usuario' => $nombreUsuario,
-                        'apellido_usuario' => $apellidoUsuario,
-                        'id_tipo_documento' => $idTipoDocumento,
-                        'identificacion' => $identificacion,
-                        'usuario' => $usuario.$complemento,
-                        'email' => $email,
-                        'id_rol' => $idRol,
-                        'id_estado' => $idEstado,
-                        'id_tipo_persona' => $idTipoPersona,
-                        'numero_telefono' => $numeroTelefono,
-                        'celular' => $celular,
-                        'id_genero' => $idGenero,
-                        'direccion' => $direccion,
-                        'fecha_contrato' => $fechaContrato,
-                        'fecha_terminacion_contrato' => $fechaTerminacionContrato,
-                        'clave' => Hash::make($identificacion),
-                        'clave_fallas' => 0,
-
-                    ]
-                ]);
-
-                $resUsuarioStore = json_decode($peticionUsuarioStore->getBody()->getContents());
-                
-                if(isset($resUsuarioStore) && !empty($resUsuarioStore) && $resUsuarioStore->success)
-                {
-                    return $this->respuestaExito(
-                        "Usuario creado satisfactoriamente.<br>
-                        El usuario es: <strong>" .  $resUsuarioStore->usuario->usuario . "</strong><br>
-                        Y la clave es: <strong>" . $resUsuarioStore->usuario->identificacion . "</strong>",
-                        'usuarios.index'
-                    );
-                }
-            } catch (Exception $e)
-            {
-                return $this->respuestaException('Exception, contacte a Soporte.' . $e->getMessage());
-            }
+        } catch (Exception $e) {
+            return $this->respuestaException('Exception, contacte a Soporte.');
         }
     }
 
     // ===================================================================
 
-    private function consultarId($identificacion)
+    private function consultarCorreoUser($correo)
     {
-        $queryIdentificacion = $this->clientApi->post($this->baseUri.'query_identificacion', [
-            'json' => ['identificacion' => $identificacion]
-        ]);
-        return json_decode($queryIdentificacion->getBody()->getContents());
+        try {
+            $queryCorreoUser = $this->clientApi->post($this->baseUri.'query_correo_user', [
+                'timeout' => 10,
+                'query' => ['correo' => $correo]
+            ]);
+            return json_decode($queryCorreoUser->getBody()->getContents());
+
+        } catch (Exception $e) {
+            dd($e);
+            return $this->respuestaException('Exception, contacte a Soporte.');
+        }
     }
 
+    // ===================================================================
+    // ===================================================================
+
+    private function validarContrasena($clave)
+    {
+        // Verifica que la contraseña tenga al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
+        $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-\/_¿¡#.,:;=~^(){}\[\]<>`|"\'"])[A-Za-z\d@$!%*?&+\-\/_¿¡#.,:;=~^(){}\[\]<>`|"\'"]{6,}$/';
+        return preg_match($regex, $clave);
+    }
+    
     // ===================================================================
     // ===================================================================
 
@@ -124,28 +162,14 @@ class UsuarioStore implements Responsable
     {
         try {
             $queryUsuario = $this->clientApi->post($this->baseUri.'query_usuario', [
-                'json' => ['usuario' => $usuario]
+                'timeout' => 10,
+                'query' => ['usuario' => $usuario]
             ]);
             return json_decode($queryUsuario->getBody()->getContents());
 
         } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.' . $e->getMessage());
+            return $this->respuestaException('Exception, contacte a Soporte.');
         }
-    }
-
-    // ===================================================================
-    // ===================================================================
-
-    private function quitarCaracteresEspeciales($cadena)
-    {
-        $no_permitidas = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", "ñ", "À", "Ã", "Ì", "Ò", "Ù", "Ã™", "Ã ",
-                               "Ã¨", "Ã¬", "Ã²", "Ã¹", "ç", "Ç", "Ã¢", "ê", "Ã®", "Ã´", "Ã»", "Ã‚", "ÃŠ", "ÃŽ", "Ã”",
-                               "Ã›", "ü", "Ã¶", "Ã–", "Ã¯", "Ã¤", "«", "Ò", "Ã", "Ã„", "Ã‹", "ñ", "Ñ", "*");
-
-        $permitidas = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", "n", "N", "A", "E", "I", "O", "U",
-                            "a", "e", "i", "o", "u", "c", "C", "a", "e", "i", "o", "u", "A", "E", "I", "O", "U",
-                            "u", "o", "O", "i", "a", "e", "U", "I", "A", "E", "n", "N", "");
-        return str_replace($no_permitidas, $permitidas, $cadena);
     }
 
     // ===================================================================
@@ -175,5 +199,4 @@ class UsuarioStore implements Responsable
         alert()->error('Error', $mensaje);
         return back();
     }
-
 }

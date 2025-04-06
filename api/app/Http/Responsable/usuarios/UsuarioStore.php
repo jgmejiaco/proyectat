@@ -12,53 +12,39 @@ class UsuarioStore implements Responsable
 {
     public function toResponse($request)
     {
-        $nombreUsuario = request('nombre_usuario', null);
-        $apellidoUsuario = request('apellido_usuario', null);
-        $idTipoDocumento = request('id_tipo_documento', null);
-        $identificacion = request('identificacion', null);
-        $usuario  = request('usuario', null);
-        $email = request('email', null);
-        $idRol = request('id_rol', null);
-        $idTipoPersona = request('id_tipo_persona', null);
-        $numeroTelefono = request('numero_telefono', null);
-        $celular = request('celular', null);
-        $idGenero = request('id_genero', null);
-        $direccion = request('direccion', null);
-        $fechaContrato = request('fecha_contrato', null);
-        $fechaTerminacionContrato = request('fecha_terminacion_contrato', null);
-        $idEstado = request('id_estado', null);
-        $clave = request('clave', null);
-        $claveFallas = request('clave_fallas', null);
+        $nombreUsuario = $request->input('nombre_usuario');
+        $apellidoUsuario = $request->input('apellido_usuario');
+        $correo = $request->input('correo');
+        $idEstado = $request->input('id_estado');
+        $idRol = $request->input('id_rol');
+        $usuario = $request->input('usuario');
+        $clave = $request->input('clave');
+        $claveFallas = $request->input('clave_fallas');
 
-        $nuevoUsuario = Usuario::create([
-            'nombre_usuario' => ucwords($nombreUsuario),
-            'apellido_usuario' => ucwords($apellidoUsuario),
-            'id_tipo_documento' => $idTipoDocumento,
-            'identificacion' => $identificacion,
-            'usuario' => $usuario,
-            'email' => $email,
-            'clave' => $clave,
-            'clave_fallas' => $claveFallas,
-            'id_estado' => $idEstado,
-            'id_rol' => $idRol,
-            'id_tipo_persona' => $idTipoPersona,
-            'numero_telefono' => $numeroTelefono,
-            'celular' => $celular,
-            'id_genero' => $idGenero,
-            'direccion' => $direccion,
-            'fecha_contrato' => $fechaContrato,
-            'fecha_terminacion_contrato' => $fechaTerminacionContrato,
-        ]);
+        // =================================================
 
-        if (isset($nuevoUsuario) && !is_null($nuevoUsuario) && !empty($nuevoUsuario))
-        {
-            return response()->json([
-                'success' => true,
-                'message' => 'Usuario creado correctamente',
-                'usuario' => $nuevoUsuario
+        try {
+            $nuevoUsuario = Usuario::create([
+                'nombre_usuario' => ucwords($nombreUsuario),
+                'apellido_usuario' => ucwords($apellidoUsuario),
+                'correo' => $correo,
+                'id_estado' => $idEstado,
+                'id_rol' => $idRol,
+                'usuario' => $usuario,
+                'clave' => $clave,
+                'clave_fallas' => $claveFallas,
             ]);
-        } else {
-            return abort(404, 'No existe este usuario');
+    
+            if (isset($nuevoUsuario) && !is_null($nuevoUsuario) && !empty($nuevoUsuario)) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Usuario creado correctamente',
+                    'usuario' => $nuevoUsuario
+                ]);
+            }
+
+        } catch (Exception $e) {
+            return response()->json(['error_bd'=>$e->getMessage()]);
         }
     }
 }
