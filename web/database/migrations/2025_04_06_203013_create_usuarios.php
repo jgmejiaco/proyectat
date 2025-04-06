@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('apellido_usuario')->nullable();
             $table->string('correo')->nullable();
             $table->integer('id_estado')->nullable()->unsigned();
-            $table->integer('id_rol')->nullable()->unsigned();
+            $table->foreignId('id_rol')->nullable()->constrained('roles');
             $table->string('usuario')->nullable();
             $table->string('clave')->nullable();
             $table->integer('clave_fallas')->nullable()->unsigned();
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->softdeletes();
 
             $table->foreign('id_estado')->references('id_estado')->on('estados');
-            $table->foreign('id_rol')->references('id_rol')->on('roles');
         });
     }
 

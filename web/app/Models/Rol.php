@@ -11,10 +11,11 @@ class Rol extends Model
 
     protected $connection = 'mysql';
     protected $table = 'roles';
-    protected $primaryKey = 'id_rol';
+    protected $primaryKey = 'id';
     public $timestamps = true;
     protected $fillable = [
-        'rol',
+        'name',
+        'guard_name',
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

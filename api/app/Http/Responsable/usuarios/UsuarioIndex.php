@@ -13,7 +13,7 @@ class UsuarioIndex implements Responsable
     public function toResponse($request)
     {
         try {
-            $usuarios = Usuario::leftjoin('roles', 'roles.id_rol', '=', 'usuarios.id_rol')
+            $usuarios = Usuario::leftjoin('roles', 'roles.id', '=', 'usuarios.id_rol')
                 ->leftjoin('estados', 'estados.id_estado', '=', 'usuarios.id_estado')
                 ->select(
                     'id_usuario',
@@ -23,7 +23,7 @@ class UsuarioIndex implements Responsable
                     'correo',
                     'estado',
                     'usuarios.id_estado',
-                    'rol',
+                    'name',
                     'usuarios.id_rol',
                     'usuario'
                 )

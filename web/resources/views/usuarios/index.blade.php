@@ -181,7 +181,7 @@
                                     <td>{{$usuario->nombre_completo}}</td>
                                     <td>{{$usuario->usuario}}</td>
                                     <td>{{$usuario->correo}}</td>
-                                    <td>{{$usuario->rol}}</td>
+                                    <td>{{$usuario->name}}</td>
                                     <td>{{$usuario->estado}}Estado</td>
                                     <td>
                                         <button type="button" class="btn btn-success rounded-circle btn-circle"
@@ -446,9 +446,6 @@
             // ===========================================================================================
         
             function validatePassword(claveValor) {
-                // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-                // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+-/¿¡])[A-Za-z\d@$!%*?&+-/¿¡]{6,}$/;
-                // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-/_¿¡#.,:;=~^(){}[\]<>`|"']) [A-Za-z\d@$!%*?&+\-/_¿¡#.,:;=~^(){}[\]<>`|"']{6,}$/;
                 let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-/_¿¡#.,:;=~^(){}\[\]<>`|"'])[A-Za-z\d@$!%*?&+\-/_¿¡#.,:;=~^(){}\[\]<>`|"']{6,}$/;
                 if (!regex.test(claveValor)) {
                     return "La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número, un carácter especial, y ser de al menos 6 caracteres.";
@@ -582,8 +579,6 @@
                 // Enviar formulario manualmente
                 this.submit();
             });
-
-
         }); // FIN document.ready
     </script>
 @stop

@@ -23,6 +23,25 @@ Route::get('/', function () {
 // ===========================================================================
 // ===========================================================================
 
+// Ruta de verificación (mantener)
+Route::get('/check-auth', function() {
+    return response()->json(['authenticated' => auth()->check()]);
+});
+
+// Rutas públicas
+Route::middleware(['prevent-back-history'])->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::redirect('/', '/login');
+});
+
+// Rutas protegidas
+Route::middleware(['auth', 'prevent-back-history'])->group(function () {
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+});
+
+// ===========================================================================
+// ===========================================================================
+
 // LOGIN
 Route::controller(LoginController::class)->group(function () {
     Route::resource('login', LoginController::class);
@@ -73,4 +92,18 @@ Route::controller(UsuariosController::class)->group(function () {
 
 // ===========================================================================
 // ===========================================================================
+
+// Forzar SSL y cabeceras adicionales en producción
+if (env('APP_ENV') === 'production') {
+    URL::forceScheme('https');
+    
+    Route::middleware(function ($request, $next) {
+        return $next($request)->withHeaders([
+            'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
+            'X-Content-Type-Options' => 'nosniff',
+            'X-Frame-Options' => 'DENY',
+            'X-XSS-Protection' => '1; mode=block'
+        ]);
+    });
+}
 
