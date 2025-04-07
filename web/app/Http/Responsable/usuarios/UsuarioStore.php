@@ -25,8 +25,6 @@ class UsuarioStore implements Responsable
 
     public function toResponse($request)
     {
-        // dd($request);
-        
         $validator = Validator::make($request->all(), [
             'nombre_usuario'    => 'required|string',
             'apellido_usuario'  => 'required|string',
@@ -49,23 +47,6 @@ class UsuarioStore implements Responsable
         $idEstado = 1;
         $idRol = $request->input('id_rol');
         $clave = $request->input('clave');
-        $confirmarClave = $request->input('confirmar_clave');
-
-
-        if(!isset($correo) || empty($correo) || is_null($correo)) {
-            alert()->error('Error','El correo es requerido!');
-            return back();
-        }
-
-        if(!isset($clave) || empty($clave) || is_null($clave) || !isset($confirmarClave) || empty($confirmarClave) || is_null($confirmarClave)) {
-            alert()->error('Error','Ambas Claves son requeridos!');
-            return back();
-        }
-
-        if($clave !== $confirmarClave) {
-            alert()->error('Error','Ambas Claves deben ser iguales!');
-            return back();
-        }
 
         if (!$this->validarContrasena($clave)) {
             alert()->info('Info', 'La contraseña no cumple con los requisitos de seguridad.');
@@ -74,10 +55,7 @@ class UsuarioStore implements Responsable
 
         // Consultamos si ya existe un usuario con ese correo
         $consultarCorreoUser = $this->consultarCorreoUser($correo);
-        // dd($consultarCorreoUser);
         
-        // Juanchito1974+
-
         if($consultarCorreoUser == 'si_correo') {
             alert()->info('Info', 'Este correo ya existe.');
             return back();
@@ -89,8 +67,6 @@ class UsuarioStore implements Responsable
         $usuario = preg_replace("/(Ñ|ñ)/", "n", $usuario);
         $usuario = strtolower($usuario);
         $complemento = "";
-
-        // dd($consultarCorreoUser);
 
         while($this->consultaUsuario($usuario.$complemento))
         {
@@ -140,7 +116,6 @@ class UsuarioStore implements Responsable
             return json_decode($queryCorreoUser->getBody()->getContents());
 
         } catch (Exception $e) {
-            dd($e);
             return $this->respuestaException('Exception, contacte a Soporte.');
         }
     }

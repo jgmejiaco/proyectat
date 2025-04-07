@@ -5,23 +5,41 @@ namespace App\Http\Responsable\inicio_sesion;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Usuario;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use App\Traits\MetodosTrait;
+use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Client;
+use App\Models\Usuario;
 
 class LoginStore implements Responsable
 {
     use MetodosTrait;
+    protected $baseUri;
+    protected $clientApi;
+
+    public function __construct()
+    {
+        $this->baseUri = env('BASE_URI');
+        $this->clientApi = new Client(['base_uri' => $this->baseUri]);
+    }
 
     public function toResponse($request)
     {
-        $usuario = request('usuario', null);
-        $clave = request('clave', null);
+        $validator = Validator::make($request->all(), [
+            'usuario'   => 'required|string',
+            'clave'     => 'required|string|min:6',
+        ]);
 
-        if(!isset($usuario) || empty($usuario) || is_null($usuario) || 
-            !isset($clave) || empty($clave) || is_null($clave))
-        {
+        if ($validator->fails()) {
+            return response()->json([
+                'errores' => $validator->errors()
+            ], 422);
+        }
+
+        $usuario = $request->input('usuario');
+        $clave = $request->input('clave');
+
+        if(!isset($usuario) || empty($usuario) || is_null($usuario) || !isset($clave) || empty($clave) || is_null($clave)) {
             alert()->error('Error','Usuario y Clave son requeridos!');
             return back();
         }
@@ -29,47 +47,46 @@ class LoginStore implements Responsable
         // ======================================================
         // ======================================================
 
+        if(!$this->checkDatabaseConnection()) {
+            return view('db_conexion');
+        }
+
         $user = $this->consultarUsuario($usuario);
+        // dd($user);
       
-        if(isset($user) && !empty($user) && !is_null($user) && $user != 'no_user' && $user != 'error_bd') {
+        if(isset($user) && !empty($user) && !is_null($user)) {
 
-            $contarClaveErronea = $user['clave_fallas'];
+            $contarClaveErronea = $user->clave_fallas;
 
-            if($contarClaveErronea >= 4)
-            {
-                $this->inactivarUsuario($user['id_usuario']);
+            if($contarClaveErronea >= 4) {
+                $this->inactivarUsuario($user->id_usuario);
             }
 
-            if($user['id_estado'] == 2)
-            {
+            if($user->id_estado == 2) {
                 alert()->error('Error','Usuario ' . $usuario . ' inactivo, por favor contacte al administrador');
                 return back();
             }
 
             // ==================================
 
-            if(Hash::check($clave, $user['clave']))
-            {
+            if( Hash::check($clave, $user->clave) ) {
+
                 $this->crearVariablesSesion($user);
-                $this->actualizarClaveFallas($user['id_usuario'], 0);
-                // return redirect('usuarios');
-                return redirect()->route('usuarios.index');
+                $this->actualizarClaveFallas($user->id_usuario, 0);
+
+                return redirect()->route('inicio.index');
                 
             } else {
                 $contarClaveErronea += 1;
-                $this->actualizarClaveFallas($user['id_usuario'], $contarClaveErronea);
+                $this->actualizarClaveFallas($user->id_usuario, $contarClaveErronea);
                 alert()->error('Error','Credenciales Inválidas');
                 return back();
             }
-        } elseif ($user == 'no_user') {
+        } elseif ($user == 'null') {
             alert()->error('Error','Este usuario no existe: ' . $usuario);
             return back();
         } else {
-            if(!$this->checkDatabaseConnection()) {
-                return view('db_conexion');
-            } else {
-                return view('usuarios.index');
-            }
+            return view('usuarios.index');
         }
     }
 
@@ -77,10 +94,10 @@ class LoginStore implements Responsable
     
     private function crearVariablesSesion($user)
     {
-        // Creamos las variables de sesion
-        session()->put('id_usuario', $user['id_usuario']);
-        session()->put('usuario', $user['usuario']);
-        session()->put('id_rol', $user['id_rol']);
+        // Creamos las variables de sesión
+        session()->put('id_usuario', $user->id_usuario);
+        session()->put('usuario', $user->usuario);
+        session()->put('id_rol', $user->id_rol);
         session()->put('sesion_iniciada', true);
     }
 
@@ -89,23 +106,15 @@ class LoginStore implements Responsable
     private function consultarUsuario($usuario)
     {
         try {
-            $baseUri = env('BASE_URI');
-
-            // Realiza la solicitud POST a la API
-            $clientApi = new Client(['base_uri' => $baseUri]);
-
-            $response = $clientApi->post($baseUri.'query_usuario', ['json' => ['usuario' => $usuario]]);
-            $respuesta = json_decode($response->getBody()->getContents(), true);
+            $response = $this->clientApi->post($this->baseUri.'query_usuario', ['json' => ['usuario' => $usuario]]);
+            $respuesta = json_decode($response->getBody()->getContents());
 
             if(isset($respuesta) && !empty($respuesta)) {
                 return $respuesta;
             }
-        }
-        catch (Exception $e)
-        {
-            DB::connection('mysql')->rollback();
-            alert()->error('Error', 'Error Exception');
-            return redirect()->to(route('usuarios.index'));
+        } catch (Exception $e) {
+            alert()->error('Error', 'Exception consultarUsuario!');
+            return back();
         }
     }
 
@@ -114,18 +123,12 @@ class LoginStore implements Responsable
     private function inactivarUsuario($idUser)
     {
         try {
-
-            $baseUri = env('BASE_URI');
-
-            // Realiza la solicitud POST a la API
-            $clientApi = new Client(['base_uri' => $baseUri]);
-
-            $response = $clientApi->post($baseUri.'inactivar_usuario/'.$idUser, ['json' => []]);
+            $response = $this->clientApi->post($this->baseUri.'inactivar_usuario/'.$idUser, ['json' => []]);
             json_decode($response->getBody()->getContents());
 
         } catch (Exception $e)
         {
-            alert()->error('Error', 'Error Exception, si el problema persiste, contacte a Soporte.');
+            alert()->error('Error', 'Exception inactivarUsuario, si el problema persiste, contacte a Soporte.');
             return back();
         }
     }
@@ -136,18 +139,13 @@ class LoginStore implements Responsable
     {
         try {
 
-            $baseUri = env('BASE_URI');
-
-            // Realiza la solicitud POST a la API
-            $clientApi = new Client(['base_uri' => $baseUri]);
-
-            $response = $clientApi->post($baseUri.'actualizar_clave_fallas/'.$idUsuario, 
+            $response = $this->clientApi->post($this->baseUri.'actualizar_clave_fallas/'.$idUsuario,
                 ['json' => ['clave_fallas' => $contador]]
             );
             json_decode($response->getBody()->getContents());
 
         } catch (Exception $e) {
-            alert()->error('Error', 'Error Exception, si el problema persiste, contacte a Soporte.');
+            alert()->error('Error', 'Exception actualizarClaveFallas, si el problema persiste, contacte a Soporte.');
             return back();
         }
     }

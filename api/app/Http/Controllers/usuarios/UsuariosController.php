@@ -96,8 +96,6 @@ class UsuariosController extends Controller
             // Consultamos si ya existe este correo
             $queryCorreoUser = Usuario::where('correo', $correo)->first();
 
-            // return response()->json($queryCorreoUser);
-
             if(isset($queryCorreoUser) && !is_null($queryCorreoUser)) {
                 return response()->json('si_correo');
             } else {
@@ -125,7 +123,44 @@ class UsuariosController extends Controller
             }
 
         } catch (Exception $e) {
-            return response()->json(['error_bd'=>$e->getMessage()]);
+            return response()->json(['error_exception'=>$e->getMessage()]);
         }
     }
+
+    // ======================================================================
+    // ======================================================================
+
+    public function inactivarUsuario($idUsuario)
+    {
+        try {
+            $user = Usuario::findOrFail($idUsuario);
+            $user->id_estado = 2;
+            $user->save();
+
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
+    public function actualizarClaveFallas(Request $request, $idUsuario)
+    {
+        $contador = request('clave_fallas', null);
+
+        try {
+            $user = Usuario::find($idUsuario);
+            $user->clave_fallas = $contador;
+            $user->save();
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
+    // ======================================================================
+    // ======================================================================
 }

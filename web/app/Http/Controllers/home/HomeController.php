@@ -5,10 +5,13 @@ namespace App\Http\Controllers\home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
+use App\Traits\MetodosTrait;
 use App\Models\Usuario;
 
 class HomeController extends Controller
 {
+    use MetodosTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,24 +19,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // try {
-            // $adminCtrl = new AdministradorController();
-            // $sesion = $adminCtrl->validarVariablesSesion();
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
 
-            // if (empty($sesion[0]) || is_null($sesion[0]) &&
-            //     empty($sesion[1]) || is_null($sesion[1]) &&
-            //     empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
-            // {
-            //     return view('inicio_sesion.login');
-            // } else {
-            //     $usuLogueado = session('id_usuario');
-            //     $usuario = Usuario::select('nombres')->where('id_usuario',$usuLogueado)->first();
-                return view('home.inicio');
-        //     }
-        // } catch (Exception $e) {
-        //     alert()->error("Error Exception!");
-        //     return redirect()->to(route('login'));
-        // }
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return view('home.index');
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Exception Inicio!");
+            return redirect()->to(route('login'));
+        }
     }
 
     // ======================================================================
