@@ -150,7 +150,6 @@ class HomeController extends Controller
             return json_decode($peticion->getBody()->getContents());
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error', 'Exception datosUsuario, si el problema persiste, contacte a Soporte.');
             return back();
         }

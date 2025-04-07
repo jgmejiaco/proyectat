@@ -28,14 +28,12 @@
 
             <div class="row pe-3 mt-3">
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="button" class="btn text-white" style="background-color:#337AB7" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Crear Usuario
-                    </button>
+                    <button type="button" class="btn text-white" style="background-color:#337AB7" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">Crear Usuario</button>
                 </div>
             </div>
 
             {{-- INICIO Modal CREAR USUARIO --}}
-            <div class="modal fade modal-gral" id="modalCrearUsuario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" style="max-width: 60%;">
+            <div class="modal fade modal-gral" id="modalCrearUsuario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="max-width: 60%;">
                 <div class="modal-dialog m-0 mw-100">
                     <div class="modal-content border-0 p-3">
                         <x-form
@@ -47,7 +45,7 @@
                         >
                             <div class="rounded-top text-white text-center"
                                 style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                <h5 class="" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Crear Usuario</h5>
+                                <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Crear Usuario</h5>
                             </div>
 
                             <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
@@ -136,12 +134,12 @@
                                 </div>
 
                                 <div class="d-flex justify-content-around mt-3">
-                                    <button type="submit" id="btn_crear_user" class="btn btn-success">
-                                        <i class="fa-regular fa-floppy-disk"></i> Crear
-                                    </button>
-
                                     <button type="button" id="btn_cancelar_user" class="btn btn-secondary" data-bs-dismiss="modal">
                                         <i class="fa fa-times"></i> Cancelar
+                                    </button>
+
+                                    <button type="submit" id="btn_crear_user" class="btn btn-success">
+                                        <i class="fa-regular fa-floppy-disk"></i> Crear
                                     </button>
                                 </div>
                             </div>
@@ -161,7 +159,7 @@
                         aria-describedby="users-usuarios">
                         <thead>
                             <tr class="header-table text-center">
-                                <th>Id Usuario</th>
+                                {{-- <th>Id Usuario</th> --}}
                                 <th>Nombres</th>
                                 <th>Usuario</th>
                                 <th>Correo</th>
@@ -177,7 +175,7 @@
                             @endphp
                             @foreach ($usuariosIndex as $usuario)
                                 <tr class="text-center">
-                                    <td>{{$usuario->id_usuario}}</td>
+                                    {{-- <td>{{$usuario->id_usuario}}</td> --}}
                                     <td>{{$usuario->nombre_completo}}</td>
                                     <td>{{$usuario->usuario}}</td>
                                     <td>{{$usuario->correo}}</td>
@@ -187,13 +185,13 @@
                                         <button type="button" class="btn btn-success rounded-circle btn-circle"
                                             title="Editar" data-bs-toggle="modal"
                                             data-bs-target="#modalEditarUsuario_{{$usuario->id_usuario}}">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            <i class="fa-solid fa-pencil"></i>
                                         </button>
 
                                         <button type="button" class="btn btn-warning rounded-circle btn-circle"
                                             title="Cambiar contraseña" data-bs-toggle="modal"
                                             data-bs-target="#modal_cambiar_clave_{{$usuario->id_usuario}}">
-                                            <i class="fa fa-key" aria-hidden="true"></i>
+                                            <i class="fa fa-key"></i>
                                         </button>
                                     </td>
 
@@ -201,94 +199,77 @@
                                     {{-- ====================================================== --}}
 
                                     {{-- INICIO Modal EDITAR USUARIO --}}
-                                    <div class="modal fade" id="modalEditarUsuario_{{$usuario->id_usuario}}" tabindex="-1"
-                                    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true"
-                                    style="max-width: 55%;">
+                                    <div class="modal fade modal-gral" id="modalEditarUsuario_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="max-width: 55%;">
                                         <div class="modal-dialog m-0 mw-100">
-                                            <div class="modal-content w-100 border-0">
+                                            <div class="modal-content border-0 p-3">
                                                 <x-form
-                                                    action="{{ route('usuarios.update', $usuario->id_usuario) }}"
+                                                    action="{{route('usuarios.update', $usuario->id_usuario)}}"
                                                     method="PUT"
                                                     class="mt-2"
-                                                    id="formEditarUsuario_{{ $usuario->id_usuario }}"
+                                                    id="formEditarUsuario_{{$usuario->id_usuario}}"
                                                     autocomplete="off"
                                                 >
-                                                    <input type="hidden" name="id_usuario" value="{{ $usuario->id_usuario ?? null }}">
+                                                    {{-- @method('PUT') --}}
+                                                    {{-- @csrf --}}
+                                                    <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required>
                                                     
                                                     <div class="rounded-top text-white text-center"
                                                         style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5>Editar Usuario</h5>
+                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Usuario</h5>
                                                     </div>
 
                                                     <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
                                                         <div class="row m-4">
-                                                            <div class="col-12 col-md-4">
+                                                            <div class="col-12 col-md-6">
                                                                 <x-input
                                                                     name="nombre_usuario"
                                                                     type="text"
-                                                                    label="Nombre Usuario"
-                                                                    value="{{ $usuario->nombre_usuario ?? null }}"
+                                                                    label="Nombres"
+                                                                    value="{{$usuario->nombre_usuario}}"
                                                                     id="nombre_usuario"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />
                                                             </div>
                                                             
-                                                            <div class="col-12 col-md-4">
+                                                            <div class="col-12 col-md-6">
                                                                 <x-input
                                                                     name="apellido_usuario"
                                                                     type="text"
-                                                                    label="Apellido Usuario"
-                                                                    value="{{ $usuario->apellido_usuario ?? null }}"
+                                                                    label="Apellidos"
+                                                                    value="{{$usuario->apellido_usuario}}"
                                                                     id="apellido_usuario"
                                                                     autocomplete="family-name"
-                                                                    required
-                                                                />
-                                                            </div>
-                                                            
-                                                            <div class="col-12 col-md-4">
-                                                                <x-input
-                                                                    name="email"
-                                                                    type="email"
-                                                                    label="Correo"
-                                                                    value="{{ $usuario->correo ?? null }}"
-                                                                    id="correo"
-                                                                    autocomplete="email"
                                                                     required
                                                                 />
                                                             </div>
                                                         </div>
 
                                                         <div class="row m-4">
-                                                            <div class="col-12 col-md-4">
+                                                            <div class="col-12 col-md-6">
+                                                                <x-input
+                                                                    name="correo"
+                                                                    type="email"
+                                                                    label="Correo"
+                                                                    value="{{$usuario->correo}}"
+                                                                    id="correo"
+                                                                    autocomplete="email"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6">
                                                                 <x-select
                                                                     name="id_rol"
                                                                     label="Rol"
                                                                     id="id_rol"
-                                                                    autocomplete="rol"
+                                                                    autocomplete="organization-title"
                                                                     required
                                                                 >
                                                                     <option value="">Seleccionar...</option>
                                                                     @foreach($roles as $key => $value)
-                                                                        <option value="{{ $key }}" {{ (isset($usuario) && $usuario->id_rol == $key) ? 'selected' : '' }}>
-                                                                            {{ $value }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-                                                            
-                                                            <div class="col-12 col-md-4">
-                                                                <x-select
-                                                                    name="id_estado"
-                                                                    label="Estado"
-                                                                    id="id_estado_{{ $usuario->id_usuario }}"
-                                                                    autocomplete="estado"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($estados as $key => $value)
-                                                                        <option value="{{ $key }}" {{ (isset($usuario) && $usuario->id_estado == $key) ? 'selected' : '' }}>
-                                                                            {{ $value }}
+                                                                        <option value="{{$key}}" {{(isset($usuario) && $usuario->id_rol == $key) ? 'selected' : ''}}>
+                                                                            {{$value}}
                                                                         </option>
                                                                     @endforeach
                                                                 </x-select>
@@ -298,21 +279,21 @@
 
                                                     <div class="modal-footer d-block mt-0 border border-0">
                                                         <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditUser_{{ $usuario->id_usuario }}"
+                                                        <div id="loadingIndicatorEditUser_{{$usuario->id_usuario}}"
                                                             class="loadingIndicator">
                                                             <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
                                                         </div>
 
                                                         <div class="d-flex justify-content-around mt-3">
-                                                            <button type="submit" id="btn_editar_user_{{ $usuario->id_usuario }}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa fa-floppy-o"> Editar</i>
+                                                            <button type="button" id="btn_cancelar_user_{{ $usuario->id_usuario }}"
+                                                                class="btn btn-secondary" title="Cancelar"
+                                                                data-bs-dismiss="modal">
+                                                                <i class="fa fa-times"></i> Cancelar
                                                             </button>
 
-                                                            <button type="button" id="btn_cancelar_user_{{ $usuario->id_usuario }}"
-                                                                    class="btn btn-secondary" title="Cancelar"
-                                                                data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"> Cancelar</i>
+                                                            <button type="submit" id="btn_editar_user_{{$usuario->id_usuario}}"
+                                                                class="btn btn-success" title="Editar">
+                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
                                                             </button>
                                                         </div>
                                                     </div>
@@ -328,7 +309,7 @@
                                     {{-- INICIO Modal CAMBIAR CONTRASEÑA --}}
                                     {{-- <div class="modal fade h-auto modal-gral"
                                         id="modal_cambiar_clave_" tabindex="-1"
-                                        data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+                                        data-bs-backdrop="static" data-bs-keyboard="false">
                                         <div class="modal-dialog m-0">
                                             <div class="modal-content w-100 border-0">
                                                 {!! Form::open([
@@ -390,13 +371,13 @@
                                                 {{-- <div class="d-flex justify-content-around mt-2">
                                                     <button type="submit" title="Guardar Configuración" class="btn btn-success" id="btn_editar_clave_"
                                                         >
-                                                        <i class="fa fa-floppy-o" aria-hidden="true"> Modificar</i>
+                                                        <i class="fa fa-floppy-o"> Modificar</i>
                                                     </button>
 
 
                                                     <button type="button" title="Cancelar" class="btn btn-secondary" id="btn_cancelar_clave_"
                                                         data-bs-dismiss="modal">
-                                                        <i class="fa fa-times" aria-hidden="true"> Cancelar</i>
+                                                        <i class="fa fa-times"> Cancelar</i>
                                                     </button>
                                                 </div>
                                                 {!! Form::close() !!}

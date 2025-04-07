@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
-use App\Models\Usuario;
 use GuzzleHttp\Client;
+use App\Models\Usuario;
 
 class UsuarioStore implements Responsable
 {
@@ -22,6 +22,9 @@ class UsuarioStore implements Responsable
         $this->baseUri = env('BASE_URI');
         $this->clientApi = new Client(['base_uri' => $this->baseUri]);
     }
+
+    // =============================================================
+    // =============================================================
 
     public function toResponse($request)
     {
@@ -75,7 +78,6 @@ class UsuarioStore implements Responsable
 
         try {
             $peticionUsuarioStore = $this->clientApi->post($this->baseUri.'usuario_store', [
-                'timeout' => 10,
                 'json' => [
                     'nombre_usuario' => $nombreUsuario,
                     'apellido_usuario' => $apellidoUsuario,
@@ -110,7 +112,6 @@ class UsuarioStore implements Responsable
     {
         try {
             $queryCorreoUser = $this->clientApi->post($this->baseUri.'query_correo_user', [
-                'timeout' => 10,
                 'query' => ['correo' => $correo]
             ]);
             return json_decode($queryCorreoUser->getBody()->getContents());
@@ -137,7 +138,6 @@ class UsuarioStore implements Responsable
     {
         try {
             $queryUsuario = $this->clientApi->post($this->baseUri.'query_usuario', [
-                'timeout' => 10,
                 'query' => ['usuario' => $usuario]
             ]);
             return json_decode($queryUsuario->getBody()->getContents());

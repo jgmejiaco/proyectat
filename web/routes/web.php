@@ -67,13 +67,6 @@ Route::resource('inicio', HomeController::class);
 Route::controller(UsuariosController::class)->group(function () {
     Route::resource('usuarios', UsuariosController::class);
 
-    // Route::get('login_usuario', 'index')->name('login_usuario');
-    // Route::get('logout', 'logout')->name('logout');
-    
-    // Rutas recuperacion clave
-    // Route::get('recuperar', 'resetPassword')->name('recuperar_clave');
-    // Route::post('validar', 'validarDatos')->name('validar_datos');
-    // Route::get('actualizar/{expiration}', 'actualizarContraseña')->name('actualizar_clave');
 });
 
 // ===========================================================================

@@ -39,7 +39,7 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        return new UsuarioStore();
+        return new UsuarioStore($request);
     }
 
     // ======================================================================
@@ -70,9 +70,9 @@ class UsuariosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $idUsuario)
     {
-        //
+        return new UsuarioUpdate($idUsuario);
     }
 
     // ======================================================================

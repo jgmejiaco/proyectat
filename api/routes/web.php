@@ -29,10 +29,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('inactivar_usuario/{idUsuario}', 'usuarios\UsuariosController@inactivarUsuario');
     $router->post('actualizar_clave_fallas/{idUsuario}', 'usuarios\UsuariosController@actualizarClaveFallas');
     $router->post('datos_usuario/{idUsuario}', 'usuarios\UsuariosController@datosUsuario');
+    $router->put('usuario_update/{idUsuario}', 'usuarios\UsuariosController@update');
 
 
-    // $router->post('query_usuario_update/{idUsuario}', 'usuarios\UsuariosController@queryUsuarioUpdate');
-    // $router->put('usuario_update/{idUsuario}', 'usuarios\UsuariosController@update');
     // $router->post('cambiar_clave/{idUsuario}', 'usuarios\UsuariosController@cambiarClave');
     // $router->post('consulta_recuperar_clave', 'usuarios\UsuariosController@consultaRecuperarClave');
 });
