@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 use Exception;
 use App\Traits\MetodosTrait;
 use App\Models\Usuario;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
     use MetodosTrait;
+    protected $baseUri;
+    protected $clientApi;
+
+    public function __construct()
+    {
+        $this->baseUri = env('BASE_URI');
+        $this->clientApi = new Client(['base_uri' => $this->baseUri]);
+    }
+
+    // ======================================================================
+    // ======================================================================
 
     /**
      * Display a listing of the resource.
@@ -31,7 +43,9 @@ class HomeController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return view('home.index');
+                    $datosUsuario = $this->datosUsuario();
+
+                    return view('home.index', compact('datosUsuario'));
                 }
             }
         } catch (Exception $e) {
@@ -123,4 +137,22 @@ class HomeController extends Controller
     {
         //
     }
-}
+
+    // ======================================================================
+    // ======================================================================
+
+    public function datosUsuario()
+    {
+        $idUsuario = session('id_usuario');
+
+        try {
+            $peticion = $this->clientApi->post($this->baseUri.'datos_usuario/'.$idUsuario, ['json' => []]);
+            return json_decode($peticion->getBody()->getContents());
+
+        } catch (Exception $e) {
+            dd($e);
+            alert()->error('Error', 'Exception datosUsuario, si el problema persiste, contacte a Soporte.');
+            return back();
+        }
+    }
+} // FIN Class HomeController

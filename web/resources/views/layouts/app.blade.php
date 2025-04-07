@@ -49,28 +49,31 @@
 
     <body>
         <div class="container-fluid p-0 position-relative">
-            @if(in_array(Request()->path(), ['/', 'login', 'logout', 'cambiar_clave', 'recuperar_clave_link', 'recuperar_clave']))
-                @include('layouts.topbar_login')
-            @else
-                @include('layouts.topbar')
-            @endif
+            @php
+                $rutas_excluidas = ['/', 'login', 'logout', 'cambiar_clave', 'recuperar_clave_link', 'recuperar_clave'];
+                $ruta_actual = Request::path();
+                $mostrarComponentes = Auth::check() || !in_array($ruta_actual, $rutas_excluidas);
+            @endphp
 
-            {{-- @if (!in_array(Request()->path(), ['/', 'login', 'logout', 'cambiar_clave', 'recuperar_clave_link', 'recuperar_clave']) && Auth::check())
-                @include('layouts.topbar')
-            @endif --}}
-    
-            <div class="container-fluid p-0">
-                <div class="content">
+            <div class="wrapper">
+                {{-- Topbar solo si aplica --}}
+                @if ($mostrarComponentes)
+                    @include('layouts.topbar')
+                @endif
+        
+                <div class="content @yield('content-class')">
                     @yield('content')
                 </div>
+        
+                {{-- Footer solo si aplica --}}
+                @if ($mostrarComponentes)
+                    @include('layouts.footer')
+                @endif
             </div>
         </div>
 
-        @if(in_array(Request()->path(), ['/', 'login', 'logout', 'cambiar_clave', 'recuperar_clave_link', 'recuperar_clave']))
-            @include('layouts.topbar_login')
-        @else
-            @include('layouts.footer')
-        @endif
+        {{-- ======================================================== --}}
+        {{-- ======================================================== --}}
 
         <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
         <script src="{{ asset('DataTables/Buttons-2.3.4/js/buttons.html5.min.js') }}"></script>

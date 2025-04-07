@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\usuarios\UsuarioIndex;
 use App\Http\Responsable\usuarios\UsuarioStore;
 use App\Http\Responsable\usuarios\UsuarioUpdate;
+use App\Http\Responsable\usuarios\DatosUsuario;
 use App\Models\Usuario;
 
 class UsuariosController extends Controller
@@ -160,6 +161,11 @@ class UsuariosController extends Controller
 
     // ======================================================================
     // ======================================================================
+
+    public function datosUsuario($idUsuario)
+    {
+        return new Datosusuario($idUsuario);
+    }
 
     // ======================================================================
     // ======================================================================

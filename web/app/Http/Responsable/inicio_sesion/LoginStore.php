@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Traits\MetodosTrait;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use App\Models\Usuario;
 
@@ -53,6 +54,12 @@ class LoginStore implements Responsable
 
         $user = $this->consultarUsuario($usuario);
         // dd($user);
+
+        // $userData = $this->consultarUsuario($usuario);
+
+        // Convertimos el stdClass a un modelo de Usuario
+        // $user = new Usuario((array) $user);
+        // $user->exists = true;
       
         if(isset($user) && !empty($user) && !is_null($user)) {
 
@@ -70,6 +77,8 @@ class LoginStore implements Responsable
             // ==================================
 
             if( Hash::check($clave, $user->clave) ) {
+
+                // Auth::login($user);
 
                 $this->crearVariablesSesion($user);
                 $this->actualizarClaveFallas($user->id_usuario, 0);

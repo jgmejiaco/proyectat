@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Login')
+@section('title', 'Inicio')
 
 {{-- =============================================================== --}}
 {{-- =============================================================== --}}
@@ -12,9 +12,25 @@
 {{-- =============================================================== --}}
 {{-- =============================================================== --}}
 
+@section('content-class', 'content-centered')
+
 @section('content')
-    <div class="h-auto d-flex justify-content-center align-items-center">
-        <h3 class="d-flex align-middle">Bienvenid@ Jenny</h3>
+    <div class="text-center">
+        @php
+            $hora = now()->hour;
+            $saludo = 'Hola';
+
+            if ($hora >= 5 && $hora < 12) {
+                $saludo = 'Buenos días';
+            } elseif ($hora >= 12 && $hora < 19) {
+                $saludo = 'Buenas tardes';
+            } else {
+                $saludo = 'Buenas noches';
+            }
+        @endphp
+
+        <h3>Bienvenid@</h3>
+        <h2>{{ $saludo }}, {{ $datosUsuario->nombre_completo ?? 'Visitante' }}</h2>
     </div>
 @stop
 

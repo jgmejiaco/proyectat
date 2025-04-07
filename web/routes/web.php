@@ -46,7 +46,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 Route::controller(LoginController::class)->group(function () {
     Route::resource('login', LoginController::class);
     Route::get('login_usuario', 'index')->name('login_usuario');
-    // Route::get('logout', 'logout')->name('logout');
+    Route::get('logout', 'logout')->name('logout');
     
     // Rutas recuperacion clave
     // Route::get('recuperar', 'resetPassword')->name('recuperar_clave');

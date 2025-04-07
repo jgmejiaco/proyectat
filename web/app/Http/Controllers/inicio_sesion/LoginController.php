@@ -13,10 +13,19 @@ use App\Http\Responsable\inicio_sesion\RecuperarClaveUpdate;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Traits\MetodosTrait;
+use GuzzleHttp\Client;
 
 class LoginController extends Controller
 {
     use MetodosTrait;
+    protected $baseUri;
+    protected $clientApi;
+
+    public function __construct()
+    {
+        $this->baseUri = env('BASE_URI');
+        $this->clientApi = new Client(['base_uri' => $this->baseUri]);
+    }
 
     /**
      * Display a listing of the resource.
