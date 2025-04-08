@@ -18,19 +18,19 @@
     <div class="text-center">
         @php
             $hora = now()->hour;
-            $saludo = 'Hola';
+            $saludo = 'Hola 👋';
 
             if ($hora >= 5 && $hora < 12) {
-                $saludo = 'Buenos días';
+                $saludo = 'Buenos días ☀️';
             } elseif ($hora >= 12 && $hora < 19) {
-                $saludo = 'Buenas tardes';
+                $saludo = 'Buenas tardes 🌤️';
             } else {
-                $saludo = 'Buenas noches';
+                $saludo = 'Buenas noches 🌙';
             }
         @endphp
 
-        <h3>Bienvenid@</h3>
-        <h2>{{ $saludo }}, {{ $datosUsuario->nombre_completo ?? 'Visitante' }}</h2>
+        <h2>{{ $saludo }}</h2>
+        <h2>Bienvenid@, {{ $datosUsuario->nombre_completo ?? 'Visitante' }}</h2>
     </div>
 @stop
 

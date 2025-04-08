@@ -41,7 +41,7 @@ class HomeController extends Controller
                     empty($sesion[1]) || is_null($sesion[1]) &&
                     empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
                 {
-                    return redirect()->to(route('login'));
+                    return redirect()->to(route('logout'));
                 } else {
                     $datosUsuario = $this->datosUsuario();
 
@@ -50,7 +50,7 @@ class HomeController extends Controller
             }
         } catch (Exception $e) {
             alert()->error("Exception Inicio!");
-            return redirect()->to(route('login'));
+            return redirect()->to(route('home.index'));
         }
     }
 
