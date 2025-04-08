@@ -1,34 +1,65 @@
 @extends('layouts.app')
-@section('title', 'Recovery Password')
+@section('title', 'Recuperar Clave')
 
 @section('content')
-<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-    <form class="border border-dark-subtle p-5 shadow-lg rounded-4 bg-white text-center" method="post" action="{{route('recuperar_clave_email')}}" autocomplete="off">
-        @csrf
-        <h3 class="mb-4 fw-bold text-primary">Recuperar Clave</h3>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="w-25 border border-1 rounded">
+            <div class="d-flex justify-content-center p-1 bg-secondary">
+                <img src="{{asset('img/proyectat_logo.png')}}" alt="logo" class="text-center" width="250" height="100">
+            </div>
 
-        <div class="mb-4">
-            <input class="w-100 form-control p-3" type="email" name="email" id="email" placeholder="Email" required>
-        </div>
+            {{-- =========================================================== --}}
 
-        <div class="mb-4">
-            <input class="w-100 form-control p-3" type="text" name="identificacion" id="identificacion" placeholder="Identificación" required>
-        </div>
+            <form class="bg-white p-3 mt-3" method="post" action="{{route('recuperar_clave_email')}}" autocomplete="off" id="formRecuperarClave">
+                @csrf
+                
+                <div class="mb-4">
+                    <input name="correo" type="email" class="w-100 form-control" id="correo" placeholder="Correo *" required >
+                </div>
 
-        <div class="mt-4 d-flex flex-column gap-3">
-            <button class="btn btn-primary btn-lg w-100" type="submit">Enviar Correo</button>
-            <a class="btn btn-outline-primary btn-lg w-100" href="{{route('login')}}">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver al Login
-            </a>
+                {{-- ============================ --}}
+
+                <!-- Contenedor para el GIF -->
+                <div id="loadingIndicatorStore" class="loadingIndicator">
+                    <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                </div>
+
+                {{-- ============================ --}}
+
+                <div class="mt-4 d-flex flex-column gap-3">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Enviar Correo</button>
+
+                    <a href="{{route('login')}}" class="btn btn-outline-primary btn-lg w-100">
+                        <i class="fa fa-arrow-left"></i> Login
+                    </a>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
+    </div>
 @stop
 
 @section('scripts')
     <script>
-        // $( document ).ready(function() {
-        //     $("#email").trigger('focus');
-        // });
+        $( document ).ready(function() {
+            $("#correo").focus();
+
+            // formCrearUsuario para cargar gif en el submit
+            $(document).on("submit", "form[id^='formRecuperarClave']", function(e) {
+                e.preventDefault(); // Evita el envío si hay errores
+
+                const form = $(this);
+                const submitButton = form.find('button[type="submit"]');
+                const loadingIndicator = form.find("div[id^='loadingIndicatorStore']");
+
+                // Dessactivar Botones y Mostrar Spinner
+                loadingIndicator.show();
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+
+                const correo = form.find("#correo").prop("readonly", true);
+                
+                // Enviar formulario manualmente
+                this.submit();
+            });
+        });
     </script>
 @endsection

@@ -54,7 +54,6 @@ class CambiarClave implements Responsable
                         'json' => ['clave' => Hash::make($nuevaClave)]
                     ]);
                     $claveCambiada = json_decode($response->getBody()->getContents());
-                    // dd($claveCambiada);
 
                     if(isset($claveCambiada->success) && $claveCambiada->success === true) {
                         alert()->success('Bien', 'Clave cambiada satisfactoriamente');
@@ -65,7 +64,6 @@ class CambiarClave implements Responsable
                         return redirect()->to(route('cambiar_clave'));
                     }
                 } catch (Exception $e) {
-                    dd($e);
                     alert()->error('Error', 'Error Exception, si el problema persiste, contacte a Soporte.');
                     return back();
                 }

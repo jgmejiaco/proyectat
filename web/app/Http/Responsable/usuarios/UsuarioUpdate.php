@@ -65,7 +65,6 @@ class UsuarioUpdate implements Responsable
                 );
             }
         } catch (Exception $e) {
-            dd($e);
             return $this->respuestaException('Exception, contacte a Soporte.');
         }
     }

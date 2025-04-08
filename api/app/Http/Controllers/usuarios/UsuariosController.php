@@ -181,8 +181,23 @@ class UsuariosController extends Controller
                 ->update([
                     'clave' => $claveNueva,
             ]);
-            // return response()->json('clave_cambiada');
             return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
+    public function consultaRecuperarClave(Request $request)
+    {
+        $correo = $request->input('correo');
+
+        try {
+             return Usuario::select('id_usuario','usuario','correo')
+                ->where('correo', $correo)
+                ->first();
         } catch (Exception $e) {
             return response()->json(['error_exception'=>$e->getMessage()]);
         }

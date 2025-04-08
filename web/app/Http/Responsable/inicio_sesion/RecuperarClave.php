@@ -28,22 +28,19 @@ class RecuperarClave implements Responsable
 
     public function toResponse($request)
     {
-        try
-        {
-            $email = request("email", null);
-            $identificacion = request("identificacion", null);
+        try {
+            $correo = request("correo", null);
 
-            $peticion = $this->clientApi->post($this->baseUri.'consulta_recuperar_clave', ['json' => [
-                'email' => $email,
-                'identificacion' => $identificacion,
-            ]]);
+            $peticion = $this->clientApi->post($this->baseUri.'consulta_recuperar_clave', [
+                'json' => ['correo' => $correo]
+            ]);
             $response = json_decode($peticion->getBody()->getContents());
 
-            if (isset($response) && !is_null($response) && !empty($response))
-            {
+            if (isset($response) && !is_null($response) && !empty($response)) {
+
                 $usuIdRecuperarClave = $response->id_usuario;
                 $usuarioRecuperarClave = $response->usuario;
-                $usuCorreoRecuperarClave = $response->email;
+                $usuCorreoRecuperarClave = $response->correo;
 
                 Mail::to($usuCorreoRecuperarClave)
                     ->send(new RecuperarClaveMail($usuIdRecuperarClave, $usuarioRecuperarClave, $usuCorreoRecuperarClave));
@@ -54,8 +51,7 @@ class RecuperarClave implements Responsable
                 return back();
             }
         } catch (Exception $e) {
-            dd($e);
-            alert()->error('Error', 'Exception, error enviando el email, contacte a soporte.');
+            alert()->error('Error', 'Exception, error enviando el correo de recuperación de clave, contacte a soporte.');
             return back();
         }
     }

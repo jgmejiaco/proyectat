@@ -51,11 +51,11 @@ class RecuperarClaveUpdate implements Responsable
                 }
 
                 $peticion = $this->clientApi->post($this->baseUri.'cambiar_clave/'.$usuIdRecuperarClave, ['json' => [
-                    'clave' => $usuClaveNueva
+                    'clave' => Hash::make($usuClaveNueva)
                 ]]);
                 $claveUpdate = json_decode($peticion->getBody()->getContents());
 
-                if($claveUpdate) {
+                if(isset($claveUpdate->success) && $claveUpdate->success === true) {
                     alert()->success('Exito', 'Clave actualizada correctamente.');
                     return redirect()->to(route('login'));
                 } else {

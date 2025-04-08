@@ -47,14 +47,15 @@ Route::controller(LoginController::class)->group(function () {
     Route::resource('login', LoginController::class);
     Route::get('login_usuario', 'index')->name('login_usuario');
     Route::get('logout', 'logout')->name('logout');
+
+    // CAMBIAR CLAVE
     Route::post('cambiar_clave', 'cambiarClave')->name('cambiar_clave');
 
-    // Route::post('cambiar_clave', 'LoginController@cambiarClave')->name('cambiar_clave');
-    
-    // Rutas recuperacion clave
-    // Route::get('recuperar', 'resetPassword')->name('recuperar_clave');
-    // Route::post('validar', 'validarDatos')->name('validar_datos');
-    // Route::get('actualizar/{expiration}', 'actualizarContraseña')->name('actualizar_clave');
+    // RECUPERAR CLAVE
+    Route::get('recuperar_clave', 'recuperarClave')->name('recuperar_clave');
+    Route::post('recuperar_clave_email', 'recuperarClaveEmail')->name('recuperar_clave_email');
+    Route::get('recuperar_clave_link/{usuIdRecuperarClave}', 'recuperarClaveLink')->name('recuperar_clave_link');
+    Route::post('recuperar_clave_update', 'recuperarClaveUpdate')->name('recuperar_clave_update');
 });
 
 // ===========================================================================

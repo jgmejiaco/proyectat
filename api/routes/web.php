@@ -34,5 +34,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('cambiar_clave/{idUsuario}', 'usuarios\UsuariosController@cambiarClave');
     $router->post('cambiar_estado_usuario/{idUsuario}', 'usuarios\UsuariosController@destroy');
 
-    // $router->post('consulta_recuperar_clave', 'usuarios\UsuariosController@consultaRecuperarClave');
+    $router->post('consulta_recuperar_clave', 'usuarios\UsuariosController@consultaRecuperarClave');
 });

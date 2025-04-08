@@ -50,9 +50,17 @@
     <body>
         <div class="container-fluid p-0 position-relative">
             @php
-                $rutas_excluidas = ['/', 'login', 'logout', 'cambiar_clave', 'recuperar_clave_link', 'recuperar_clave'];
-                $ruta_actual = Request::path();
-                $mostrarComponentes = Auth::check() || !in_array($ruta_actual, $rutas_excluidas);
+                $rutas_excluidas = ['/', 'login', 'logout', 'cambiar_clave', 'recuperar_clave', 'recuperar_clave_link*'];
+
+                $ruta_actual_excluida = false;
+                foreach ($rutas_excluidas as $ruta) {
+                    if (Request::is($ruta)) {
+                        $ruta_actual_excluida = true;
+                        break;
+                    }
+                }
+
+                $mostrarComponentes = Auth::check() || !$ruta_actual_excluida;
             @endphp
 
             <div class="wrapper">
