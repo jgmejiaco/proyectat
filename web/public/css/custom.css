@@ -232,10 +232,27 @@ footer {
 		height: 100% !important;
 	}
 
+    /* FIN Media Query TopMenu  */
+
+    .dataTables_length{
+        width: 100%;
+    }
+
+    .dataTables_filter {
+        margin-top: 2rem;
+        width: 100%;
+        display: block;
+    }
+
+    .dataTables_info{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
 	
 }
+ /* FIN Media Query  */
 
-/* FIN Media Query TopMenu  */
 /* ========================================= */
 
 
