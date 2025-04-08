@@ -94,7 +94,7 @@
         <script src="{{asset('bootstrap5.3.2/5.3.2_bootstrap.bundle.min.js')}}"></script> {{-- Bundle ya tiene popper --}}
 
         {{-- Es complemento de Bundle para las tabs --}}
-        {{-- <script src="{{asset('bootstrap5.3.2/4.6.2_bootstrap.min.js')}}"></script> --}}
+        <script src="{{asset('bootstrap5.3.2/4.6.2_bootstrap.min.js')}}"></script>
         
         {{-- ========================================================================= --}}
 

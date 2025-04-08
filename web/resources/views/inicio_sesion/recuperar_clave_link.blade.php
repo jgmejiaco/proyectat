@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="d-flex flex-column align-items-center justify-content-center">
-        <div class="w-25 border border-1 rounded">
+        <div class="border border-1 rounded">
             <div class="d-flex justify-content-center p-1 bg-secondary">
                 <img src="{{asset('img/proyectat_logo.png')}}" alt="logo" class="text-center" width="250" height="100">
             </div>

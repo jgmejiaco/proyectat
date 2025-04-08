@@ -1,3 +1,10 @@
+<style>
+    /* Cambia el color de fondo del li al pasar el ratón sobre él */
+    /* .hover-li:hover {
+      background-color: #337AB7;
+    } */
+</style>
+
 <header class="m-0">
     <nav class="navbar navbar-expand-lg text-white" data-bs-theme="dark" style="background-color: #337AB7">
         <div class="row p-0 w-100 align-items-lg-center justify-content-between">
@@ -8,30 +15,13 @@
             </div>
             {{-- ========================================== --}}
             <div class="menu-container col-9 col-md-9 p-0">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon text-white"></span>
-                </button>
                 <div class="collapse d-lg-flex justify-content-lg-end" id="navbarNavDropdown">
                     <ul class="navbar-nav justify-content-between">
-                        {{-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">PERSONAS</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{route('usuarios.index')}}">Usuarios</a></li>
-                                <li><a class="dropdown-item" href="{{route('usuarios.index')}}">Usuarios</a></li>
-                            </ul>
-                        </li> --}}
-
-                        {{-- ==================== --}}
-
                         <li class="nav-item">
                             <a href="{{route('usuarios.index')}}" title="Usuarios" class="nav-link text-white fw-bold">Usuarios</a>
                         </li>
 
                         {{-- ==================== --}}
-
-                        {{-- <li class="nav-item">
-                            <a class="nav-link text-white" href="">TAREAS</a>
-                        </li> --}}
 
                         <li class="nav-item dropdown" data-bs-toggle="modal" data-bs-target="#modal_usuario">
                             <a  href="#" title="Usuario" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,3 +55,13 @@
         </div>
     </nav>
 </header>
+
+{{-- ====================================================================== --}}
+{{-- ====================================================================== --}}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+    }); // FIN DOMContentLoaded
+</script>
+
