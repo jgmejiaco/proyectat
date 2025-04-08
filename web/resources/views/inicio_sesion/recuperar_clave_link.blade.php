@@ -47,16 +47,6 @@
                 <div class="mt-4 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">Cambiar clave</button>
                 </div>
-
-                {{-- ============================================ --}}
-
-                {{-- <div class="text-left p-t-50 mt-3">
-                    <span class="txt1">
-                        <a class="txt2 text-white btn btn-warning" href="{{route('login')}}">
-                            <i class="fa fa-arrow-left"></i>&nbsp;Login
-                        </a>
-                    </span>
-                </div> --}}
             </form>
         </div>
     </div>

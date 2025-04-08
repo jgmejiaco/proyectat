@@ -27,7 +27,7 @@
                 {{-- ============================ --}}
 
                 <div class="mb-4">
-                    <input class="w-100 form-control" type="text" name="usuario" id="usuario" placeholder="Usuario *" required>
+                    <input name="usuario" type="text" class="w-100 form-control" id="usuario" placeholder="Usuario *" required>
                 </div>
 
                 {{-- ============================ --}}
@@ -36,13 +36,21 @@
                     <span class="btn-show-pass">
                         <i class="zmdi zmdi-eye"></i>
                     </span>
-                    <input class="w-100 form-control" type="password" name="clave" id="clave" placeholder="Contraseña *" required>
+                    <input name="clave" type="password" class="w-100 form-control" id="clave" placeholder="Contraseña *" required>
+                </div>
+
+                {{-- ============================ --}}
+                
+
+                <!-- Contenedor para el GIF -->
+                <div id="loadingIndicatorStore" class="loadingIndicator">
+                    <img src="{{asset('img/loading.gif')}}" alt="Procesando...">
                 </div>
 
                 {{-- ============================ --}}
 
                 <div class="mt-5 d-flex justify-content-center">
-                    <button class="btn btn-primary w-100" type="submit">Iniciar Sesión</button>
+                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                 </div>
 
                 {{-- ============================ --}}
@@ -61,7 +69,28 @@
 
 @section('scripts')
     <script>
-        $("#usuario").focus();
+        $( document ).ready(function() {
+            $("#usuario").focus();
+
+            // Botón de submit de editar usuario
+            $(document).on("submit", "form[id^='formLogin']", function(e) {
+                e.preventDefault(); // Evita el envío si hay errores
+
+                const form = $(this);
+                const submitButton = form.find('button[type="submit"]');
+                const loadingIndicator = form.find("div[id^='loadingIndicatorStore']"); // Busca el GIF del form actual
+
+                const usuario = form.find("#usuario").prop("readonly", true).addClass("campo-inactivo").attr("title", "Campo no editable");
+                const clave = form.find("#clave").prop("readonly", true).addClass("campo-inactivo").attr("title", "Campo no editable");
+
+                // Dessactivar Botones y Mostrar Spinner
+                loadingIndicator.show();
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+
+                // Enviar formulario manualmente
+                this.submit();
+            });
+        }); // FIN document.ready
     </script>
 @stop
 
