@@ -10,6 +10,7 @@ use App\Traits\MetodosTrait;
 use App\Http\Responsable\usuarios\UsuarioIndex;
 use App\Http\Responsable\usuarios\UsuarioStore;
 use App\Http\Responsable\usuarios\UsuarioUpdate;
+use App\Http\Responsable\usuarios\UsuarioDestroy;
 
 class UsuariosController extends Controller
 {
@@ -130,8 +131,26 @@ class UsuariosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $idUsuario)
     {
-        //
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('logout'));
+                } else {
+                    return new UsuarioDestroy($idUsuario);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Exception Destroy Usuario!");
+            return redirect()->to(route('usuarios.index'));
+        }
     }
 }

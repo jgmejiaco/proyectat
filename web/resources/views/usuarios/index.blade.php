@@ -33,8 +33,8 @@
             </div>
 
             {{-- INICIO Modal CREAR USUARIO --}}
-            <div class="modal fade modal-gral" id="modalCrearUsuario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="max-width: 60%;">
-                <div class="modal-dialog m-0 mw-100">
+            <div class="modal fade" id="modalCrearUsuario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog">
                     <div class="modal-content border-0 p-3">
                         <x-form
                             action="{{route('usuarios.store')}}"
@@ -187,20 +187,93 @@
                                             data-bs-target="#modalEditarUsuario_{{$usuario->id_usuario}}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </button>
-
+                                        {{-- ============================== --}}
                                         <button type="button" class="btn btn-warning rounded-circle btn-circle"
                                             title="Cambiar contraseña" data-bs-toggle="modal"
-                                            data-bs-target="#modal_cambiar_clave_{{$usuario->id_usuario}}">
+                                            data-bs-target="#modalCambiarClave_{{$usuario->id_usuario}}">
                                             <i class="fa fa-key"></i>
+                                        </button>
+                                        {{-- ============================== --}}
+                                        <button class="btn btn-danger rounded-circle btn-circle" data-bs-toggle="modal"
+                                            data-bs-target="#modalCambiarEstado_{{$usuario->id_usuario}}"
+                                            title="Cambiar Estado">
+                                            <i class="fa fa-solid fa-recycle"></i>
                                         </button>
                                     </td>
 
                                     {{-- ====================================================== --}}
                                     {{-- ====================================================== --}}
 
+                                    {{-- INICIO Modal CAMBIAR CONTRASEÑA --}}
+                                    <div class="modal fade" id="modalCambiarClave_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content border-0 p-3">
+                                                <x-form
+                                                    action="{{route('cambiar_clave', $usuario->id_usuario)}}"
+                                                    method="POST"
+                                                    class="mt-2"
+                                                    id="formCambiarClave_{{$usuario->id_usuario}}"
+                                                    autocomplete="off"
+                                                >
+                                                    <div class="" style="border: solid 1px #337AB7">
+                                                        <div class="rounded-top text-white text-center" style="background-color: #337AB7; border: solid 1px #337AB7">
+                                                            <h5>Cambiar Contraseña de: {{$usuario->nombre_usuario}}</h5>
+                                                        </div>
+
+                                                        <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required >
+
+                                                        {{-- ====================================================== --}}
+                                                        {{-- ====================================================== --}}
+
+                                                        <div class="modal-body p-0 m-0">
+                                                            <div class="row m-0 pt-4 pb-4">
+                                                                <div class="col-12 col-md-6">
+                                                                    <div class="form-group d-flex flex-column">
+                                                                        <x-input name="nueva_clave" type="text" label="Nueva Contraseña" id="nueva_clave_{{$usuario->id_usuario}}" autocomplete="password" required />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12 col-md-6">
+                                                                    <div class="form-group d-flex flex-column">
+                                                                        <x-input name="confirmar_clave" type="text" label="Confirmar Contraseña" id="confirmar_clave_{{$usuario->id_usuario}}" autocomplete="password" required />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {{-- ====================================================== --}}
+                                                    {{-- ====================================================== --}}
+
+                                                    <!-- Contenedor para el GIF -->
+                                                    <div id="loadingIndicatorEditClave_{{$usuario->id_usuario}}" class="loadingIndicator">
+                                                        <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                                                    </div>
+
+                                                    {{-- ====================================================== --}}
+                                                    {{-- ====================================================== --}}
+
+                                                    <div class="d-flex justify-content-around mt-2">
+                                                        <button type="button" title="Cancelar" class="btn btn-secondary" id="btn_cancelar_clave_{{$usuario->id_usuario}}" data-bs-dismiss="modal">
+                                                            <i class="fa fa-times"></i> Cancelar
+                                                        </button>
+
+                                                        <button type="submit" title="Guardar Configuración" class="btn btn-success" id="btn_editar_clave_{{$usuario->id_usuario}}">
+                                                            <i class="fa-regular fa-floppy-disk"></i> Modificar
+                                                        </button>
+                                                    </div>
+                                                </x-form> {{-- FIN x-form --}}
+                                            </div> {{-- FIN modal-content --}}
+                                        </div> {{-- FIN modal-dialog --}}
+                                    </div> {{-- FIN modal fade modal-gral --}}
+                                    {{-- FINAL Modal CAMBIAR CONTRASEÑA --}}
+
+                                    {{-- ====================================================== --}}
+                                    {{-- ====================================================== --}}
+
                                     {{-- INICIO Modal EDITAR USUARIO --}}
-                                    <div class="modal fade modal-gral" id="modalEditarUsuario_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" style="max-width: 55%;">
-                                        <div class="modal-dialog m-0 mw-100">
+                                    <div class="modal fade" id="modalEditarUsuario_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                        <div class="modal-dialog">
                                             <div class="modal-content border-0 p-3">
                                                 <x-form
                                                     action="{{route('usuarios.update', $usuario->id_usuario)}}"
@@ -209,8 +282,6 @@
                                                     id="formEditarUsuario_{{$usuario->id_usuario}}"
                                                     autocomplete="off"
                                                 >
-                                                    {{-- @method('PUT') --}}
-                                                    {{-- @csrf --}}
                                                     <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required>
                                                     
                                                     <div class="rounded-top text-white text-center"
@@ -302,89 +373,64 @@
                                         </div>
                                     </div>
                                     {{-- FINAL Modal EDITAR USUARIO --}}
-                                    
+
                                     {{-- ====================================================== --}}
                                     {{-- ====================================================== --}}
 
-                                    {{-- INICIO Modal CAMBIAR CONTRASEÑA --}}
-                                    {{-- <div class="modal fade h-auto modal-gral"
-                                        id="modal_cambiar_clave_" tabindex="-1"
-                                        data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog m-0">
-                                            <div class="modal-content w-100 border-0">
-                                                {!! Form::open([
-                                                    'method' => 'POST',
-                                                    'route' => ['cambiar_clave'],
-                                                    'class' => 'mt-2',
-                                                    'autocomplete' => 'off',
-                                                    'id' => 'formCambiarClave_',
-                                                ]) !!}
-                                                @csrf
-                                                {{-- <div class="" style="border: solid 1px #337AB7;">
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5>Cambiar Contraseña de:
-                                                        </h5>
-                                                    </div> --}}
-
-                                                    {{-- {{ Form::hidden('id_usuario', isset($usuario) ? $usuario->id_usuario : null, ['class' => '', 'id' => 'id_usuario', 'required' => 'required']) }} --}}
-
-                                                    {{-- ====================================================== --}}
-                                                    {{-- ====================================================== --}}
-
-                                                    {{-- <div class="modal-body p-0 m-0">
-                                                        <div class="row m-0 pt-4 pb-4">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group d-flex flex-column">
-                                                                    <label for="nueva_clave" class=""
-                                                                        style="font-size: 15px">Nueva Contraseña<span
-                                                                            class="text-danger">*</span></label>
-                                                                    {{ Form::text('nueva_clave', null, ['class' => 'form-control', 'id' => 'nueva_clave_', 'placeholder' => 'Contraseña', 'required'=>'required']) }}
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="form-group d-flex flex-column">
-                                                                    <label for="confirmar_clave" class=""
-                                                                        style="font-size: 15px">Confirmar
-                                                                        Contraseña<span
-                                                                            class="text-danger">*</span></label>
-                                                                    {{ Form::text('confirmar_clave', null, ['class' => 'form-control', 'id' => 'confirmar_clave_', 'placeholder' => 'Confirmar Contraseña', 'required'=>'required']) }}
-                                                                </div>
-                                                            </div>
+                                    {{-- INICIO Modal ESTADO USUARIO --}}
+                                    <div class="modal fade" id="modalCambiarEstado_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content border-0 p-3">
+                                                <x-form
+                                                    action="{{route('usuarios.destroy', $usuario->id_usuario)}}"
+                                                    method="DELETE"
+                                                    class="mt-0"
+                                                    id="formCambiarEstado_{{$usuario->id_usuario}}"
+                                                    autocomplete="off"
+                                                >
+                                                    <div class="rounded-top" style="border: solid 1px #337AB7;">
+                                                        <div class="rounded-top text-white text-center"
+                                                            style="background-color: #337AB7; border: solid 1px #337AB7;">
+                                                            <h5>Cambiar estado de: <br>
+                                                                <span class="text-warning">{{$usuario->nombre_usuario}}</span>
+                                                            </h5>
                                                         </div>
+
+                                                        <div class="mt-4 mb-4 text-center">
+                                                            <span class="text-danger fs-5">¿Realmente desea cambiar el estado de esta usuario?</span>
+                                                        </div>
+
+                                                        <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required >
                                                     </div>
-                                                </div> --}}
 
-                                                {{-- ====================================================== --}}
-                                                {{-- ====================================================== --}}
+                                                    {{-- ====================================================== --}}
+                                                    {{-- ====================================================== --}}
 
-                                                <!-- Contenedor para el GIF -->
-                                                {{-- <div id="loadingIndicatorEditClave_"
-                                                    class="loadingIndicator">
-                                                    <img src="{{ asset('imagenes/loading.gif') }}" alt="Procesando...">
-                                                </div> --}}
+                                                    <!-- Contenedor para el GIF -->
+                                                    <div id="loadingIndicatorEstado_{{$usuario->id_usuario}}"
+                                                        class="loadingIndicator">
+                                                        <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                                                    </div>
 
-                                                {{-- ====================================================== --}}
-                                                {{-- ====================================================== --}}
+                                                    {{-- ====================================================== --}}
+                                                    {{-- ====================================================== --}}
 
-                                                {{-- <div class="d-flex justify-content-around mt-2">
-                                                    <button type="submit" title="Guardar Configuración" class="btn btn-success" id="btn_editar_clave_"
-                                                        >
-                                                        <i class="fa fa-floppy-o"> Modificar</i>
-                                                    </button>
+                                                    <div class="d-flex justify-content-around mt-3">
+                                                        <button type="button" id="btn_cancelar_estado_{{$usuario->id_usuario}}"
+                                                            class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <i class="fa fa-times"></i> Cancelar
+                                                        </button>
 
-
-                                                    <button type="button" title="Cancelar" class="btn btn-secondary" id="btn_cancelar_clave_"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="fa fa-times"> Cancelar</i>
-                                                    </button>
-                                                </div>
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    {{-- FINAL Modal CAMBIAR CONTRASEÑA --}}
+                                                        <button type="submit" id="btn_cambiar_estado_{{$usuario->id_usuario}}"
+                                                            class="btn btn-success">
+                                                            <i class="fa-regular fa-floppy-disk"></i> Cambiar
+                                                        </button>
+                                                    </div>
+                                                </x-form> {{-- FIN x-form --}}
+                                            </div> {{-- FIN modal-content --}}
+                                        </div> {{-- FIN modal-dialog --}}
+                                    </div> {{-- FIN modal --}}
+                                    {{-- FINAL Modal ESTADO USUARIO --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -559,6 +605,25 @@
 
                 // Enviar formulario manualmente
                 this.submit();
+            });
+
+            // ===========================================================================================
+
+             // Botón de submit de editar usuario
+             $(document).on("submit", "form[id^='formCambiarEstado_']", function(e) {
+                const form = $(this);
+                const formId = form.attr('id'); // Obtenemos el ID del formulario
+                const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
+
+                // Capturar spinner y btns dinámicamente
+                const loadingIndicator = $(`#loadingIndicatorEstado_${id}`);
+                const submitButton = $(`#btn_cambiar_estado_${id}`);
+                const cancelButton = $(`#btn_cancelar_estado_${id}`);
+
+                // Deshabilitar btns, cargar Spinner
+                loadingIndicator.show();
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
             });
         }); // FIN document.ready
     </script>

@@ -27,6 +27,9 @@ class LoginController extends Controller
         $this->clientApi = new Client(['base_uri' => $this->baseUri]);
     }
 
+    // ======================================================================
+    // ======================================================================
+
     /**
      * Display a listing of the resource.
      *
@@ -158,15 +161,15 @@ class LoginController extends Controller
     // ======================================================================
     // ======================================================================
 
-    // public function cambiarClave(Request $request)
-    // {
-    //     if (!$this->checkDatabaseConnection()) {
-    //         return view('db_conexion');
-    //     } else {
-    //         return new CambiarClave();
+    public function cambiarClave(Request $request)
+    {
+        if (!$this->checkDatabaseConnection()) {
+            return view('db_conexion');
+        } else {
+            return new CambiarClave();
 
-    //     }
-    // }
+        }
+    }
 
     // ======================================================================
     // ======================================================================

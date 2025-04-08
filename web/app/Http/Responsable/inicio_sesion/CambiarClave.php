@@ -22,7 +22,6 @@ class CambiarClave implements Responsable
 
     // ===================================================================
     // ===================================================================
-    // ===================================================================
 
     public function toResponse($request)
     {
@@ -33,8 +32,7 @@ class CambiarClave implements Responsable
         // ======================================================
         // ======================================================
 
-        if(!isset($nuevaClave) || empty($nuevaClave) || is_null($nuevaClave) || !isset($confirmarClave) || empty($confirmarClave) || is_null($confirmarClave))
-        {
+        if(!isset($nuevaClave) || empty($nuevaClave) || is_null($nuevaClave) || !isset($confirmarClave) || empty($confirmarClave) || is_null($confirmarClave)) {
             alert()->error('Error','Usuario y Clave son requeridos!');
             return back();
         }
@@ -52,22 +50,22 @@ class CambiarClave implements Responsable
                         return back();
                     }
 
-                    $response = $this->clientApi->post($this->baseUri.'cambiar_clave/'.$idUsuario, ['json' => [
-                        'clave' => $nuevaClave,
-                    ]]);
+                    $response = $this->clientApi->post($this->baseUri.'cambiar_clave/'.$idUsuario, [
+                        'json' => ['clave' => Hash::make($nuevaClave)]
+                    ]);
                     $claveCambiada = json_decode($response->getBody()->getContents());
-    
-                    if(isset($claveCambiada) && !is_null($claveCambiada) && !empty($claveCambiada)) {
+                    // dd($claveCambiada);
+
+                    if(isset($claveCambiada->success) && $claveCambiada->success === true) {
                         alert()->success('Bien', 'Clave cambiada satisfactoriamente');
-                        return redirect()->to(route('login'));
+                        return redirect()->to(route('logout'));
     
                     } else {
                         alert()->error('Error', 'Error al cambiar la clave, por favor contacte a Soporte.');
                         return redirect()->to(route('cambiar_clave'));
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
+                    dd($e);
                     alert()->error('Error', 'Error Exception, si el problema persiste, contacte a Soporte.');
                     return back();
                 }
@@ -88,6 +86,7 @@ class CambiarClave implements Responsable
     private function validarContrasena($nuevaClave)
     {
         // Verifica que la contraseña tenga al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
-        return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/', $nuevaClave);
+        $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-\/_¿¡#.,:;=~^(){}\[\]<>`|"\'"])[A-Za-z\d@$!%*?&+\-\/_¿¡#.,:;=~^(){}\[\]<>`|"\'"]{6,}$/';
+        return preg_match($regex, $nuevaClave);
     }
 }

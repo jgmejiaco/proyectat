@@ -28,22 +28,3 @@
 
     {{ $slot }}
 </form>
-
-
-{{-- <form
-    action="{{ $action }}"
-    method="{{ $method ?? 'POST' }}"
-    class="{{ $class ?? '' }}"
-    id="{{ $id ?? '' }}"
-    autocomplete="off"
-    {{ $attributes }}
->
-    @if(strtoupper($method) !== 'GET')
-        @csrf
-        @if(strtoupper($method) === 'PUT' || strtoupper($method) === 'PATCH' || strtoupper($method) === 'DELETE')
-            @method($method)
-        @endif
-    @endif
-    
-    {{ $slot }}
-</form> --}}

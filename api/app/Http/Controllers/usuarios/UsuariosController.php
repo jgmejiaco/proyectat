@@ -4,10 +4,12 @@ namespace App\Http\Controllers\usuarios;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Responsable\usuarios\UsuarioIndex;
 use App\Http\Responsable\usuarios\UsuarioStore;
 use App\Http\Responsable\usuarios\UsuarioUpdate;
 use App\Http\Responsable\usuarios\DatosUsuario;
+use App\Http\Responsable\usuarios\UsuarioDestroy;
 use App\Models\Usuario;
 
 class UsuariosController extends Controller
@@ -81,9 +83,9 @@ class UsuariosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $idUsuario)
     {
-        //
+        return new UsuarioDestroy($idUsuario);
     }
 
     // ======================================================================
@@ -165,6 +167,25 @@ class UsuariosController extends Controller
     public function datosUsuario($idUsuario)
     {
         return new Datosusuario($idUsuario);
+    }
+
+    // ======================================================================
+    // ======================================================================
+
+    public function cambiarClave(Request $request, $idUsuario)
+    {
+        $claveNueva = $request->input('clave');
+
+        try {
+            Usuario::where('id_usuario',$idUsuario)
+                ->update([
+                    'clave' => $claveNueva,
+            ]);
+            // return response()->json('clave_cambiada');
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
     }
 
     // ======================================================================

@@ -53,13 +53,6 @@ class LoginStore implements Responsable
         }
 
         $user = $this->consultarUsuario($usuario);
-        // dd($user);
-
-        // $userData = $this->consultarUsuario($usuario);
-
-        // Convertimos el stdClass a un modelo de Usuario
-        // $user = new Usuario((array) $user);
-        // $user->exists = true;
       
         if(isset($user) && !empty($user) && !is_null($user)) {
 
@@ -77,8 +70,6 @@ class LoginStore implements Responsable
             // ==================================
 
             if( Hash::check($clave, $user->clave) ) {
-
-                // Auth::login($user);
 
                 $this->crearVariablesSesion($user);
                 $this->actualizarClaveFallas($user->id_usuario, 0);
@@ -135,8 +126,7 @@ class LoginStore implements Responsable
             $response = $this->clientApi->post($this->baseUri.'inactivar_usuario/'.$idUser, ['json' => []]);
             json_decode($response->getBody()->getContents());
 
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             alert()->error('Error', 'Exception inactivarUsuario, si el problema persiste, contacte a Soporte.');
             return back();
         }
@@ -147,7 +137,6 @@ class LoginStore implements Responsable
     private function actualizarClaveFallas($idUsuario, $contador)
     {
         try {
-
             $response = $this->clientApi->post($this->baseUri.'actualizar_clave_fallas/'.$idUsuario,
                 ['json' => ['clave_fallas' => $contador]]
             );

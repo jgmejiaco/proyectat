@@ -176,12 +176,6 @@ footer {
     /* Color de fondo deseado */
 }
 
-.modal-gral {
-    top: 5% !important;
-    left: 50% !important;
-    transform: translateX(-50%);
-}
-
 /* ========================================= */
 /* INICIO Media Query TopMenu */
 

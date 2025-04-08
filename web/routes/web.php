@@ -47,6 +47,9 @@ Route::controller(LoginController::class)->group(function () {
     Route::resource('login', LoginController::class);
     Route::get('login_usuario', 'index')->name('login_usuario');
     Route::get('logout', 'logout')->name('logout');
+    Route::post('cambiar_clave', 'cambiarClave')->name('cambiar_clave');
+
+    // Route::post('cambiar_clave', 'LoginController@cambiarClave')->name('cambiar_clave');
     
     // Rutas recuperacion clave
     // Route::get('recuperar', 'resetPassword')->name('recuperar_clave');
@@ -66,6 +69,7 @@ Route::resource('inicio', HomeController::class);
 // USUARIOS
 Route::controller(UsuariosController::class)->group(function () {
     Route::resource('usuarios', UsuariosController::class);
+    // Route::post('cambiar_estado_usuario', 'cambiarEstadoUsuario')->name('cambiar_estado_usuario');
 
 });
 
