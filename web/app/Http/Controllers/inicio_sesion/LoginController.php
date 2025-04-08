@@ -40,6 +40,11 @@ class LoginController extends Controller
         if (!$this->checkDatabaseConnection()) {
             return view('db_conexion');
         }
+
+        // Si el usuario ya inició sesión con tus variables
+        if (session()->has('sesion_iniciada') && session('sesion_iniciada') === true) {
+            return redirect()->route('inicio.index');
+        }
         
         return view('inicio_sesion.login');
     }
@@ -218,35 +223,4 @@ class LoginController extends Controller
             return new RecuperarClaveUpdate();
         }
     }
-
-    // ======================================================================
-    // ======================================================================
-
-    // public function showLoginForm()
-    // {
-    //     if (auth()->check()) {
-    //         return redirect('usuarios.index');
-    //         // return redirect()->route('usuarios');
-    //     }
-    //     return view('login');
-    // }
-
-    // ======================================================================
-    // ======================================================================
-
-    /* public function actualizarClave($expiration)
-    {
-        if (!$this->checkDatabaseConnection()) {
-            return view('db_conexion');
-        } else {
-            $fechaActual = Carbon::now()->timestamp;
-
-            if($fechaActual <= $expiration) {
-                return view('inicio_sesion.actualizar_contraseña');
-            } else {
-                alert()->error("El link ya ha expirado, realice el proceso nuevamente.");
-                return redirect()->to(route('login'));
-            }
-        }
-    } */
 }  // Fin clase LoginController

@@ -86,7 +86,8 @@ class LoginStore implements Responsable
             alert()->error('Error','Este usuario no existe: ' . $usuario);
             return back();
         } else {
-            return view('usuarios.index');
+            alert()->error('Error','Error al consultar el usuario. Intente de nuevo.');
+            return back();
         }
     }
 
