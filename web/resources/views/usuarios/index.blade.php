@@ -133,8 +133,8 @@
                                     <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
                                 </div>
 
-                                <div class="d-flex justify-content-around mt-3">
-                                    <button type="button" id="btn_cancelar_user" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <div class="d-flex justify-content-center mt-5">
+                                    <button type="button" id="btn_cancelar_user" class="btn btn-secondary me-3" data-bs-dismiss="modal">
                                         <i class="fa fa-times"></i> Cancelar
                                     </button>
 
@@ -253,8 +253,8 @@
                                                     {{-- ====================================================== --}}
                                                     {{-- ====================================================== --}}
 
-                                                    <div class="d-flex justify-content-around mt-2">
-                                                        <button type="button" title="Cancelar" class="btn btn-secondary" id="btn_cancelar_clave_{{$usuario->id_usuario}}" data-bs-dismiss="modal">
+                                                    <div class="d-flex justify-content-center mt-2">
+                                                        <button type="button" class="btn btn-secondary me-3" id="btn_cancelar_clave_{{$usuario->id_usuario}}" data-bs-dismiss="modal">
                                                             <i class="fa fa-times"></i> Cancelar
                                                         </button>
 
@@ -355,10 +355,9 @@
                                                             <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
                                                         </div>
 
-                                                        <div class="d-flex justify-content-around mt-3">
+                                                        <div class="d-flex justify-content-center mt-3">
                                                             <button type="button" id="btn_cancelar_user_{{ $usuario->id_usuario }}"
-                                                                class="btn btn-secondary" title="Cancelar"
-                                                                data-bs-dismiss="modal">
+                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
                                                                 <i class="fa fa-times"></i> Cancelar
                                                             </button>
 
@@ -415,9 +414,9 @@
                                                     {{-- ====================================================== --}}
                                                     {{-- ====================================================== --}}
 
-                                                    <div class="d-flex justify-content-around mt-3">
+                                                    <div class="d-flex justify-content-center mt-3">
                                                         <button type="button" id="btn_cancelar_estado_{{$usuario->id_usuario}}"
-                                                            class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            class="btn btn-secondary me-3" data-bs-dismiss="modal">
                                                             <i class="fa fa-times"></i> Cancelar
                                                         </button>
 
