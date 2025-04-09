@@ -28,12 +28,9 @@
                 {{-- =============================================================== --}}
                 {{-- =============================================================== --}}
 
-                {{-- {!! Form::open(['method' => 'POST', 'route' => ['usuarios.store'], 'class' => 'mt-2', 'autocomplete' => 'off', 'id' => 'formCrearUsuarios']) !!}
-                    @csrf --}}
+                <x-form action="{{route('lineas_personales.store')}}" method="POST" class="mt-2" id="formCrearRadicado" autocomplete="off" >
                 
-                    {{-- @include('usuarios.fields_usuarios') --}}
-
-                    <h1>formulario</h1>
+                    @include('lineas_personales.fields_radicado')
 
                     {{-- ========================================================= --}}
                     {{-- ========================================================= --}}
@@ -51,7 +48,7 @@
                             <i class="fa-regular fa-floppy-disk"></i> Crear Radicado
                         </button>
                     </div>
-                {{-- {!! Form::close() !!} --}}
+                </x-form> {{-- FIN x-form --}}
             </div>
 
         </div> {{-- FIN div p-0 --}}
@@ -66,46 +63,28 @@
     <script>
         $( document ).ready(function() {
             // let idEstado = $('#id_estado').val();
-            // console.log(idEstado);
-
-            // if (idEstado == 1 || idEstado == '') {
-            //     $('#div_fecha_terminacion_contrato').hide();
-            //     $('#fecha_terminacion_contrato').removeAttr('required');
-            // }
-
-            // $('#id_estado').change(function () {
-            //     let idEstado = $('#id_estado').val();
-            //     console.log(idEstado);
-
-            //     if (idEstado == 1) { // Activo
-            //         $('#div_fecha_terminacion_contrato').hide();
-            //         $('#fecha_terminacion_contrato').removeAttr('required');
-            //     } else if (idEstado == 2) { // Inactivo
-            //         $('#div_fecha_terminacion_contrato').show('slow');
-            //         $('#fecha_terminacion_contrato').attr('required');
-            //     } else { // Seleccionar...
-            //         $('#div_fecha_terminacion_contrato').hide();
-            //         $('#fecha_terminacion_contrato').removeAttr('required');
-            //     }
-            // });
-
+            
             // ===================================================================================
             // ===================================================================================
 
             // formCrearUsuario para cargar gif en el submit
-            $("form").on("submit", function (e) {
+            $(document).on("submit", "form[id^='formCrearRadicado']", function(e) {
+                e.preventDefault(); // Evita el envío si hay errores
+
                 const form = $(this);
                 const submitButton = form.find('button[type="submit"]');
-                const cancelButton = form.find('button[type="button"]');
                 const loadingIndicator = form.find("div[id^='loadingIndicatorStore']"); // Busca el GIF del form actual
 
-                // Dessactivar Botones
-                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
-                cancelButton.prop("disabled", true);
-                
-                // Mostrar Spinner
+                // Mostrar Spinner, Dessactivar Botones
                 loadingIndicator.show();
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+
+                // Enviar formulario manualmente
+                this.submit();
             });
+
+            // ===================================================================================
+            // ===================================================================================
         }); // FIN document.readey
     </script>
 @stop

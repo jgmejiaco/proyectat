@@ -1,32 +1,29 @@
 <!-- resources/views/components/input.blade.php -->
-<div class="mb-4">
-    {{-- Sección del Label (idéntica a la de x-select) --}}
+<div class="form-group">
     @if($label ?? false)
-        <label for="{{ $id ?? $name }}" class="block text-gray-700 text-sm font-medium mb-1">
+        <label for="{{ $id ?? $name }}" class="form-label" style="font-size: 15px">
             {{ $label }}
             @if($required ?? false)
-                <span class="text-red-500">*</span>
+                <span class="text-danger">*</span>
             @endif
         </label>
     @endif
 
-    {{-- Input (tu código actual) --}}
     <input
         type="{{ $type }}"
         name="{{ $name }}"
         id="{{ $id ?? $name }}"
-        class="form-control {{ $errors->has($name) ? 'border-red-500' : '' }}"
+        class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }}"
         placeholder="{{ $placeholder ?? '' }}"
         value="{{ old($name, $value ?? '') }}"
         @if($autocomplete ?? false)
-            autocomplete="{{ $autocomplete }}" {{-- // NOSONAR --}}
+            autocomplete="{{ $autocomplete }}"
         @endif
         @if($required ?? false) required @endif
         {{ $attributes }}
     >
 
-    {{-- Mensaje de error --}}
     @error($name)
-        <span class="text-red-500 text-xs">{{ $message }}</span>
+        <span class="invalid-feedback d-block text-xs">{{ $message }}</span>
     @enderror
 </div>

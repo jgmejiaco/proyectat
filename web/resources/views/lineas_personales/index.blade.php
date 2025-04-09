@@ -83,10 +83,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div> {{-- FIN --}}
-        </div> {{-- FIN div --}}
-    </div>
+                </div> {{-- FIN table-responsive --}}
+            </div> {{-- FIN col-12 p-3 --}}
+        </div> {{-- FIN div p-0 --}}
+    </div>{{-- FIN p-3 d-flex flex-column --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -96,7 +96,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            // INICIO DataTable Lista Usuarios
+            // INICIO DataTable
             $("#tbl_radicados").DataTable({
                 dom: 'Blfrtip',
                 "infoEmpty": "No hay registros",
@@ -117,81 +117,9 @@
                 ],
                 "pageLength": 10,
             });
-            // CIERRE DataTable Lista Usuarios
+            // CIERRE DataTable
 
             // ===========================================================================================
-
-            // formCrearUsuario para cargar gif en el submit
-            $(document).on("submit", "form[id^='formCrearUsuario']", function(e) {
-                e.preventDefault(); // Evita el envío si hay errores
-
-                const form = $(this);
-                const submitButton = form.find('button[type="submit"]');
-                const cancelButton = form.find('button[type="button"]');
-                const loadingIndicator = form.find("div[id^='loadingIndicatorStore']");
-
-                // Identificar campos de nueva clave y confirmación
-                const clave = '#clave';
-                const confirmarClave = '#confirmar_clave';
-
-                let claveValor = $(clave).val();
-                let confirmarClaveValor = $(confirmarClave).val();
-
-                console.log(claveValor);
-                console.log(confirmarClaveValor);
-
-                if (claveValor.trim() === '' || confirmarClaveValor.trim() === '') {
-                    Swal.fire('Cuidado!', 'Ambos campos de contraseña deben estar diligenciados!', 'warning');
-                    return;
-                }
-
-                if (claveValor !== confirmarClaveValor) {
-                    Swal.fire('Error!', 'Las contraseñas no coinciden!', 'error');
-                    return;
-                }
-
-                // Validación de la seguridad de la contraseña
-                // let errorMessage = validatePassword(claveValor);
-                let errorMessage = validatePassword(claveValor.trim());
-
-                if (errorMessage) {
-                    Swal.fire('Error!', errorMessage, 'error');
-                    return;
-                }
-
-                // Dessactivar Botones
-                cancelButton.prop("disabled", true);
-                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
-                
-                // Mostrar Spinner
-                loadingIndicator.show();
-
-                // Enviar formulario manualmente
-                this.submit();
-            });
-
-            // ===========================================================================================
-            
-            // Botón de submit de editar usuario
-            $(document).on("submit", "form[id^='formEditarUsuario_']", function(e) {
-                const form = $(this);
-                const formId = form.attr('id'); // Obtenemos el ID del formulario
-                const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
-
-                // Capturar el indicador de carga dinámicamente
-                const submitButton = $(`#btn_editar_user_${id}`);
-                const cancelButton = $(`#btn_cancelar_user_${id}`);
-                const loadingIndicator = $(`#loadingIndicatorEditUser_${id}`);
-
-                // Lógica del botón
-                cancelButton.prop("disabled", true);
-                submitButton.prop("disabled", true).html(
-                    "Procesando... <i class='fa fa-spinner fa-spin'></i>"
-                );
-
-                // Mostrar Spinner
-                loadingIndicator.show();
-            });
         }); // FIN document.ready
     </script>
 @stop

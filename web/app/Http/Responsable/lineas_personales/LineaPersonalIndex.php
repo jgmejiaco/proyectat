@@ -25,7 +25,6 @@ class LineaPersonalIndex implements Responsable
             return view('lineas_personales.index', compact('lineasPersonalesIndex'));
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error', 'Exception lineasPersonalesIndex, contacte a Soporte.');
             return back();
         }

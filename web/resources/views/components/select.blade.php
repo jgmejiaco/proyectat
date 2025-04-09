@@ -1,13 +1,13 @@
-<div class="form-group d-flex flex-column mb-4">
+<div class="form-group">
     @if($label ?? false)
-        <label for="{{ $name }}" class="" style="font-size: 15px">
+        <label for="{{ $name }}" class="form-label" style="font-size: 15px">
             {{ $label }}
             @if($required ?? false)
                 <span class="text-danger">*</span>
             @endif
         </label>
     @endif
-    
+
     <select
         name="{{ $name }}"
         id="{{ $id ?? $name }}"
@@ -16,7 +16,7 @@
     >
         {{ $slot }}
     </select>
-    
+
     @error($name)
         <span class="text-danger text-xs">{{ $message }}</span>
     @enderror

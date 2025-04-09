@@ -28,6 +28,8 @@ class LineaPersonalStore implements Responsable
 
     public function toResponse($request)
     {
+        dd($request);
+        
         $validator = Validator::make($request->all(), [
             'nombre_usuario'    => 'required|string',
             'apellido_usuario'  => 'required|string',
