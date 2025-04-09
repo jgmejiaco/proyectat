@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('layouts.topbar', function ($view)
+        View::composer('layouts.header', function ($view)
         {
             try {
                 $idUsuario = session('id_usuario');

@@ -66,7 +66,7 @@
             <div class="wrapper">
                 {{-- Topbar solo si aplica --}}
                 @if ($mostrarComponentes)
-                    @include('layouts.topbar')
+                    @include('layouts.header')
                 @endif
         
                 <div class="content @yield('content-class')">
