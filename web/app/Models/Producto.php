@@ -10,11 +10,11 @@ class Producto extends Model
     use SoftDeletes;
 
     protected $connection = 'mysql';
-    protected $table = 'aseguradoras';
-    protected $primaryKey = 'id_aseguradora';
+    protected $table = 'productos';
+    protected $primaryKey = 'id_producto';
     public $timestamps = true;
     protected $fillable = [
-        'aseguradora'
+        'producto'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

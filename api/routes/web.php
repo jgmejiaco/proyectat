@@ -36,3 +36,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('consulta_recuperar_clave', 'usuarios\UsuariosController@consultaRecuperarClave');
 });
+
+
+// =====================================================================
+// =====================================================================
+
+// LÍNEA PERSONAL
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('linea_personal_index', 'lineas_personales\LineasPersonalesController@index');
+    $router->post('linea_personal_store', 'lineas_personales\LineasPersonalesController@store');
+    $router->put('linea_personal_update/{idUsuario}', 'lineas_personales\LineasPersonalesController@update');
+});

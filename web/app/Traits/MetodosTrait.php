@@ -6,39 +6,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use App\Models\Rol;
 use App\Models\Estado;
-// use App\Models\TipoDocumento;
-// use App\Models\Usuario;
-// use App\Models\Agendamiento;
-// use App\Models\Eventos;
-// use App\Models\Empresa;
-// use App\Models\EspecialidadMedica;
-// use App\Models\TipoContacto;
-// use App\Models\SiNo;
-// use App\Models\Contacto;
-// use App\Models\Finanza;
-// use App\Models\TipoCuenta;
-// use App\Models\Categoria;
-// use App\Models\SubCategoria;
-// use App\Models\Concepto;
-// use App\Models\Propiedad;
-// use App\Models\Year;
-// use App\Models\Vehiculo;
-// use App\Models\TipoVehiculo;
-// use App\Models\TipoMtto;
-// use App\Models\Taller;
-// use App\Models\MantenimientoVehiculo;
-// use App\Models\CitaMedica;
-// use App\Models\Medicamento;
-// use App\Models\VehiculoConsumible;
-// use App\Models\Consumible;
-// use App\Models\EstacionGasolina;
-// use App\Models\MarcaVehiculo;
-// use App\Models\OrganismoTransito;
-// use App\Models\Ciudad;
-// use App\Models\TipoServicio;
-// use App\Models\Impuesto;
-// use App\Models\Seguro;
-// use App\Models\VehiculoImpuesto;
+use App\Models\Aseguradora;
+use App\Models\Consultor;
+use App\Models\Frecuencia;
+use App\Models\Gerente;
+use App\Models\Producto;
+use App\Models\Ramo;
+use App\Models\Tomador;
 
 trait MetodosTrait
 {
@@ -95,6 +69,12 @@ trait MetodosTrait
         // Usuarios
         view()->share('estados', Estado::orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
-
+        view()->share('aseguradoras', Aseguradora::orderBy('aseguradora','asc')->pluck('aseguradora', 'id_aseguradora'));
+        view()->share('consultores', Consultor::orderBy('clave_consultor_global','asc')->pluck('clave_consultor_global', 'id_consultor'));
+        view()->share('frecuencias', Frecuencia::orderBy('frecuencia','asc')->pluck('frecuencia', 'id_frecuencia'));
+        view()->share('gerentes', Gerente::orderBy('gerente','asc')->pluck('gerente', 'id_gerente'));
+        view()->share('productos', Producto::orderBy('producto','asc')->pluck('producto', 'id_producto'));
+        view()->share('ramos', Ramo::orderBy('ramo','asc')->pluck('ramo', 'id_ramo'));
+        view()->share('tomadores', Tomador::orderBy('identificacion_tomador','asc')->pluck('identificacion_tomador', 'id_tomador'));
     }
 }

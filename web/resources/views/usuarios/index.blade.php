@@ -6,14 +6,8 @@
 {{-- =============================================================== --}}
 
 @section('css')
-    {{-- <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> --}}
     <style>
-        .btn-circle {
-            padding-left: 0.3rem !important;
-            padding-right: 0.3rem !important;
-            padding-top: 0.0rem !important;
-            padding-bottom: 0.0rem !important;
-        }
+        
     </style>
 @stop
 

@@ -13,13 +13,13 @@
                 </button>
                 <div class="collapse d-lg-flex justify-content-lg-end" id="navbarNavDropdown">
                     <ul class="navbar-nav justify-content-between">
-                        {{-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">PERSONAS</a>
+                        <li class="nav-item dropdown">
+                            <a href="#" role="button" class="nav-link dropdown-toggle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">Informe Producción</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{route('usuarios.index')}}">Usuarios</a></li>
-                                <li><a class="dropdown-item" href="{{route('usuarios.index')}}">Usuarios</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item">Líneas Personales</a></li>
+                                <li><a href="{{route('lineas_personales.create')}}" class="dropdown-item">Crear Radicado</a></li>
                             </ul>
-                        </li> --}}
+                        </li>
 
                         {{-- ==================== --}}
 
@@ -28,10 +28,6 @@
                         </li>
 
                         {{-- ==================== --}}
-
-                        {{-- <li class="nav-item">
-                            <a class="nav-link text-white" href="">TAREAS</a>
-                        </li> --}}
 
                         <li class="nav-item dropdown" data-bs-toggle="modal" data-bs-target="#modal_usuario">
                             <a  href="#" title="Usuario" class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">

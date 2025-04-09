@@ -11,7 +11,7 @@ class LineaPersonal extends Model
 
     protected $connection = 'mysql';
     protected $table = 'lineas_personales';
-    protected $primaryKey = 'id_linea_personal';
+    protected $primaryKey = 'id_lineas_personal';
     public $timestamps = true;
     protected $fillable = [
         'fecha_radicado',

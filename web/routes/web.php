@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\inicio_sesion\LoginController;
 use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\usuarios\UsuariosController;
+use App\Http\Controllers\lineas_personales\LineasPersonalesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,14 +61,15 @@ Route::resource('inicio', HomeController::class);
 // USUARIOS
 Route::controller(UsuariosController::class)->group(function () {
     Route::resource('usuarios', UsuariosController::class);
-    // Route::post('cambiar_estado_usuario', 'cambiarEstadoUsuario')->name('cambiar_estado_usuario');
-
 });
 
 // ===========================================================================
 // ===========================================================================
 
-
+// INFORME PRODUCCIÓN LÍNEAS PERSONALES
+Route::controller(LineasPersonalesController::class)->group(function () {
+    Route::resource('lineas_personales', LineasPersonalesController::class);
+});
 
 // ===========================================================================
 // ===========================================================================
