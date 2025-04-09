@@ -15,9 +15,9 @@
                     <ul class="navbar-nav justify-content-between">
                         <li class="nav-item dropdown">
                             <a href="#" role="button" class="nav-link dropdown-toggle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">Informe Producción</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item">Líneas Personales</a></li>
-                                <li><a href="{{route('lineas_personales.create')}}" class="dropdown-item">Crear Radicado</a></li>
+                            <ul class="dropdown-menu bg-white">
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Líneas Personales</a></li>
+                                <li><a href="{{route('lineas_personales.create')}}" class="dropdown-item text-black hover-li">Crear Radicado</a></li>
                             </ul>
                         </li>
 
