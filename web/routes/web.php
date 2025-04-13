@@ -17,71 +17,71 @@ use App\Http\Controllers\lineas_personales\LineasPersonalesController;
 |
 */
 
-Route::get('/', function () {
-    return view('inicio_sesion.login');
-})->name('login');
+Route::middleware(['web', 'prevent-back-history'])->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('login');
+    })->name('login');
 
-// ===========================================================================
-// ===========================================================================
+    // ===========================================================================
+    // ===========================================================================
 
-// Rutas públicas
-Route::middleware(['prevent-back-history'])->group(function () {
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    // Rutas públicas
     Route::redirect('/', '/login');
-});
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-// ===========================================================================
-// ===========================================================================
+    // ===========================================================================
+    // ===========================================================================
 
-// LOGIN
-Route::controller(LoginController::class)->group(function () {
-    Route::resource('login', LoginController::class);
-    Route::get('login_usuario', 'index')->name('login_usuario');
-    Route::get('logout', 'logout')->name('logout');
+    // LOGIN
+    Route::controller(LoginController::class)->group(function () {
+        Route::resource('login', LoginController::class);
+        Route::get('login_usuario', 'index')->name('login_usuario');
+        Route::get('logout', 'logout')->name('logout');
 
-    // CAMBIAR CLAVE
-    Route::post('cambiar_clave', 'cambiarClave')->name('cambiar_clave');
+        // CAMBIAR CLAVE
+        Route::post('cambiar_clave', 'cambiarClave')->name('cambiar_clave');
 
-    // RECUPERAR CLAVE
-    Route::get('recuperar_clave', 'recuperarClave')->name('recuperar_clave');
-    Route::post('recuperar_clave_email', 'recuperarClaveEmail')->name('recuperar_clave_email');
-    Route::get('recuperar_clave_link/{usuIdRecuperarClave}', 'recuperarClaveLink')->name('recuperar_clave_link');
-    Route::post('recuperar_clave_update', 'recuperarClaveUpdate')->name('recuperar_clave_update');
-});
+        // RECUPERAR CLAVE
+        Route::get('recuperar_clave', 'recuperarClave')->name('recuperar_clave');
+        Route::post('recuperar_clave_email', 'recuperarClaveEmail')->name('recuperar_clave_email');
+        Route::get('recuperar_clave_link/{usuIdRecuperarClave}', 'recuperarClaveLink')->name('recuperar_clave_link');
+        Route::post('recuperar_clave_update', 'recuperarClaveUpdate')->name('recuperar_clave_update');
+    });
 
-// ===========================================================================
-// ===========================================================================
+    // ===========================================================================
+    // ===========================================================================
 
-// INICIO (Al iniciar sesión)
-Route::resource('inicio', HomeController::class);
+    // INICIO (Al iniciar sesión)
+    Route::resource('inicio', HomeController::class);
 
-// ===========================================================================
-// ===========================================================================
+    // ===========================================================================
+    // ===========================================================================
 
-// USUARIOS
-Route::controller(UsuariosController::class)->group(function () {
-    Route::resource('usuarios', UsuariosController::class);
-});
+    // USUARIOS
+    Route::controller(UsuariosController::class)->group(function () {
+        Route::resource('usuarios', UsuariosController::class);
+    });
 
-// ===========================================================================
-// ===========================================================================
+    // ===========================================================================
+    // ===========================================================================
 
-// INFORME PRODUCCIÓN LÍNEAS PERSONALES
-Route::controller(LineasPersonalesController::class)->group(function () {
-    Route::resource('lineas_personales', LineasPersonalesController::class);
-});
+    // INFORME PRODUCCIÓN LÍNEAS PERSONALES
+    Route::controller(LineasPersonalesController::class)->group(function () {
+        Route::resource('lineas_personales', LineasPersonalesController::class);
+    });
 
-// ===========================================================================
-// ===========================================================================
-
-
-
-// ===========================================================================
-// ===========================================================================
+    // ===========================================================================
+    // ===========================================================================
 
 
-// ===========================================================================
-// ===========================================================================
+
+    // ===========================================================================
+    // ===========================================================================
+
+
+    // ===========================================================================
+    // ===========================================================================
+}); // FIN Route::middleware({}'web', 'prevent-back-history'])
 
 
 

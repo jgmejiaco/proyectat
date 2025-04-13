@@ -124,7 +124,12 @@ class LoginStore implements Responsable
     private function inactivarUsuario($idUser)
     {
         try {
-            $response = $this->clientApi->post($this->baseUri.'inactivar_usuario/'.$idUser, ['json' => []]);
+            $response = $this->clientApi->post($this->baseUri.'inactivar_usuario/'.$idUser,
+            [
+                'json' => [
+                    'id_audit' => $idUser
+                ]
+            ]);
             json_decode($response->getBody()->getContents());
 
         } catch (Exception $e) {
@@ -139,7 +144,12 @@ class LoginStore implements Responsable
     {
         try {
             $response = $this->clientApi->post($this->baseUri.'actualizar_clave_fallas/'.$idUsuario,
-                ['json' => ['clave_fallas' => $contador]]
+                [
+                    'json' => [
+                        'clave_fallas' => $contador,
+                        'id_audit' => $idUsuario
+                    ]
+                ]
             );
             json_decode($response->getBody()->getContents());
 

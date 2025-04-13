@@ -54,7 +54,8 @@ class UsuarioUpdate implements Responsable
                     'nombre_usuario' => $nombreUsuario,
                     'apellido_usuario' => $apellidoUsuario,
                     'correo' => $correo,
-                    'id_rol' => $idRol
+                    'id_rol' => $idRol,
+                    'id_audit' => session('id_usuario')
                 ]
             ]);
             $resUsuarioUpdate = json_decode($peticionUsuarioUpdate->getBody()->getContents());

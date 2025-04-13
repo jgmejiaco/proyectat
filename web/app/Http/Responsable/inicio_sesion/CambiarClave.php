@@ -51,7 +51,10 @@ class CambiarClave implements Responsable
                     }
 
                     $response = $this->clientApi->post($this->baseUri.'cambiar_clave/'.$idUsuario, [
-                        'json' => ['clave' => Hash::make($nuevaClave)]
+                        'json' => [
+                            'clave' => Hash::make($nuevaClave),
+                            'id_audit' => session('id_usuario')
+                        ]
                     ]);
                     $claveCambiada = json_decode($response->getBody()->getContents());
 

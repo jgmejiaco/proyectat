@@ -86,7 +86,8 @@ class UsuarioStore implements Responsable
                     'id_rol' => $idRol,
                     'usuario' => $usuario.$complemento,
                     'clave' => Hash::make($clave),
-                    'clave_fallas' => 0
+                    'clave_fallas' => 0,
+                    'id_audit' => session('id_usuario')
 
                 ]
             ]);

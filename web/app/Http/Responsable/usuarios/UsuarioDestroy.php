@@ -30,7 +30,11 @@ class UsuarioDestroy implements Responsable
     public function toResponse($request)
     {
         try {
-            $peticionCambiarEstadoUsuario = $this->clientApi->post($this->baseUri.'cambiar_estado_usuario/'. $this->idUsuario, ['json' => []]);
+            $peticionCambiarEstadoUsuario = $this->clientApi->post($this->baseUri.'cambiar_estado_usuario/'. $this->idUsuario,
+                [
+                    'json' => ['id_audit' => session('id_usuario')]
+                ]
+            );
             $resCambioEstadoUsuario = json_decode($peticionCambiarEstadoUsuario->getBody()->getContents());
 
             if(isset($resCambioEstadoUsuario->success) && $resCambioEstadoUsuario->success === true) {

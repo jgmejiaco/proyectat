@@ -59,7 +59,14 @@ $app->singleton(
 |
 */
 
+$app->withEloquent();
+
 $app->configure('app');
+
+$app->configure('audit');
+
+$app->register(\OwenIt\Auditing\AuditingServiceProvider::class);
+class_alias(\OwenIt\Auditing\Facades\Auditor::class, 'Auditor');
 
 /*
 |--------------------------------------------------------------------------
