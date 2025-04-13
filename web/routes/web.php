@@ -83,17 +83,5 @@ Route::controller(LineasPersonalesController::class)->group(function () {
 // ===========================================================================
 // ===========================================================================
 
-// Forzar SSL y cabeceras adicionales en producción
-if (env('APP_ENV') === 'production') {
-    URL::forceScheme('https');
-    
-    Route::middleware(function ($request, $next) {
-        return $next($request)->withHeaders([
-            'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
-            'X-Content-Type-Options' => 'nosniff',
-            'X-Frame-Options' => 'DENY',
-            'X-XSS-Protection' => '1; mode=block'
-        ]);
-    });
-}
+
 

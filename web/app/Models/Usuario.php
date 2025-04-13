@@ -4,10 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Model
-// class Usuario extends Authenticatable
 {
     use SoftDeletes;
 
@@ -30,9 +28,4 @@ class Usuario extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
-
-    // public function getNombreCompletoAttribute()
-    // {
-    //     return ucwords(strtolower("{$this->nombre_usuario} {$this->apellido_usuario}"));
-    // }
 }
