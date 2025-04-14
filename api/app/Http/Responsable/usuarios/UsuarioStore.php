@@ -19,7 +19,6 @@ class UsuarioStore implements Responsable
         $usuario = $request->input('usuario');
         $clave = $request->input('clave');
         $claveFallas = $request->input('clave_fallas');
-        $idAudit = $request->input('id_audit');
 
         // =============================================================
 
