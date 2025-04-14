@@ -39,8 +39,15 @@ class UsuarioDestroy implements Responsable
 
             if(isset($resCambioEstadoUsuario->success) && $resCambioEstadoUsuario->success === true) {
 
-                alert()->success('Proceso Exitoso', 'Estado cambiado satisfactoriamente');
-                return redirect()->to(route('usuarios.index'));
+                $usuarioLogueado = session('id_usuario');
+
+                if ($usuarioLogueado != $this->idUsuario) {
+                    alert()->success('Proceso Exitoso', 'Estado cambiado satisfactoriamente');
+                    return redirect()->to(route('usuarios.index'));
+                } else {
+                    alert()->success('Proceso Exitoso', 'Estado cambiado satisfactoriamente');
+                    return redirect()->to(route('logout'));
+                }
             }
         } catch (Exception $e) {
             alert()->error('Error', 'Cambiando el estado del Usuario, contacte a Soporte.');

@@ -49,7 +49,7 @@ class UsuarioUpdate implements Responsable
         $idRol = $request->input('id_rol');
 
         try {
-            $peticionUsuarioUpdate = $this->clientApi->put($this->baseUri.'usuario_update/'. $idUsuario, [
+            $peticionUsuarioUpdate = $this->clientApi->put($this->baseUri .'usuario_update/'. $idUsuario, [
                 'json' => [
                     'nombre_usuario' => $nombreUsuario,
                     'apellido_usuario' => $apellidoUsuario,

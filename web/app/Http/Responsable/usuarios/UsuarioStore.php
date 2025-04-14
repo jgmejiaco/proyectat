@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
 use GuzzleHttp\Client;
-use App\Models\Usuario;
 
 class UsuarioStore implements Responsable
 {
@@ -38,9 +37,8 @@ class UsuarioStore implements Responsable
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errores' => $validator->errors()
-            ], 422);
+            alert()->error('Error', 'La clave deber mínimo de 6 caracteres');
+            return redirect()->route('usuarios.create');
         }
 
         // Si pasa la validación
@@ -77,7 +75,7 @@ class UsuarioStore implements Responsable
         }
 
         try {
-            $peticionUsuarioStore = $this->clientApi->post($this->baseUri.'usuario_store', [
+            $peticionUsuarioStore = $this->clientApi->post($this->baseUri . 'usuario_store', [
                 'json' => [
                     'nombre_usuario' => $nombreUsuario,
                     'apellido_usuario' => $apellidoUsuario,
@@ -88,14 +86,11 @@ class UsuarioStore implements Responsable
                     'clave' => Hash::make($clave),
                     'clave_fallas' => 0,
                     'id_audit' => session('id_usuario')
-
                 ]
             ]);
-
             $resUsuarioStore = json_decode($peticionUsuarioStore->getBody()->getContents());
             
-            if(isset($resUsuarioStore) && !empty($resUsuarioStore) && $resUsuarioStore->success)
-            {
+            if (isset($resUsuarioStore->success) && $resUsuarioStore->success === true) {
                 return $this->respuestaExito(
                     "Usuario creado satisfactoriamente.<br>
                     El usuario es: <strong>" .  $resUsuarioStore->usuario->usuario . "</strong>",
@@ -105,7 +100,7 @@ class UsuarioStore implements Responsable
         } catch (Exception $e) {
             return $this->respuestaException('Exception, contacte a Soporte.');
         }
-    }
+    } // FIN toResponse($request)
 
     // ===================================================================
 

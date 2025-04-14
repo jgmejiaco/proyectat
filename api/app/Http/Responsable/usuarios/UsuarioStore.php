@@ -5,7 +5,6 @@ namespace App\Http\Responsable\usuarios;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 
 class UsuarioStore implements Responsable
@@ -20,8 +19,9 @@ class UsuarioStore implements Responsable
         $usuario = $request->input('usuario');
         $clave = $request->input('clave');
         $claveFallas = $request->input('clave_fallas');
+        $idAudit = $request->input('id_audit');
 
-        // =================================================
+        // =============================================================
 
         try {
             $nuevoUsuario = Usuario::create([
@@ -32,16 +32,13 @@ class UsuarioStore implements Responsable
                 'id_rol' => $idRol,
                 'usuario' => $usuario,
                 'clave' => $clave,
-                'clave_fallas' => $claveFallas,
+                'clave_fallas' => $claveFallas
             ]);
-    
-            if (isset($nuevoUsuario) && !is_null($nuevoUsuario) && !empty($nuevoUsuario)) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Usuario creado correctamente',
-                    'usuario' => $nuevoUsuario
-                ]);
-            }
+
+            return response()->json([
+                'success' => true,
+                'usuario' => $nuevoUsuario
+            ]);
 
         } catch (Exception $e) {
             return response()->json(['error_bd'=>$e->getMessage()]);

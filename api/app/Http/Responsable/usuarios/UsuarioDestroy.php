@@ -19,20 +19,20 @@ class UsuarioDestroy implements Responsable
     public function toResponse($request)
     {
         $usuario = Usuario::findOrFail($this->idUsuario);
-        $idUsuario = $usuario->id_usuario;
         $idEstado = $usuario->id_estado;
 
         if (isset($usuario) && !is_null($usuario) && !empty($usuario)) {
             try {
                 if ($idEstado == 1) {
-                    $cambiarEstadoUsuario = Usuario::where('id_usuario', $idUsuario)->update(['id_estado' => 2]);
+                    $usuario->id_estado = 2;
                 } else {
-                    $cambiarEstadoUsuario = Usuario::where('id_usuario', $idUsuario)->update(['id_estado' => 1]);
+                    $usuario->id_estado = 1;
                 }
+
+                $usuario->save();
     
-                if (isset($cambiarEstadoUsuario) && !is_null($cambiarEstadoUsuario) && !empty($cambiarEstadoUsuario)) {
-                    return response()->json(['success' => true]);
-                }
+                return response()->json(['success' => true]);
+
             } catch (Exception $e) {
                 return response()->json(['error_exception' => $e->getMessage()]);
             }
