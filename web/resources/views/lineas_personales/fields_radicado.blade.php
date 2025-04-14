@@ -1,5 +1,5 @@
 <div class="row m-0 p-0" id="">
-    <x-input name="id_lineas_personal" type="text" value="{{ $radicado->id_lineas_personal ?? 1 }}" id="id_lineas_personal" autocomplete="id" required />
+    <x-input name="id_lineas_personal" type="hidden" value="{{ $radicado->id_lineas_personal ?? 1 }}" id="id_lineas_personal" autocomplete="id" required />
 
     <div class="col-12 col-md-2 mt-3">
         <x-input name="fecha_radicado" type="date" value="{{ $radicado->fecha_radicado ?? null }}" id="fecha_radicado" label="Fecha Radicado"  autocomplete="date" required />
@@ -24,20 +24,7 @@
 
     {{-- ======================= --}}
 
-    <div class="col-12 col-md-2 mt-3">
-        <x-select name="id_tomador" label="Id Tomador" id="id_tomador" autocomplete="organization-title" required>
-            <option value="">Seleccionar...</option>
-            @foreach($id_tomadores as $key => $value)
-                <option value="{{ $key }}" {{ ($radicado->id_tomador ?? null) == $key ? 'selected' : '' }}>
-                    {{ $value }}
-                </option>
-            @endforeach
-        </x-select>
-    </div>
-
-    {{-- ======================= --}}
-    
-    <div class="col-12 col-md-3 mt-3">
+    <div class="col-12 col-md-5 mt-3">
         <x-select name="id_tomador" label="Tomador" id="id_tomador" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($tomadores as $key => $value)
@@ -128,19 +115,6 @@
     {{-- ======================= --}}
 
     <div class="col-12 col-md-2 mt-5">
-        <x-select name="id_consultor" label="Clave Consultor Global" id="id_consultor" autocomplete="organization-title" required>
-            <option value="">Seleccionar...</option>
-            @foreach($id_consultores as $key => $value)
-                <option value="{{ $key }}" {{ ($radicado->id_consultor ?? null) == $key ? 'selected' : '' }}>
-                    {{ $value }}
-                </option>
-            @endforeach
-        </x-select>
-    </div>
-
-    {{-- ======================= --}}
-
-    <div class="col-12 col-md-2 mt-5">
         <x-select name="id_consultor" label="Consultor" id="id_consultor" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($consultores as $key => $value)
@@ -150,7 +124,7 @@
             @endforeach
         </x-select>
     </div>
-    
+
     {{-- ======================= --}}
 
     <div class="col-12 col-md-2 mt-5">
