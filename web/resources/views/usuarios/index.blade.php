@@ -209,7 +209,7 @@
                                                     id="formCambiarClave_{{$usuario->id_usuario}}"
                                                     autocomplete="off"
                                                 >
-                                                    <div class="" style="border: solid 1px #337AB7">
+                                                    <div class="rounded-top" style="border: solid 1px #337AB7">
                                                         <div class="rounded-top text-white text-center" style="background-color: #337AB7; border: solid 1px #337AB7">
                                                             <h5>Cambiar Contraseña de: {{$usuario->nombre_usuario}}</h5>
                                                         </div>
