@@ -16,7 +16,11 @@
         <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" type="image/x-icon">
 
         {{-- ========================================= --}}
-        
+
+        <!-- DataTable 1.13.6 -->
+        <link rel="stylesheet" href="{{asset('DataTable1.13.6/dataTables.bootstrap5.min.css')}}" >
+        <link rel="stylesheet" href="{{asset('DataTable1.13.6/buttons.bootstrap5.min.css')}}" >
+
         <!-- Bootstrap CSS 5.3.2 -->
         <!-- Se puede indicar la versión al final del nombre de la carpeta pero en los archivos debe ir al ppio -->
         <link rel="stylesheet" href="{{asset('bootstrap5.3.2/5.3.2_bootstrap.min.css')}}" >
@@ -83,8 +87,21 @@
         {{-- ======================================================== --}}
         {{-- ======================================================== --}}
 
-        <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
-        <script src="{{ asset('DataTables/Buttons-2.3.4/js/buttons.html5.min.js') }}"></script>
+        <!-- DataTables Core -->
+        <script src="{{asset('DataTable1.13.6/jquery.dataTables.min.js')}}"></script>
+        <script src="{{asset('DataTable1.13.6/dataTables.bootstrap5.min.js')}}"></script> <!-- si usas bootstrap -->
+
+        <!-- DataTables Buttons -->
+        <script src="{{asset('DataTable1.13.6/dataTables.buttons.min.js')}}"></script>
+        <script src="{{asset('DataTable1.13.6/buttons.bootstrap5.min.js')}}"></script>
+        <script src="{{asset('DataTable1.13.6/buttons.html5.min.js')}}"></script>
+
+        <!-- JSZip para exportar a Excel -->
+        <script src="{{asset('DataTable1.13.6/jszip.min.js')}}"></script>
+
+        <!-- Librerías necesarias para PDF -->
+        <script src="{{ asset('DataTable1.13.6/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('DataTable1.13.6/vfs_fonts.js') }}"></script>
 
         {{-- ======================================================== --}}
         {{-- ======================================================== --}}
@@ -94,7 +111,7 @@
         <script src="{{asset('bootstrap5.3.2/5.3.2_bootstrap.bundle.min.js')}}"></script> {{-- Bundle ya tiene popper --}}
 
         {{-- Es complemento de Bundle para las tabs --}}
-        <script src="{{asset('bootstrap5.3.2/4.6.2_bootstrap.min.js')}}"></script>
+        {{-- <script src="{{asset('bootstrap5.3.2/4.6.2_bootstrap.min.js')}}"></script> --}}
         
         {{-- ========================================================================= --}}
 

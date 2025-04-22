@@ -96,28 +96,49 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            // INICIO DataTable
+            // INICIO DataTable Líneas Personales
             $("#tbl_radicados").DataTable({
                 dom: 'Blfrtip',
-                "infoEmpty": "No hay registros",
-                stripe: true,
-                "bSort": false,
-                "autoWidth": false,
-                "scrollX": true,
-                "buttons": [
+                buttons: [
                     {
                         extend: 'excelHtml5',
-                        text: 'Excel',
-                        className: 'waves-effect waves-light btn-rounded btn-sm btn-primary mr-3',
-                        customize: function(xlsx) {
+                        text: '📥 Exportar Excel',
+                        className: 'waves-effect waves-light btn btn-sm btn-success rounded-pill',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        customize: function (xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
                             $('row:first c', sheet).attr('s', '42');
                         }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '📄 Exportar PDF',
+                        className: 'waves-effect waves-light btn btn-sm btn-danger rounded-pill',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        title: 'Listado de Usuarios'
                     }
                 ],
-                "pageLength": 10,
+                language: {
+                    url: "{{ asset('DataTable1.13.6/es-ES.json') }}"
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, -1],
+                    [10, 20, 30, "Todos"]
+                ],
+                scrollX: true,
+                bSort: true,
+                stripe: true,
+                responsive: true,
+                infoEmpty: "No hay registros disponibles"
             });
-            // CIERRE DataTable
+            // CIERRE DataTable Líneas Personales
 
             // ===========================================================================================
         }); // FIN document.ready

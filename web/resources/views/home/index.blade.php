@@ -30,7 +30,7 @@
         @endphp
 
         <h2>{{ $saludo }}</h2>
-        <h2>Bienvenid@, {{ $datosUsuario->nombre_completo ?? 'Visitante' }}</h2>
+        <h2>{{ $datosUsuario->nombre_completo ?? 'Visitante' }}</h2>
     </div>
 @stop
 

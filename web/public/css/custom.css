@@ -80,10 +80,11 @@ footer {
 
 .dt-buttons {
     margin-bottom: 2rem;
+    display: block;
 }
 
 .dataTables_length {
-    width: 50%;
+    width: 50% !important;
     display: inline-block;
     color: #555;
 }
@@ -106,7 +107,7 @@ footer {
 }
 
 .dataTables_filter {
-    width: 50%;
+    width: 50% !important;
     display: inline-block;
     text-align: right;
 }

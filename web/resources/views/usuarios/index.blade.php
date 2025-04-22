@@ -444,22 +444,44 @@
             // INICIO DataTable Lista Usuarios
             $("#tbl_usuarios").DataTable({
                 dom: 'Blfrtip',
-                "infoEmpty": "No hay registros",
-                stripe: true,
-                "bSort": false,
-                "buttons": [
+                buttons: [
                     {
                         extend: 'excelHtml5',
-                        text: 'Excel',
-                        className: 'waves-effect waves-light btn-rounded btn-sm btn-primary mr-3',
-                        customize: function(xlsx) {
+                        text: '📥 Exportar Excel',
+                        className: 'waves-effect waves-light btn btn-sm btn-success rounded-pill',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        customize: function (xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
                             $('row:first c', sheet).attr('s', '42');
                         }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '📄 Exportar PDF',
+                        className: 'waves-effect waves-light btn btn-sm btn-danger rounded-pill',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        title: 'Listado de Usuarios'
                     }
                 ],
-                "pageLength": 10,
-                "scrollX": true,
+                language: {
+                    url: "{{ asset('DataTable1.13.6/es-ES.json') }}"
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, -1],
+                    [10, 20, 30, "Todos"]
+                ],
+                scrollX: true,
+                bSort: true,
+                stripe: true,
+                responsive: true,
+                infoEmpty: "No hay registros disponibles"
             });
             // CIERRE DataTable Lista Usuarios
 
@@ -505,7 +527,6 @@
                 }
 
                 // Validación de la seguridad de la contraseña
-                // let errorMessage = validatePassword(claveValor);
                 let errorMessage = validatePassword(claveValor.trim());
 
                 if (errorMessage) {
