@@ -95,13 +95,14 @@ trait MetodosTrait
         // ======================================
 
         // PERMISOS
-        view()->share('usuarios', Usuario::orderBy('id_usuario')
-                                    ->select(
-                                        DB::raw("CONCAT(nombre_usuario, ' ', apellido_usuario, ' => ', usuario) AS user"),
-                                        'id_usuario'
-                                    )
-                                    ->where('id_estado', 1)
-                                    ->pluck('user', 'id_usuario'));
+        view()->share('usuarios', Usuario::leftJoin('roles','roles.id','=','usuarios.id_rol')
+                        ->select(
+                            DB::raw("CONCAT(nombre_usuario, ' ', apellido_usuario, ' - ', usuario, ' => ', name) AS user"),
+                            'id_usuario'
+                        )
+                        ->orderBy('id_usuario')
+                        ->where('id_estado', 1)
+                        ->pluck('user', 'id_usuario'));
         view()->share('permisos', Permission::orderBy('id')->get());
         view()->share('permisosAsignados', []);
 

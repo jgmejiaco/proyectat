@@ -91,7 +91,7 @@
             
                     <div class="mt-5 mb-2 d-flex justify-content-center">
                         <button type="submit" class="btn btn-success rounded-2 me-3" id="btn_asignar_permisos">
-                            <i class="fa fa-floppy-o"></i>
+                            <i class="fa-regular fa-floppy-disk"></i>
                             Asignar
                         </button>
                     </div>

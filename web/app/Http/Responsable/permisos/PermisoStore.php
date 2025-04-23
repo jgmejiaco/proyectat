@@ -16,21 +16,19 @@ class PermisoStore implements Responsable
         $this->baseUri = env('BASE_URI');
         $this->clientApi = new Client(['base_uri' => $this->baseUri]);
     }
+
     public function toResponse($request)
     {
-        try
-        {
-            $arrayPermisos = request('permisos', null);
+        try {
             $idUsuario = request('id_usuario', null);
+            $arrayPermisos = request('permisos', null);
 
-            if(!isset($idUsuario) || is_null($idUsuario) || empty($idUsuario))
-            {
+            if(!isset($idUsuario) || is_null($idUsuario) || empty($idUsuario)) {
                 alert()->error("El campo usuario es obligatorio");
                 return back();
             }
 
-            if(isset($arrayPermisos) && !is_null($arrayPermisos) && !empty($arrayPermisos))
-            {
+            if(isset($arrayPermisos) && !is_null($arrayPermisos) && !empty($arrayPermisos)) {
                 $peticionPermisoStore = $this->clientApi->post($this->baseUri . 'crear_permiso_usuario',
                 [
                     'json' => [
@@ -56,14 +54,12 @@ class PermisoStore implements Responsable
                     return back();
                 }
 
-            } else
-            {
+            } else {
                 alert()->error("Debes seleccionar al menos un permiso");
                 return back();
             }
 
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             alert()->error("Ha ocurrido un error asignando los permisos!");
             return back();
         }

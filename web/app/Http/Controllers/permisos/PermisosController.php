@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Traits\MetodosTrait;
 use Exception;
-use App\Http\Responsable\permisos\Permisos;
+use App\Http\Responsable\permisos\PermisoStore;
 
 class PermisosController extends Controller
 {
@@ -253,7 +253,6 @@ class PermisosController extends Controller
             }
             
         } catch (Exception $e) {
-            dd($e);
             alert()->error("Ha ocurrido un error creando el rol!");
             return back();
         }
