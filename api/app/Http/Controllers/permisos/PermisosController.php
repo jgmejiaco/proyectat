@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Permission;
 use App\Models\ModelHasPermissions;
 use App\Models\Rol;
-// use App\Http\Responsable\roles_permisos\RolesPermisosStore;
-// use App\Http\Responsable\roles_permisos\RolesPermisosShow;
 
 class PermisosController extends Controller
 {

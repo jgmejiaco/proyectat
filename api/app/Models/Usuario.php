@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable; // Interfaz
 use OwenIt\Auditing\Auditable as AuditableTrait; // Trait
 
-// class Usuario extends Model
+use Spatie\Permission\Traits\HasRoles;
+
 class Usuario extends Model implements Auditable
 {
     use SoftDeletes;
