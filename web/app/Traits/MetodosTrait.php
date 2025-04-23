@@ -13,6 +13,8 @@ use App\Models\Gerente;
 use App\Models\Producto;
 use App\Models\Ramo;
 use App\Models\Tomador;
+use App\Models\Usuario;
+use App\Models\Permission;
 
 trait MetodosTrait
 {
@@ -66,7 +68,7 @@ trait MetodosTrait
 
     public function shareData()
     {
-        // Usuarios
+        //
         view()->share('estados', Estado::orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
         view()->share('aseguradoras', Aseguradora::orderBy('aseguradora','asc')->pluck('aseguradora', 'id_aseguradora'));
@@ -89,5 +91,20 @@ trait MetodosTrait
         )
         ->orderBy('tomador', 'asc')
         ->pluck('nombre_completo', 'id_tomador'));
+
+        // ======================================
+
+        // PERMISOS
+        view()->share('usuarios', Usuario::orderBy('id_usuario')
+                                    ->select(
+                                        DB::raw("CONCAT(nombre_usuario, ' ', apellido_usuario, ' => ', usuario) AS user"),
+                                        'id_usuario'
+                                    )
+                                    ->where('id_estado', 1)
+                                    ->pluck('user', 'id_usuario'));
+        view()->share('permisos', Permission::orderBy('id')->get());
+        view()->share('permisosAsignados', []);
+
+        // ======================================
     }
 }

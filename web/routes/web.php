@@ -5,6 +5,7 @@ use App\Http\Controllers\inicio_sesion\LoginController;
 use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\usuarios\UsuariosController;
 use App\Http\Controllers\lineas_personales\LineasPersonalesController;
+use App\Http\Controllers\permisos\PermisosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,5 +69,16 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // INFORME PRODUCCIÓN LÍNEAS PERSONALES
     Route::controller(LineasPersonalesController::class)->group(function () {
         Route::resource('lineas_personales', LineasPersonalesController::class);
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+
+    // PERMISOS
+    Route::controller(PermisosController::class)->group(function () {
+        Route::resource('permisos', PermisosController::class);
+        Route::post('crear_permiso', 'crearPermiso')->name('crear_permiso');
+        Route::post('crear_rol', 'crearRol')->name('crear_rol');
+        Route::post('consultar_permisos_usuario', 'consultarPermisosUsuario')->name('consultar_permisos_usuario');
     });
 }); // FIN Route::middleware(['web', 'prevent-back-history'])
