@@ -105,9 +105,7 @@ trait MetodosTrait
                         ->pluck('user', 'id_usuario'));
         view()->share('permisos', Permission::orderBy('id')->get());
 
-        if (!View::shared('permisosAsignados')) {
-            view()->share('permisosAsignados', []);
-        }
+        view()->share('permisosAsignados', []);
 
         // ======================================
     }
