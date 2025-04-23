@@ -18,9 +18,13 @@
         <div class="p-0" style="border: solid 1px #337AB7; border-radius: 5px;">
             <h4 class="border rounded-top text-white text-center pt-2 pb-2 text-uppercase" style="background-color: #337AB7;">Asignar Permiso</h4>
 
-            <div class="d-flex justify-content-start p-3">
+            <div class="d-flex p-3">
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearPermiso">
-                    <i class="fa fa-key"></i> Crear Permiso
+                    <i class="fa-solid fa-unlock-keyhole"></i> Crear Permiso
+                </button>
+
+                <button type="button" class="btn btn-info ms-5" data-bs-toggle="modal" data-bs-target="#modalCrearRol">
+                    <i class="fa-solid fa-user"></i> Crear Rol
                 </button>
             </div>
 
@@ -140,6 +144,51 @@
         </div>
     </div>
     {{-- FINAL Modal Crear Permisos --}}
+    
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal Crear ROL --}}
+    <div class="modal fade" id="modalCrearRol" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3">
+                <div class="rounded-top" style="border: solid 1px #337AB7;">
+                    <div class="rounded-top text-white text-center" style="background-color: #337AB7; border: solid 1px #337AB7;">
+                        <h5 class="m-0 pt-1 pb-1 align-middle">Crear Rol</h5>
+                    </div>
+
+                    <x-form action="{{route('crear_rol')}}" method="POST" class="mt-2" id="formCrearRol" autocomplete="off">
+                        <div class="modal-body p-0 m-0">
+                            <div class="row m-0 pt-1 pb-4">
+                                <div class="col-12 col-md-6">
+                                    <x-input name="rol" type="text" label="Nombre Rol" id="rol" autocomplete="given-name" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer d-block mt-0 border border-0 p-0 mb-3">
+                            <!-- Contenedor para el GIF -->
+                            <div id="loadingIndicatorCrearRol" class="loadingIndicator">
+                                <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-3">
+                                <button type="button" id="btn_cancelar_rol" class="btn btn-secondary me-3" data-bs-dismiss="modal">
+                                    <i class="fa fa-times"></i> Cancelar
+                                </button>
+
+                                <button type="submit" id="btn_crear_rol" class="btn btn-success">
+                                    <i class="fa-regular fa-floppy-disk"></i> Crear
+                                </button>
+                            </div>
+                        </div>
+                    </x-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal Crear ROL --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -236,6 +285,26 @@
                 // Mostrar Spinner
                 loadingIndicator.show();
             });
+            
+            // ===============================================================
+
+            $("#formCrearRol").on("submit", function (e) {
+                const form = $(this);
+                const submitButton = form.find('button[type="submit"]');
+                const cancelButton = form.find('button[type="button"]');
+                const loadingIndicator = form.find("div[id^='loadingIndicatorCrearRol']"); // Busca el GIF del form actual
+
+                const rol = $('#rol').prop("readonly", true);
+        
+                // Dessactivar Botones
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+                
+                // Mostrar Spinner
+                loadingIndicator.show();
+            });
+
+            // ===============================================================
 
             
         }); // FIN document.ready

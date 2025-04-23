@@ -213,36 +213,49 @@ class PermisosController extends Controller
         }
     }
 
-    // public function guardarRol(Request $request)
-    // {
-    //     try
-    //     {
-    //         if (!$this->checkDatabaseConnection())
-    //         {
-    //             return view('db_conexion');
-    //         } else
-    //         {
-    //             $sesion = $this->validarVariablesSesion();
+    public function crearRol(Request $request)
+    {
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
     
-    //             if (empty($sesion[0]) || is_null($sesion[0]) &&
-    //                 empty($sesion[1]) || is_null($sesion[1]) &&
-    //                 empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
-    //             {
-    //                 return redirect()->to(route('login'));
-    //             } else
-    //             {
-    //                 return new Permisos();
-    //             }
-    //         }
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+
+                    $rol = request('rol', null);
+
+                    $peticionRolStore = $this->clientApi->post($this->baseUri . 'crear_rol',
+                    [
+                        'json' => [
+                            'name' => $rol,
+                            'id_audit' => session('id_usuario')
+                        ]
+                    ]);
+                    $rol = json_decode($peticionRolStore->getBody()->getContents());
+
+                    if(isset($rol->success) && $rol->success) {
+                        alert()->success($rol->message);
+                        return back();
+                    }
+
+                    if(isset($rol->error) && $rol->error) {
+                        alert()->error($rol->message);
+                        return back();
+                    }
+
+                }
+            }
             
-    //     } catch (Exception $e)
-    //     {
-    //         alert()->error("Ha ocurrido un error creando el rol!");
-    //         return back();
-    //     }
-    // }
-
-    
-
-    
-} // FIN PermisosController
+        } catch (Exception $e) {
+            dd($e);
+            alert()->error("Ha ocurrido un error creando el rol!");
+            return back();
+        }
+    }
+} // FIN Class PermisosController
