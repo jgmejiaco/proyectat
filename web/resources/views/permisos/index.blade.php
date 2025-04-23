@@ -67,6 +67,9 @@
         
                         <div class="permiso-grid" id="permisos-grid">
                             @foreach ($permisos as $permiso)
+                                @php
+                                    // dd($permiso);
+                                @endphp
                                 <div class="permiso-item">
                                     <input
                                         type="checkbox"

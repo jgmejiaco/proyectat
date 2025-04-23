@@ -117,11 +117,30 @@ class PermisosController extends Controller
                 ->count();
     }
 
-    // function crearPermisosUsuario(Request $request)
-    // {
-    //     $rolesPermisos = new RolesPermisosStore();
-    //     return  $rolesPermisos->crearPermisosPorUsuario($request);
-    // }
+    // ======================================================================
+    // ======================================================================
 
-    
+    function asignarPermisoUsuario(Request $request)
+    {
+        try {
+
+            foreach($request->permissions as $permissions) {
+                $modelHasPermissions = ModelHasPermissions::updateOrCreate([
+                    'permission_id' => $permissions,
+                    'model_type' => 'App\Models\Usuario',
+                    'model_id' => $request->id_usuario
+                ]);
+            }
+
+            if($modelHasPermissions) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Permisos asignados correctamente'
+                ]);
+            }
+            
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
 } // FIN Class PermisosController

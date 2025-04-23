@@ -29,29 +29,20 @@ class PermisoStore implements Responsable
             }
 
             if(isset($arrayPermisos) && !is_null($arrayPermisos) && !empty($arrayPermisos)) {
-                $peticionPermisoStore = $this->clientApi->post($this->baseUri . 'crear_permiso_usuario',
+                $peticionPermisoStore = $this->clientApi->post($this->baseUri . 'asignar_permiso_usuario',
                 [
                     'json' => [
                         'permissions' => $arrayPermisos,
-                        'usuario_id' => $idUsuario,
+                        'id_usuario' => $idUsuario,
                         'id_audit' => session('id_usuario')
                     ]
                 ]);
     
                 $permission = json_decode($peticionPermisoStore->getBody()->getContents());
 
-                dd($permission);
-
-                if(isset($permission->success) && isset($permission->success))
-                {
+                if(isset($permission->success) && $permission->success) {
                     alert()->success($permission->message);
-                    return back();
-                }
-
-                if(isset($permission->error) && $permission->error)
-                {
-                    alert()->error($permission->message);
-                    return back();
+                    return redirect()->route('permisos.index');
                 }
 
             } else {
@@ -60,6 +51,7 @@ class PermisoStore implements Responsable
             }
 
         } catch (Exception $e) {
+            dd($e);
             alert()->error("Ha ocurrido un error asignando los permisos!");
             return back();
         }
