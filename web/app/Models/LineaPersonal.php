@@ -18,6 +18,8 @@ class LineaPersonal extends Model
         'id_aseguradora',
         'poliza_asistente',
         'id_tomador',
+        'identificacion_tomador',
+        'tomador',
         'id_producto',
         'id_ramo',
         'prima_anualizada',

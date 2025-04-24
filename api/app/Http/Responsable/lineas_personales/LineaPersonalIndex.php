@@ -14,7 +14,6 @@ class LineaPersonalIndex implements Responsable
     {
         try {
             $radicadosLineaPersonal = LineaPersonal::leftjoin('aseguradoras', 'aseguradoras.id_aseguradora', '=', 'lineas_personales.id_aseguradora')
-                ->leftjoin('tomadores', 'tomadores.id_tomador', '=', 'lineas_personales.id_tomador')
                 ->leftjoin('productos', 'productos.id_producto', '=', 'lineas_personales.id_producto')
                 ->leftjoin('ramos', 'ramos.id_ramo', '=', 'lineas_personales.id_ramo')
                 ->leftjoin('frecuencias', 'frecuencias.id_frecuencia', '=', 'lineas_personales.id_frecuencia')
@@ -30,9 +29,8 @@ class LineaPersonalIndex implements Responsable
                     'aseguradoras.id_aseguradora',
                     'aseguradoras.aseguradora',
                     'poliza_asistente',
-                    'tomadores.id_tomador',
-                    'tomadores.identificacion_tomador',
-                    'tomadores.tomador',
+                    'identificacion_tomador',
+                    'tomador',
                     'productos.id_producto',
                     'productos.producto',
                     'ramos.id_ramo',

@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LineaPersonal extends Model
+use OwenIt\Auditing\Contracts\Auditable; // Interfaz
+use OwenIt\Auditing\Auditable as AuditableTrait; // Trait
+
+class LineaPersonal extends Model implements Auditable
 {
     use SoftDeletes;
+    use AuditableTrait;
 
     protected $connection = 'mysql';
     protected $table = 'lineas_personales';
@@ -18,6 +22,8 @@ class LineaPersonal extends Model
         'id_aseguradora',
         'poliza_asistente',
         'id_tomador',
+        'identificacion_tomador',
+        'tomador',
         'id_producto',
         'id_ramo',
         'prima_anualizada',
