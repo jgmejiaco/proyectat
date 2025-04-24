@@ -2,7 +2,18 @@
     <x-input name="id_lineas_personal" type="hidden" value="{{ $radicado->id_lineas_personal ?? 1 }}" id="id_lineas_personal" autocomplete="id" required />
 
     <div class="col-12 col-md-2 mt-3">
-        <x-input name="fecha_radicado" type="date" value="{{ $radicado->fecha_radicado ?? null }}" id="fecha_radicado" label="Fecha Radicado"  autocomplete="date" required />
+        <x-date-input
+        name="fecha_radicado"
+        id="fecha_radicado"
+        label="Fecha Radicado"
+        value="{{ $radicado->fecha_radicado ?? null }}"
+        required
+        icon="fa-calendar-days"
+        addonClass="bg-primary text-white"
+        wrapperClass="mb-3"
+        minDate="2024-01-01"
+        maxDate="{{ now()->format('Y-m-d') }}"
+    />
     </div>
 
     <div class="col-12 col-md-3 mt-3">
@@ -108,7 +119,18 @@
     {{-- ======================= --}}
 
     <div class="col-12 col-md-2 mt-5">
-        <x-input name="fecha_emision" type="date" value="{{ $radicado->fecha_emision ?? null }}" id="fecha_emision" label="Fecha Emisión"  autocomplete="date" required />
+        <x-date-input
+        name="fecha_emision"
+        id="fecha_emision"
+        label="Fecha Emisión"
+        value="{{ $radicado->fecha_emision ?? null }}"
+        required
+        icon="fa-calendar-days"
+        addonClass="bg-primary text-white"
+        wrapperClass="mb-3"
+        minDate="2024-01-01"
+        maxDate="{{ now()->format('Y-m-d') }}"
+    />
     </div>
 
     {{-- ======================= --}}
@@ -159,6 +181,17 @@
     {{-- ======================= --}}
 
     <div class="col-12 col-md-2 mt-5">
-        <x-input name="fecha_cancelacion" type="date" value="{{ $radicado->fecha_cancelacion ?? null }}" id="fecha_cancelacion" label="Fecha Cancelación"  autocomplete="date" required />
+        <x-date-input
+        name="fecha_cancelacion"
+        id="fecha_cancelacion"
+        label="Fecha Cancelación"
+        value="{{ $radicado->fecha_cancelacion ?? null }}"
+        required
+        icon="fa-calendar-days"
+        addonClass="bg-primary text-white"
+        wrapperClass="mb-3"
+        minDate="2024-01-01"
+        maxDate="{{ now()->format('Y-m-d') }}"
+    />
     </div>
 </div>

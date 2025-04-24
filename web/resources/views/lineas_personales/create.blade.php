@@ -6,7 +6,7 @@
 {{-- =============================================================== --}}
 
 @section('css')
-
+    
 @stop
 
 {{-- =============================================================== --}}
@@ -121,6 +121,15 @@
 
             // ===================================================================================
             // ===================================================================================
+
+            // Abre el calendario desde el ícono
+            $('.input-group-text').on('click', function (e) {
+                const input = $(this).siblings('input[type="date"]');
+                input.trigger('focus'); // Lanza el focus
+                if (typeof input[0].showPicker === "function") {
+                    input[0].showPicker(); // Intenta abrir el picker si está disponible
+                }
+            });
         }); // FIN document.readey
     </script>
 @stop
