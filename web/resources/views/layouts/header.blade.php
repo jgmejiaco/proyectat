@@ -23,6 +23,21 @@
 
                         {{-- ==================== --}}
 
+                        <li class="nav-item dropdown">
+                            <a href="#" role="button" class="nav-link dropdown-toggle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">Auxiliares</a>
+                            <ul class="dropdown-menu bg-white">
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Consultores</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Gerentes</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Productos</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Ramos</a></li>
+                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Roles</a></li>
+                            </ul>
+                        </li>
+
+                        {{-- ==================== --}}
+
                         <li class="nav-item">
                             <a href="{{route('usuarios.index')}}" title="Usuarios" class="nav-link text-white fw-bold">Usuarios</a>
                         </li>

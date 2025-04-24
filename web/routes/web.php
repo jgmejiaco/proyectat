@@ -6,6 +6,13 @@ use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\usuarios\UsuariosController;
 use App\Http\Controllers\lineas_personales\LineasPersonalesController;
 use App\Http\Controllers\permisos\PermisosController;
+use App\Http\Controllers\aseguradoras\AseguradorasController;
+use App\Http\Controllers\consultores\ConsultoresController;
+use App\Http\Controllers\frecuencias\FrecuenciasController;
+use App\Http\Controllers\gerentes\GerentesController;
+use App\Http\Controllers\productos\ProductosController;
+use App\Http\Controllers\ramos\RamosController;
+use App\Http\Controllers\roles\RolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +77,15 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     Route::controller(LineasPersonalesController::class)->group(function () {
         Route::resource('lineas_personales', LineasPersonalesController::class);
         Route::post('query_consultor', 'queryConsultor')->name('query_consultor');
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+    
+    // ASEGURADORAS
+    Route::controller(AseguradorasController::class)->group(function () {
+        Route::resource('aseguradoras', AseguradorasController::class);
+        // Route::post('query_consultor', 'queryConsultor')->name('query_consultor');
     });
 
     // ===========================================================================
