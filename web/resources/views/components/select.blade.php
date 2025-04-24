@@ -11,7 +11,7 @@
     <select
         name="{{ $name }}"
         id="{{ $id ?? $name }}"
-        class="form-select {{ $errors->has($name) ? 'is-invalid' : '' }}"
+        class="form-select select2 {{ $errors->has($name) ? 'is-invalid' : '' }}"
         {{ $attributes }}
     >
         {{ $slot }}

@@ -441,6 +441,29 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $('.select2').select2({
+                allowClear: false,
+                width: '100%'
+            });
+
+            $('#modalCrearUsuario').on('shown.bs.modal', function () {
+                $(this).find('.select2').select2({
+                    dropdownParent: $(this), // clave para que funcione dentro del modal
+                    allowClear: false,
+                    width: '100%'
+                });
+            });
+
+            $(document).on('shown.bs.modal', "div[id^='modalEditarUsuario_']", function () {
+                $(this).find('.select2').select2({
+                    dropdownParent: $(this),
+                    allowClear: false,
+                    width: '100%'
+                });
+            });
+
+            // ===========================================================================================
+
             // INICIO DataTable Lista Usuarios
             $("#tbl_usuarios").DataTable({
                 dom: 'Blfrtip',

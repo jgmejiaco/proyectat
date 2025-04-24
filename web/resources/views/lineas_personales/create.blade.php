@@ -62,7 +62,12 @@
 @section('scripts')
     <script>
         $( document ).ready(function() {
-            // let idEstado = $('#id_estado').val();
+            $('#fecha_radicado').focus();
+
+            $('.select2').select2({
+                allowClear: false,
+                width: '100%'
+            });
             
             // ===================================================================================
             // ===================================================================================

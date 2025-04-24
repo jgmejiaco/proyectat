@@ -27,7 +27,12 @@
 
         {{-- ========================================= --}}
 
-        <!-- FontAwesome 6 (CDN) -->
+        <!-- SELECT2 CSS -->
+        <link rel="stylesheet" href="{{asset('select2/select2.min.css')}}" >
+
+        {{-- ========================================= --}}
+
+        <!-- FontAwesome 6 -->
         <link rel="stylesheet" href="{{asset('font_awesome6.7.2/css/all.min.css')}}"> {{-- Necesario para el ícono del logout --}}
 
         <!-- Styles Locales -->
@@ -113,6 +118,11 @@
         {{-- Es complemento de Bundle para las tabs --}}
         {{-- <script src="{{asset('bootstrap5.3.2/4.6.2_bootstrap.min.js')}}"></script> --}}
         
+        {{-- ========================================================================= --}}
+
+        <!-- SELECT2 JS -->
+        <script src="{{asset('select2/select2.min.js')}}"></script>
+
         {{-- ========================================================================= --}}
 
         {{-- Sweetalert (No necesita jquery para funcionar) --}}

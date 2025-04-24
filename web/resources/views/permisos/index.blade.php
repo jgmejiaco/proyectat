@@ -205,6 +205,10 @@
         const permisos = @json($permisos);
 
         $(document).ready(function() {
+            $('.select2').select2({
+                allowClear: false,
+                width: '100%'
+            });
 
             $("#id_usuario").change(function() {
                 let idUsuario = $("#id_usuario").val();
