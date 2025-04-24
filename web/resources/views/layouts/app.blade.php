@@ -8,7 +8,6 @@
         <meta name="author" content="JGMC Digital">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Proyectat - @yield('title')</title>
-        {{-- @yield('css') --}}
 
         {{-- ========================================= --}}
 
@@ -133,6 +132,13 @@
         
         <!-- SCRIPTS -->
         @include('sweetalert::alert')
+
+        {{-- ========================================================================= --}}
+
+        {{-- JS GENERAL --}}
+        <script src="{{ asset('js/js.js') }}"></script>
+
+        {{-- ========================================================================= --}}
 
         @yield('scripts')
     </body>

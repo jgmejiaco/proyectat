@@ -1,4 +1,4 @@
-<div class="row m-0 p-0" id="">
+<div class="row m-0 p-0">
     <x-input name="id_lineas_personal" type="hidden" value="{{ $radicado->id_lineas_personal ?? 1 }}" id="id_lineas_personal" autocomplete="id" required />
 
     <div class="col-12 col-md-2 mt-3">
@@ -194,4 +194,75 @@
         maxDate="{{ now()->format('Y-m-d') }}"
     />
     </div>
-</div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="cedula"
+            label="Cédula"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="file_matricula"
+            label="Matrícula"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="file_solicitud_asegurabilidad"
+            label="Asegurabilidad"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="file_sarlaft"
+            label="Sarlaft"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="file_caratula_poliza"
+            label="Crátula de Póliza"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="file_renovacion"
+            label="Renovación"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-2 mt-5">
+        <x-file-input
+            name="file_otros"
+            label="Otros"
+            :link="isset($controlMedicamento['orden_medicamento']) ? env('FILESYSTEM_URL') . '/' . $controlMedicamento['orden_medicamento'] : null"
+        />
+    </div>
+</div> {{-- FIN Div PPAL row m-0 p-0 --}}

@@ -441,10 +441,6 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('.select2').select2({
-                allowClear: false,
-                width: '100%'
-            });
 
             $('#modalCrearUsuario').on('shown.bs.modal', function () {
                 $(this).find('.select2').select2({
