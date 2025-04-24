@@ -31,6 +31,13 @@ class LineaPersonal extends Model
         'id_gerente',
         'id_estado_poliza',
         'fecha_cancelacion',
+        'file_cedula',
+        'file_matricula',
+        'file_asegurabilidad',
+        'file_sarlaft',
+        'file_caratula_poliza',
+        'file_renovacion',
+        'file_otros',
         'id_usuario'
     ];
     protected $casts = [

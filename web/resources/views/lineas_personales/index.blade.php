@@ -48,6 +48,13 @@
                                 <th>Gerente</th>
                                 <th>Estado Póliza</th>
                                 <th>Fecha Cancelación</th>
+                                <th class="bg-warning-subtle">Cédula</th>
+                                <th class="bg-warning-subtle">Matrícula</th>
+                                <th class="bg-warning-subtle">Asegurabilidad</th>
+                                <th class="bg-warning-subtle">Sarlaft</th>
+                                <th class="bg-warning-subtle">Carátula Póliza</th>
+                                <th class="bg-warning-subtle">Renvación</th>
+                                <th class="bg-warning-subtle">Otros</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -72,6 +79,15 @@
                                     <td>{{$radicado->gerente}}</td>
                                     <td>{{$radicado->estado_poliza}}</td>
                                     <td>{{$radicado->fecha_cancelacion}}</td>
+
+                                    <td class="bg-warning-subtle">{{$radicado->file_cedula}}</td>
+                                    <td class="bg-warning-subtle">{{$radicado->file_matricula}}</td>
+                                    <td class="bg-warning-subtle">{{$radicado->file_asegurabilidad}}</td>
+                                    <td class="bg-warning-subtle">{{$radicado->file_sarlaft}}</td>
+                                    <td class="bg-warning-subtle">{{$radicado->file_caratula_poliza}}</td>
+                                    <td class="bg-warning-subtle">{{$radicado->file_renovacion}}</td>
+                                    <td class="bg-warning-subtle">{{$radicado->file_otros}}</td>
+
                                     <td>
                                         <button type="button" class="btn btn-success rounded-circle btn-circle"
                                             title="Editar" data-bs-toggle="modal"
