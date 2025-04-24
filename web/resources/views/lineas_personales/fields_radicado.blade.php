@@ -24,15 +24,14 @@
 
     {{-- ======================= --}}
 
-    <div class="col-12 col-md-5 mt-3">
-        <x-select name="id_tomador" label="Tomador" id="id_tomador" autocomplete="organization-title" required>
-            <option value="">Seleccionar...</option>
-            @foreach($tomadores as $key => $value)
-                <option value="{{ $key }}" {{ ($radicado->id_tomador ?? null) == $key ? 'selected' : '' }}>
-                    {{ $value }}
-                </option>
-            @endforeach
-        </x-select>
+    <div class="col-12 col-md-2 mt-3">
+        <x-input name="identificacion_tomador" type="text" value="{{ $radicado->identificacion_tomador ?? null }}" id="identificacion_tomador" label="Id Tomador"  autocomplete="off" required />
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-3 mt-3">
+        <x-input name="tomador" type="text" value="{{ $radicado->tomador ?? null }}" id="tomador" label="Tomador"  autocomplete="off" required />
     </div>
 
     {{-- ======================= --}}
@@ -115,7 +114,7 @@
     {{-- ======================= --}}
 
     <div class="col-12 col-md-2 mt-5">
-        <x-select name="id_consultor" label="Consultor" id="id_consultor" autocomplete="organization-title" required>
+        <x-select name="id_consultor" label="Clave Consultor" id="id_consultor" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($consultores as $key => $value)
                 <option value="{{ $key }}" {{ ($radicado->id_consultor ?? null) == $key ? 'selected' : '' }}>
@@ -123,6 +122,12 @@
                 </option>
             @endforeach
         </x-select>
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-4 mt-5">
+        <x-input name="consultor" type="text" value="{{ $radicado->consultor ?? null }}" id="consultor" label="Consultor"  autocomplete="off" class="bg-secondary-subtle" readonly required />
     </div>
 
     {{-- ======================= --}}

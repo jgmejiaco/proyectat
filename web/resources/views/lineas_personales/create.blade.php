@@ -72,6 +72,37 @@
             // ===================================================================================
             // ===================================================================================
 
+            $('#id_consultor').change(function() {
+                let idConsultor = $(this).val();
+                let consultor = $('#consultor').val('');
+                console.log(idConsultor);
+
+                $.ajax({
+                    async: true,
+                    url: "{{route('query_consultor')}}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'id_consultor': idConsultor
+                    },
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        console.log(respuesta.consultor);
+
+                        consultor.val(respuesta.consultor);
+
+                        if(respuesta == "error_exception") {
+                            Swal.fire('Error!', 'No fue posible consultar el Consultor!', 'error');
+                            return;
+                        }
+                    }
+                });
+            });
+
+            // ===================================================================================
+            // ===================================================================================
+
             // formCrearUsuario para cargar gif en el submit
             $(document).on("submit", "form[id^='formCrearRadicado']", function(e) {
                 e.preventDefault(); // Evita el envío si hay errores

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
-use App\Models\Usuario;
+use App\Models\Consultor;
 
 class LineasPersonalesController extends Controller
 {
@@ -89,38 +89,14 @@ class LineasPersonalesController extends Controller
     // ======================================================================
     // ======================================================================
 
-    public function queryCorreoUser()
+    public function queryConsultor($idConsultor)
     {
         try {
-            $correo = request('correo', null);
-        
-            // Consultamos si ya existe este correo
-            $queryCorreoUser = Usuario::where('correo', $correo)->first();
-
-            if(isset($queryCorreoUser) && !is_null($queryCorreoUser)) {
-                return response()->json('si_correo');
-            } else {
-                return response()->json('no_correo');
-            }
-
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    public function queryUsuario()
-    {
-        try {
-            $usuario = request('usuario', null);
-
             // Consultamos si ya existe este usuario específico
-            $consultaUsuario = Usuario::where('usuario', $usuario)->first();
+            $consultor = Consultor::where('id_consultor', $idConsultor)->first();
 
-            if ($consultaUsuario) {
-                return response()->json($consultaUsuario);
+            if ($consultor) {
+                return response()->json($consultor);
             }
 
         } catch (Exception $e) {
@@ -131,75 +107,7 @@ class LineasPersonalesController extends Controller
     // ======================================================================
     // ======================================================================
 
-    public function inactivarUsuario($idUsuario)
-    {
-        try {
-            $user = Usuario::findOrFail($idUsuario);
-            $user->id_estado = 2;
-            $user->save();
-
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    public function actualizarClaveFallas(Request $request, $idUsuario)
-    {
-        $contador = request('clave_fallas', null);
-
-        try {
-            $user = Usuario::find($idUsuario);
-            $user->clave_fallas = $contador;
-            $user->save();
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    public function datosUsuario($idUsuario)
-    {
-        return new Datosusuario($idUsuario);
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    public function cambiarClave(Request $request, $idUsuario)
-    {
-        $claveNueva = $request->input('clave');
-
-        try {
-            Usuario::where('id_usuario',$idUsuario)
-                ->update([
-                    'clave' => $claveNueva,
-            ]);
-            return response()->json(['success' => true]);
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    public function consultaRecuperarClave(Request $request)
-    {
-        $correo = $request->input('correo');
-
-        try {
-             return Usuario::select('id_usuario','usuario','correo')
-                ->where('correo', $correo)
-                ->first();
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
+ 
 
     // ======================================================================
     // ======================================================================

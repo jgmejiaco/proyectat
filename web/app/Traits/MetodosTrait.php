@@ -73,12 +73,14 @@ trait MetodosTrait
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
         view()->share('aseguradoras', Aseguradora::orderBy('aseguradora','asc')->pluck('aseguradora', 'id_aseguradora'));
 
-        view()->share('consultores', Consultor::select(
-            DB::raw("CONCAT(clave_consultor_global, ' - ', consultor) AS consultores"),
-            'id_consultor'
-        )
-        ->orderBy('consultor', 'asc')
-        ->pluck('consultores', 'id_consultor'));
+        // view()->share('consultores', Consultor::select(
+        //     DB::raw("CONCAT(clave_consultor_global, ' - ', consultor) AS consultores"),
+        //     'id_consultor'
+        // )
+        // ->orderBy('consultor', 'asc')
+        // ->pluck('consultores', 'id_consultor'));
+
+        view()->share('consultores', Consultor::orderBy('clave_consultor_global','asc')->pluck('clave_consultor_global', 'id_consultor'));
 
         view()->share('frecuencias', Frecuencia::orderBy('frecuencia','asc')->pluck('frecuencia', 'id_frecuencia'));
         view()->share('gerentes', Gerente::orderBy('gerente','asc')->pluck('gerente', 'id_gerente'));

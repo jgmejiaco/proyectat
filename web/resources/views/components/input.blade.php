@@ -13,14 +13,16 @@
         type="{{ $type }}"
         name="{{ $name }}"
         id="{{ $id ?? $name }}"
-        class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }}"
+        {{-- class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }}" --}}
+        class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }} {{ $attributes->get('class') }}"
         placeholder="{{ $placeholder ?? '' }}"
         value="{{ old($name, $value ?? '') }}"
         @if($autocomplete ?? false)
             autocomplete="{{ $autocomplete }}"
         @endif
         @if($required ?? false) required @endif
-        {{ $attributes }}
+        {{-- {{ $attributes }} --}}
+        {{ $attributes->except('class') }}
     >
 
     @error($name)
