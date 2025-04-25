@@ -81,46 +81,46 @@
                                     <td class="text-center align-content-center">{{$radicado->fecha_cancelacion}}</td>
 
                                     @if (isset($radicado->file_cedula) && !empty($radicado->file_cedula) && !is_null($radicado->file_cedula))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_cedula}}" target="_blank">Cédula</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_cedula}}" target="_blank" class="text-decoration-none">Cédula</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
 
                                     @if (isset($radicado->file_matricula) && !empty($radicado->file_matricula) && !is_null($radicado->file_matricula))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_matricula}}" target="_blank">Matrícula</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_matricula}}" target="_blank" class="text-decoration-none">Matrícula</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
 
                                     @if (isset($radicado->file_asegurabilidad) && !empty($radicado->file_asegurabilidad) && !is_null($radicado->file_asegurabilidad))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_asegurabilidad}}" target="_blank">Solicitud Asegurabilidad</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_asegurabilidad}}" target="_blank" class="text-decoration-none">Solicitud Asegurabilidad</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
 
                                     @if (isset($radicado->file_sarlaft) && !empty($radicado->file_sarlaft) && !is_null($radicado->file_sarlaft))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_sarlaft}}" target="_blank">Sarlaft</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_sarlaft}}" target="_blank" class="text-decoration-none">Sarlaft</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
 
 
                                     @if (isset($radicado->file_caratula_poliza) && !empty($radicado->file_caratula_poliza) && !is_null($radicado->file_caratula_poliza))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_caratula_poliza}}" target="_blank">Carátula Póliza</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_caratula_poliza}}" target="_blank" class="text-decoration-none">Carátula Póliza</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
 
 
                                     @if (isset($radicado->file_renovacion) && !empty($radicado->file_renovacion) && !is_null($radicado->file_renovacion))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_renovacion}}" target="_blank">Renovacion</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_renovacion}}" target="_blank" class="text-decoration-none">Renovacion</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
 
 
                                     @if (isset($radicado->file_otros) && !empty($radicado->file_otros) && !is_null($radicado->file_otros))
-                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_otros}}" target="_blank">Otros</a></td>
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_otros}}" target="_blank" class="text-decoration-none">Otros</a></td>
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif

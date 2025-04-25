@@ -30,8 +30,6 @@ class LineaPersonalStore implements Responsable
 
     public function toResponse($request)
     {
-        // dd($request);
-
         $requiredDate = 'required|date';
         $requiredInteger = 'required|integer';
         $requiredString = 'required|string';
@@ -48,11 +46,9 @@ class LineaPersonalStore implements Responsable
             'id_frecuencia'             => $requiredInteger,
             'id_proceso'                => $requiredInteger,
             'id_estado_inicial'         => $requiredInteger,
-            'fecha_emision'             => $requiredDate,
             'id_consultor'              => $requiredInteger,
             'id_gerente'                => $requiredInteger,
-            'id_estado_poliza'          => $requiredInteger,
-            'fecha_cancelacion'         => $requiredDate
+            'id_estado_poliza'          => $requiredInteger
         ], [
             'fecha_radicado.required'         => 'La fecha de radicado es obligatoria.',
             'fecha_radicado.date'             => 'La fecha de radicado no tiene un formato válido.',
@@ -81,9 +77,6 @@ class LineaPersonalStore implements Responsable
             'id_estado_inicial.required'      => 'Debe seleccionar un estado inicial.',
             'id_estado_inicial.integer'       => 'El campo estado inicial debe ser un número.',
 
-            'fecha_emision.required'          => 'La fecha de emisión es obligatoria.',
-            'fecha_emision.date'              => 'La fecha de emisión debe tener un formato válido.',
-
             'id_consultor.required'           => 'Debe seleccionar un consultor.',
             'id_consultor.integer'            => 'El campo consultor debe ser un número.',
 
@@ -91,10 +84,7 @@ class LineaPersonalStore implements Responsable
             'id_gerente.integer'              => 'El campo gerente debe ser un número.',
 
             'id_estado_poliza.required'       => 'Debe seleccionar un estado de póliza.',
-            'id_estado_poliza.integer'        => 'El campo estado de póliza debe ser un número.',
-
-            'fecha_cancelacion.required'      => 'La fecha de cancelación es obligatoria.',
-            'fecha_cancelacion.date'          => 'La fecha de cancelación debe tener un formato válido.',
+            'id_estado_poliza.integer'        => 'El campo estado de póliza debe ser un número.'
         ]);
 
         if ($validator->fails()) {
@@ -122,6 +112,10 @@ class LineaPersonalStore implements Responsable
         $idGerente = $request->input('id_gerente');
         $idEstadoPoliza = $request->input('id_estado_poliza');
         $fechaCancelacion = $request->input('fecha_cancelacion');
+
+        $polizaAsistente = ($polizaAsistente === 'N/A') ? '0' : $polizaAsistente;
+
+        // dd($polizaAsistente, $identificacionTomador, $tomador);
 
         // ==============================================================================
 
@@ -152,8 +146,8 @@ class LineaPersonalStore implements Responsable
         // ===============================
         
         $fileSolicitudAsegurabilidad = '';
-        if ($request->hasFile('file_solicitud_asegurabilidad')) {
-            $fileSolicitudAsegurabilidad = $this->upfileWithName($fileNameSolicitudAsegurabilidad, $carpetaArchivos, $request, 'file_solicitud_asegurabilidad', 'solicitud_asegurabilidad');
+        if ($request->hasFile('file_asegurabilidad')) {
+            $fileSolicitudAsegurabilidad = $this->upfileWithName($fileNameSolicitudAsegurabilidad, $carpetaArchivos, $request, 'file_asegurabilidad', 'asegurabilidad');
         }
 
         // ===============================
@@ -207,7 +201,7 @@ class LineaPersonalStore implements Responsable
                     'fecha_cancelacion' => $fechaCancelacion,
                     'file_cedula' => $fileCedula,
                     'file_matricula' => $fileMatricula,
-                    'file_solicitud_asegurabilidad' => $fileSolicitudAsegurabilidad,
+                    'file_asegurabilidad' => $fileSolicitudAsegurabilidad,
                     'file_sarlaft' => $fileSarlaft,
                     'file_caratula_poliza' => $fileCaratulaPoliza,
                     'file_renovacion' => $fileRenovacion,

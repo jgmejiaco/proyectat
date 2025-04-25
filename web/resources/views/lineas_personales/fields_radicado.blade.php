@@ -133,7 +133,6 @@
             id="fecha_emision"
             label="Fecha Emisión"
             value="{{ $radicado->fecha_emision ?? null }}"
-            required
             icon="fa-calendar-days"
             addonClass="bg-primary text-white"
             wrapperClass="mb-3"
@@ -197,7 +196,6 @@
             id="fecha_cancelacion"
             label="Fecha Cancelación"
             value="{{ $radicado->fecha_cancelacion ?? null }}"
-            required
             icon="fa-calendar-days"
             addonClass="bg-primary text-white"
             wrapperClass="mb-3"
@@ -237,11 +235,11 @@
 
     <div class="col-12 col-md-2 mt-5">
         <x-file-input
-            name="file_solicitud_asegurabilidad"
+            name="file_asegurabilidad"
             label="Asegurabilidad"
-            :link="isset($radicado['file_solicitud_asegurabilidad']) ? env('FILESYSTEM_URL') . '/' . $radicado['file_solicitud_asegurabilidad'] : null"
+            :link="isset($radicado['file_asegurabilidad']) ? env('FILESYSTEM_URL') . '/' . $radicado['file_asegurabilidad'] : null"
         />
-        @error('file_solicitud_asegurabilidad')
+        @error('file_asegurabilidad')
             <span class="invalid-feedback d-block text-xs">{{ $message }}</span>
             <small class="text-warning">⚠️ Debes seleccionar nuevamente el archivo.</small>
         @enderror

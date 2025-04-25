@@ -30,7 +30,7 @@ class LineaPersonalStore implements Responsable
 
         $fileCedula = $request->input('file_cedula');
         $fileMatricula = $request->input('file_matricula');
-        $fileSolicitudAsegurabilidad = $request->input('file_solicitud_asegurabilidad');
+        $fileSolicitudAsegurabilidad = $request->input('file_asegurabilidad');
         $fileSarlaft = $request->input('file_sarlaft');
         $fileCaratulaPoliza = $request->input('file_caratula_poliza');
         $fileRenovacion = $request->input('file_renovacion');
@@ -58,7 +58,7 @@ class LineaPersonalStore implements Responsable
                 'fecha_cancelacion' => $fechaCancelacion,
                 'file_cedula' => $fileCedula,
                 'file_matricula' => $fileMatricula,
-                'file_solicitud_asegurabilidad' => $fileSolicitudAsegurabilidad,
+                'file_asegurabilidad' => $fileSolicitudAsegurabilidad,
                 'file_sarlaft' => $fileSarlaft,
                 'file_caratula_poliza' => $fileCaratulaPoliza,
                 'file_renovacion' => $fileRenovacion,
