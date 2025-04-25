@@ -27,6 +27,9 @@ footer {
     margin-top: auto;
 }
 
+/* ============================================================== */
+/* ============================================================== */
+
 .file-container .div-file {
     position: relative;
     display: inline-block;
@@ -58,6 +61,21 @@ footer {
     cursor: pointer;
 }
 
+/* NUEVO: truncamiento del nombre del archivo cargado */
+.file-container .file-name-truncated {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    font-size: 13px;
+    margin-top: 4px;
+    color: #555; /* opcional: para que no se vea tan fuerte */
+}
+
+/* ============================================================== */
+/* ============================================================== */
+
 .loadingIndicator{
     display: none;
     text-align: center;
@@ -68,6 +86,9 @@ footer {
     width: 100px;
     height: 100px;
 }
+
+/* ============================================================== */
+/* ============================================================== */
 
 .f14 {
     font-size: 14px;
@@ -80,6 +101,9 @@ footer {
     padding-top: 0.0rem !important;
     padding-bottom: 0.0rem !important;
 }
+
+/* ============================================================== */
+/* ============================================================== */
 
 .dt-buttons {
     margin-bottom: 2rem;
@@ -175,10 +199,16 @@ footer {
     overflow-x: initial;
 }
 
+/* ============================================================== */
+/* ============================================================== */
+
 .hover-li:hover {
     background-color: #337AB7;
     /* Color de fondo deseado */
 }
+
+/* ============================================================== */
+/* ============================================================== */
 
 /* Estilos grid permisos */
 .permiso-grid {
@@ -247,8 +277,8 @@ footer {
 /* ============================================================== */
 /* ============================================================== */
 
- /* Oculta el ícono nativo del datepicker */
- input[type="date"]::-webkit-calendar-picker-indicator {
+/* Oculta el ícono nativo del datepicker */
+input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
     cursor: pointer;
     position: absolute;

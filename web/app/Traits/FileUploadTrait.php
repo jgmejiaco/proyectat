@@ -109,19 +109,4 @@ trait FileUploadTrait
         }
         return $filename;
     }
-
-    public function upfileFimasDigitalesBase64($request, $name, $folder, $usu_codigo){
-
-        $signature = $request->$name;
-        $signatureFileName = $usu_codigo."_".uniqid().'.png';
-        $signature = str_replace('data:image/png;base64,', '', $signature);
-        $signature = str_replace(' ', '+', $signature);
-        $data = base64_decode($signature);
-        $file = '../../panel/storage/app/public/upfilesspe/firma_digital/'.$signatureFileName;
-        if(file_put_contents($file, $data)){
-            return $signatureFileName;
-        } else {
-            return false;
-        }
-    }
 }

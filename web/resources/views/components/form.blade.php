@@ -17,6 +17,7 @@
     id="{{ $id }}"
     class="{{ $class }}"
     autocomplete="off"
+    @if($hasFiles) enctype="multipart/form-data" @endif
     {{ $attributes }}
 >
     @if($formMethod !== 'GET')

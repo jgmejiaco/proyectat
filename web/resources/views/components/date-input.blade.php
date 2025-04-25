@@ -13,6 +13,14 @@
     'maxDate' => null,
 ])
 
+@php
+    use Carbon\Carbon;
+
+    // Si no se pasan minDate y maxDate, asignar valores dinámicos
+    $minDate = $minDate ?: Carbon::now()->subYears(100)->format('Y-m-d');
+    $maxDate = $maxDate ?: Carbon::now()->addYears(5)->format('Y-m-d');
+@endphp
+
 <div class="form-group {{ $wrapperClass }}">
     @if($label)
         <label for="{{ $id ?? $name }}" class="form-label" style="font-size: 15px">
@@ -32,8 +40,8 @@
             value="{{ old($name, $value ?? '') }}"
             placeholder="{{ $placeholder }}"
             @if($required) required @endif
-            @if($minDate) min="{{ $minDate }}" @endif
-            @if($maxDate) max="{{ $maxDate }}" @endif
+            min="{{ $minDate }}"
+            max="{{ $maxDate }}"
             {{ $attributes->except(['class', 'type']) }}
         >
         <span class="input-group-text {{ $addonClass }}">

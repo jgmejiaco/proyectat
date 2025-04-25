@@ -28,5 +28,5 @@
         <a href="{{ $link }}" target="_blank" class="text-primary text-decoration-none mt-1">Ver archivo</a>
     @endif
 
-    <span id="selected_{{ $id }}" class="text-danger hidden mt-1"></span>
+    <span id="selected_{{ $id }}" class="text-danger hidden mt-1 file-name-truncated d-block"></span>
 </div>

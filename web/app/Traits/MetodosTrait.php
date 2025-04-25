@@ -73,18 +73,18 @@ trait MetodosTrait
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
         view()->share('aseguradoras', Aseguradora::orderBy('aseguradora','asc')->pluck('aseguradora', 'id_aseguradora'));
 
-        // view()->share('consultores', Consultor::select(
-        //     DB::raw("CONCAT(clave_consultor_global, ' - ', consultor) AS consultores"),
-        //     'id_consultor'
-        // )
-        // ->orderBy('consultor', 'asc')
-        // ->pluck('consultores', 'id_consultor'));
-
         view()->share('consultores', Consultor::orderBy('clave_consultor_global','asc')->pluck('clave_consultor_global', 'id_consultor'));
 
         view()->share('frecuencias', Frecuencia::orderBy('frecuencia','asc')->pluck('frecuencia', 'id_frecuencia'));
         view()->share('gerentes', Gerente::orderBy('gerente','asc')->pluck('gerente', 'id_gerente'));
-        view()->share('productos', Producto::orderBy('producto','asc')->pluck('producto', 'id_producto'));
+
+        view()->share('productos', Producto::select(
+            DB::raw("CONCAT(id_producto, ' - ', producto) AS productos"),
+            'id_producto'
+        )
+        ->orderBy('producto', 'asc')
+        ->pluck('productos', 'id_producto'));
+
         view()->share('ramos', Ramo::orderBy('ramo','asc')->pluck('ramo', 'id_ramo'));
 
         view()->share('tomadores', Tomador::select(

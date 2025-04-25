@@ -28,7 +28,7 @@
                 {{-- =============================================================== --}}
                 {{-- =============================================================== --}}
 
-                <x-form action="{{route('lineas_personales.store')}}" method="POST" class="mt-2" id="formCrearRadicado" autocomplete="off" >
+                <x-form action="{{route('lineas_personales.store')}}" method="POST" class="mt-2" id="formCrearRadicado" autocomplete="off" has-files >
                 
                     @include('lineas_personales.fields_radicado')
 

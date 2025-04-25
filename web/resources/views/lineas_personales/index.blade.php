@@ -62,38 +62,74 @@
                         <tbody>
                             @foreach ($lineasPersonalesIndex as $radicado)
                                 <tr class="text-center">
-                                    <td>{{$radicado->fecha_radicado}}</td>
-                                    <td>{{$radicado->aseguradora}}</td>
-                                    <td>{{$radicado->poliza_asistente}}</td>
-                                    <td>{{$radicado->identificacion_tomador}}</td>
-                                    <td>{{$radicado->tomador}}</td>
-                                    <td>{{$radicado->producto}}</td>
-                                    <td>{{$radicado->ramo}}</td>
-                                    <td>{{$radicado->prima_anualizada}}</td>
-                                    <td>{{$radicado->frecuencia}}</td>
-                                    <td>{{$radicado->proceso}}</td>
-                                    <td>{{$radicado->estado_inicial}}</td>
-                                    <td>{{$radicado->fecha_emision}}</td>
-                                    <td>{{$radicado->clave_consultor_global}}</td>
-                                    <td>{{$radicado->consultor}}</td>
-                                    <td>{{$radicado->gerente}}</td>
-                                    <td>{{$radicado->estado_poliza}}</td>
-                                    <td>{{$radicado->fecha_cancelacion}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->fecha_radicado}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->aseguradora}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->poliza_asistente}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->identificacion_tomador}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->tomador}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->producto}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->ramo}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->prima_anualizada}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->frecuencia}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->proceso}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->estado_inicial}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->fecha_emision}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->clave_consultor_global}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->consultor}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->gerente}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->estado_poliza}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->fecha_cancelacion}}</td>
 
-                                    <td class="bg-warning-subtle">{{$radicado->file_cedula}}</td>
-                                    <td class="bg-warning-subtle">{{$radicado->file_matricula}}</td>
-                                    <td class="bg-warning-subtle">{{$radicado->file_asegurabilidad}}</td>
-                                    <td class="bg-warning-subtle">{{$radicado->file_sarlaft}}</td>
-                                    <td class="bg-warning-subtle">{{$radicado->file_caratula_poliza}}</td>
-                                    <td class="bg-warning-subtle">{{$radicado->file_renovacion}}</td>
-                                    <td class="bg-warning-subtle">{{$radicado->file_otros}}</td>
+                                    @if (isset($radicado->file_cedula) && !empty($radicado->file_cedula) && !is_null($radicado->file_cedula))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_cedula}}" target="_blank">Cédula</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
 
-                                    <td>
-                                        <button type="button" class="btn btn-success rounded-circle btn-circle"
-                                            title="Editar" data-bs-toggle="modal"
-                                            data-bs-target="#modalEditarUsuario_">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </button>
+                                    @if (isset($radicado->file_matricula) && !empty($radicado->file_matricula) && !is_null($radicado->file_matricula))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_matricula}}" target="_blank">Matrícula</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
+
+                                    @if (isset($radicado->file_asegurabilidad) && !empty($radicado->file_asegurabilidad) && !is_null($radicado->file_asegurabilidad))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_asegurabilidad}}" target="_blank">Solicitud Asegurabilidad</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
+
+                                    @if (isset($radicado->file_sarlaft) && !empty($radicado->file_sarlaft) && !is_null($radicado->file_sarlaft))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_sarlaft}}" target="_blank">Sarlaft</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
+
+
+                                    @if (isset($radicado->file_caratula_poliza) && !empty($radicado->file_caratula_poliza) && !is_null($radicado->file_caratula_poliza))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_caratula_poliza}}" target="_blank">Carátula Póliza</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
+
+
+                                    @if (isset($radicado->file_renovacion) && !empty($radicado->file_renovacion) && !is_null($radicado->file_renovacion))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_renovacion}}" target="_blank">Renovacion</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
+
+
+                                    @if (isset($radicado->file_otros) && !empty($radicado->file_otros) && !is_null($radicado->file_otros))
+                                        <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_otros}}" target="_blank">Otros</a></td>
+                                    @else
+                                        <td class="text-center align-content-center bg-warning-subtle"></td>
+                                    @endif
+
+                                    <td class="text-center align-content-center">
+                                        <a href="{{route('lineas_personales.index', $radicado->id_lineas_personal)}}" role="button"
+                                            class="btn btn-success">
+                                            <i class="fa-solid fa-pencil"></i> Editar
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

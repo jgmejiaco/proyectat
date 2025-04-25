@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
+use App\Traits\FileUploadTrait;
 use GuzzleHttp\Client;
 use App\Models\Usuario;
 
 class LineaPersonalStore implements Responsable
 {
     use MetodosTrait;
+    use FileUploadTrait;
     protected $baseUri;
     protected $clientApi;
 
@@ -28,152 +30,203 @@ class LineaPersonalStore implements Responsable
 
     public function toResponse($request)
     {
-        dd($request);
-        
+        // dd($request);
+
+        $requiredDate = 'required|date';
+        $requiredInteger = 'required|integer';
+        $requiredString = 'required|string';
+
         $validator = Validator::make($request->all(), [
-            'nombre_usuario'    => 'required|string',
-            'apellido_usuario'  => 'required|string',
-            'correo'            => 'required|email',
-            'id_rol'            => 'required|integer',
-            'clave'             => 'required|string|min:6',
-            'confirmar_clave'   => 'required|same:clave',
+            'fecha_radicado'            => $requiredDate,
+            'id_aseguradora'            => $requiredInteger,
+            'poliza_asistente'          => $requiredString,
+            'identificacion_tomador'    => $requiredString,
+            'tomador'                   => $requiredString,
+            'id_producto'               => $requiredInteger,
+            'id_ramo'                   => $requiredInteger,
+            'prima_anualizada'          => $requiredString,
+            'id_frecuencia'             => $requiredInteger,
+            'id_proceso'                => $requiredInteger,
+            'id_estado_inicial'         => $requiredInteger,
+            'fecha_emision'             => $requiredDate,
+            'id_consultor'              => $requiredInteger,
+            'id_gerente'                => $requiredInteger,
+            'id_estado_poliza'          => $requiredInteger,
+            'fecha_cancelacion'         => $requiredDate
+        ], [
+            'fecha_radicado.required'         => 'La fecha de radicado es obligatoria.',
+            'fecha_radicado.date'             => 'La fecha de radicado no tiene un formato válido.',
+
+            'id_aseguradora.required'         => 'Debe seleccionar una aseguradora.',
+            'id_aseguradora.integer'          => 'El campo aseguradora debe ser un número.',
+
+            'poliza_asistente.required'       => 'Debe ingresar el número de póliza.',
+            'identificacion_tomador.required' => 'Debe ingresar la identificación del tomador.',
+            'tomador.required'                => 'Debe ingresar el nombre del tomador.',
+
+            'id_producto.required'            => 'Debe seleccionar un producto.',
+            'id_producto.integer'             => 'El campo producto debe ser un número.',
+
+            'id_ramo.required'                => 'Debe seleccionar un ramo.',
+            'id_ramo.integer'                 => 'El campo ramo debe ser un número.',
+
+            'prima_anualizada.required'       => 'Debe ingresar la prima anualizada.',
+
+            'id_frecuencia.required'          => 'Debe seleccionar una frecuencia.',
+            'id_frecuencia.integer'           => 'El campo frecuencia debe ser un número.',
+
+            'id_proceso.required'             => 'Debe seleccionar un proceso.',
+            'id_proceso.integer'              => 'El campo proceso debe ser un número.',
+
+            'id_estado_inicial.required'      => 'Debe seleccionar un estado inicial.',
+            'id_estado_inicial.integer'       => 'El campo estado inicial debe ser un número.',
+
+            'fecha_emision.required'          => 'La fecha de emisión es obligatoria.',
+            'fecha_emision.date'              => 'La fecha de emisión debe tener un formato válido.',
+
+            'id_consultor.required'           => 'Debe seleccionar un consultor.',
+            'id_consultor.integer'            => 'El campo consultor debe ser un número.',
+
+            'id_gerente.required'             => 'Debe seleccionar un gerente.',
+            'id_gerente.integer'              => 'El campo gerente debe ser un número.',
+
+            'id_estado_poliza.required'       => 'Debe seleccionar un estado de póliza.',
+            'id_estado_poliza.integer'        => 'El campo estado de póliza debe ser un número.',
+
+            'fecha_cancelacion.required'      => 'La fecha de cancelación es obligatoria.',
+            'fecha_cancelacion.date'          => 'La fecha de cancelación debe tener un formato válido.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errores' => $validator->errors()
-            ], 422);
+            alert()->error('Error', 'Todos los campos son obligatorios excepto los archivos.');
+            return back()->withErrors($validator)->withInput();
         }
+
+        // ==============================================================================
 
         // Si pasa la validación
-        $nombreUsuario = $request->input('nombre_usuario');
-        $apellidoUsuario = $request->input('apellido_usuario');
-        $correo = $request->input('correo');
-        $idEstado = 1;
-        $idRol = $request->input('id_rol');
-        $clave = $request->input('clave');
+        $fechaRadicado = $request->input('fecha_radicado');
+        $idAseguradora = $request->input('id_aseguradora');
+        $polizaAsistente = $request->input('poliza_asistente');
+        $identificacionTomador = $request->input('identificacion_tomador');
+        $tomador = ucwords(strtolower($request->input('tomador')));
+        $idProducto = $request->input('id_producto');
+        $idRamo = $request->input('id_ramo');
+        $primaAnualizada = $request->input('prima_anualizada');
+        $idFrecuencia = $request->input('id_frecuencia');
+        $idProceso = $request->input('id_proceso');
+        $idEstadoInicial = $request->input('id_estado_inicial');
+        $fechaEmision = $request->input('fecha_emision');
+        $idConsultor = $request->input('id_consultor');
+        $consultor = $request->input('consultor');
+        $idGerente = $request->input('id_gerente');
+        $idEstadoPoliza = $request->input('id_estado_poliza');
+        $fechaCancelacion = $request->input('fecha_cancelacion');
 
-        if (!$this->validarContrasena($clave)) {
-            alert()->info('Info', 'La contraseña no cumple con los requisitos de seguridad.');
-            return back();
+        // ==============================================================================
+
+        $fileNameCedula = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $fileNameMatricula = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $fileNameSolicitudAsegurabilidad = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $fileNameSarlaft = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $fileNameCaratulaPoliza = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $fileNameRenovacion = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $fileNameOtros = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+
+        $carpetaArchivos = 'upfiles/lineas_personales';
+
+        // ==============================================================================
+
+        $fileCedula = '';
+        if ($request->hasFile('file_cedula')) {
+            $fileCedula = $this->upfileWithName($fileNameCedula, $carpetaArchivos, $request, 'file_cedula', 'cedula');
         }
 
-        // Consultamos si ya existe un usuario con ese correo
-        $consultarCorreoUser = $this->consultarCorreoUser($correo);
+        // ===============================
         
-        if($consultarCorreoUser == 'si_correo') {
-            alert()->info('Info', 'Este correo ya existe.');
-            return back();
+        $fileMatricula = '';
+        if ($request->hasFile('file_matricula')) {
+            $fileMatricula = $this->upfileWithName($fileNameMatricula, $carpetaArchivos, $request, 'file_matricula', 'matricula');
         }
 
-        // Contruimos el nombre de usuario
-        $separarApellidos = explode(" ", $apellidoUsuario);
-        $usuario = substr($this->quitarCaracteresEspeciales(trim($nombreUsuario)), 0,1) . trim($this->quitarCaracteresEspeciales($separarApellidos[0]));
-        $usuario = preg_replace("/(Ñ|ñ)/", "n", $usuario);
-        $usuario = strtolower($usuario);
-        $complemento = "";
-
-        while($this->consultaUsuario($usuario.$complemento))
-        {
-            $complemento++;
+        // ===============================
+        
+        $fileSolicitudAsegurabilidad = '';
+        if ($request->hasFile('file_solicitud_asegurabilidad')) {
+            $fileSolicitudAsegurabilidad = $this->upfileWithName($fileNameSolicitudAsegurabilidad, $carpetaArchivos, $request, 'file_solicitud_asegurabilidad', 'solicitud_asegurabilidad');
         }
+
+        // ===============================
+        
+        $fileSarlaft = '';
+        if ($request->hasFile('file_sarlaft')) {
+            $fileSarlaft = $this->upfileWithName($fileNameSarlaft, $carpetaArchivos, $request, 'file_sarlaft', 'sarlaft');
+        }
+
+        // ===============================
+        
+        $fileCaratulaPoliza = '';
+        if ($request->hasFile('file_caratula_poliza')) {
+            $fileCaratulaPoliza = $this->upfileWithName($fileNameCaratulaPoliza, $carpetaArchivos, $request, 'file_caratula_poliza', 'caratula_poliza');
+        }
+
+        // ===============================
+        
+        $fileRenovacion = '';
+        if ($request->hasFile('file_renovacion')) {
+            $fileRenovacion = $this->upfileWithName($fileNameRenovacion, $carpetaArchivos, $request, 'file_renovacion', 'renovacion');
+        }
+
+        // ===============================
+        
+        $fileOtros = '';
+        if ($request->hasFile('file_otros')) {
+            $fileOtros = $this->upfileWithName($fileNameOtros, $carpetaArchivos, $request, 'file_otros', 'otros');
+        }
+
+        // ===============================
 
         try {
-            $peticionUsuarioStore = $this->clientApi->post($this->baseUri.'usuario_store', [
+            $peticionLineaPersonalStore = $this->clientApi->post($this->baseUri.'linea_personal_store', [
                 'json' => [
-                    'nombre_usuario' => $nombreUsuario,
-                    'apellido_usuario' => $apellidoUsuario,
-                    'correo' => $correo,
-                    'id_estado' => $idEstado,
-                    'id_rol' => $idRol,
-                    'usuario' => $usuario.$complemento,
-                    'clave' => Hash::make($clave),
-                    'clave_fallas' => 0
-
+                    'fecha_radicado' => $fechaRadicado,
+                    'id_aseguradora' => $idAseguradora,
+                    'poliza_asistente' => $polizaAsistente,
+                    'identificacion_tomador' => $identificacionTomador,
+                    'tomador' =>  $tomador,
+                    'id_producto' => $idProducto,
+                    'id_ramo' => $idRamo,
+                    'prima_anualizada' => $primaAnualizada,
+                    'id_frecuencia' => $idFrecuencia,
+                    'id_proceso' => $idProceso,
+                    'id_estado_inicial' => $idEstadoInicial,
+                    'fecha_emision' => $fechaEmision,
+                    'id_consultor' => $idConsultor,
+                    'id_gerente' => $idGerente,
+                    'id_estado_poliza' => $idEstadoPoliza,
+                    'fecha_cancelacion' => $fechaCancelacion,
+                    'file_cedula' => $fileCedula,
+                    'file_matricula' => $fileMatricula,
+                    'file_solicitud_asegurabilidad' => $fileSolicitudAsegurabilidad,
+                    'file_sarlaft' => $fileSarlaft,
+                    'file_caratula_poliza' => $fileCaratulaPoliza,
+                    'file_renovacion' => $fileRenovacion,
+                    'file_otros' => $fileOtros,
+                    'id_audit' => session('id_usuario')
                 ]
             ]);
 
-            $resUsuarioStore = json_decode($peticionUsuarioStore->getBody()->getContents());
+            $resLineaPersonalStore = json_decode($peticionLineaPersonalStore->getBody()->getContents());
             
-            if(isset($resUsuarioStore) && !empty($resUsuarioStore) && $resUsuarioStore->success)
-            {
-                return $this->respuestaExito(
-                    "Usuario creado satisfactoriamente.<br>
-                    El usuario es: <strong>" .  $resUsuarioStore->usuario->usuario . "</strong>",
-                    'usuarios.index'
-                );
+            if(isset($resLineaPersonalStore) && $resLineaPersonalStore) {
+
+                alert()->success('Éxito', 'Radicado creado exitosamente!');
+                return redirect()->route('lineas_personales.index');
             }
         } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
+            dd($e);
+            alert()->error('Error', 'Creando el Radicado, contacte a Soporte.');
+            return back();
         }
-    }
-
-    // ===================================================================
-
-    private function consultarCorreoUser($correo)
-    {
-        try {
-            $queryCorreoUser = $this->clientApi->post($this->baseUri.'query_correo_user', [
-                'query' => ['correo' => $correo]
-            ]);
-            return json_decode($queryCorreoUser->getBody()->getContents());
-
-        } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
-        }
-    }
-
-    // ===================================================================
-    // ===================================================================
-
-    private function validarContrasena($clave)
-    {
-        // Verifica que la contraseña tenga al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
-        $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-\/_¿¡#.,:;=~^(){}\[\]<>`|"\'"])[A-Za-z\d@$!%*?&+\-\/_¿¡#.,:;=~^(){}\[\]<>`|"\'"]{6,}$/';
-        return preg_match($regex, $clave);
-    }
-    
-    // ===================================================================
-    // ===================================================================
-
-    private function consultaUsuario($usuario)
-    {
-        try {
-            $queryUsuario = $this->clientApi->post($this->baseUri.'query_usuario', [
-                'query' => ['usuario' => $usuario]
-            ]);
-            return json_decode($queryUsuario->getBody()->getContents());
-
-        } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
-        }
-    }
-
-    // ===================================================================
-    // ===================================================================
-
-    // Método auxiliar para mensajes de exito
-    private function respuestaExito($mensaje, $ruta)
-    {
-        alert()->success('Éxito', $mensaje)->toHtml();
-        return redirect()->to(route($ruta));
-    }
-
-    // ========================================================
-
-    // Método auxiliar para manejar errores
-    private function respuestaError($mensaje, $ruta)
-    {
-        alert()->error('Error', $mensaje);
-        return redirect()->to(route($ruta));
-    }
-
-    // ========================================================
-
-    // Método auxiliar para manejar excepciones
-    private function respuestaException($mensaje)
-    {
-        alert()->error('Error', $mensaje);
-        return back();
     }
 }
