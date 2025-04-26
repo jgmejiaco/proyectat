@@ -47,7 +47,7 @@ class AseguradorasController extends Controller
             }
         } catch (Exception $e) {
             alert()->error("Exception Index Usuario!");
-            return redirect()->to(route('login'));
+            return redirect()->route('login');
         }
     }
 
@@ -80,8 +80,8 @@ class AseguradorasController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Usuario!");
-            return redirect()->to(route('login'));
+            alert()->error("Exception Store Aseguradora!");
+            return redirect()->route('login');
         }
     }
 
@@ -104,7 +104,7 @@ class AseguradorasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $idAseguradora)
     {
         try {
             if (!$this->checkDatabaseConnection()) {
@@ -118,7 +118,7 @@ class AseguradorasController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return new AseguradoraUpdate();
+                    return new AseguradoraUpdate($idAseguradora);
                 }
             }
         } catch (Exception $e) {

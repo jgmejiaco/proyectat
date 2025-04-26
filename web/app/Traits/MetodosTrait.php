@@ -70,6 +70,7 @@ trait MetodosTrait
     {
         //
         view()->share('estados', Estado::orderBy('estado','asc')->pluck('estado', 'id_estado'));
+        view()->share('estados_gral', Estado::whereIn('id_estado',[1,2])->orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
         view()->share('aseguradoras', Aseguradora::orderBy('aseguradora','asc')->pluck('aseguradora', 'id_aseguradora'));
 

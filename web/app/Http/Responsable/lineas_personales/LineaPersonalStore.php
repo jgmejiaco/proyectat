@@ -219,7 +219,6 @@ class LineaPersonalStore implements Responsable
                 return redirect()->route('lineas_personales.index');
             }
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error', 'Creando el Radicado, contacte a Soporte.');
             return back();
         }

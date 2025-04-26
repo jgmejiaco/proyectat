@@ -26,7 +26,7 @@
                         <li class="nav-item dropdown">
                             <a href="#" role="button" class="nav-link dropdown-toggle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">Auxiliares</a>
                             <ul class="dropdown-menu bg-white">
-                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a></li>
+                                <li><a href="{{route('aseguradoras.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a></li>
                                 <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Consultores</a></li>
                                 <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a></li>
                                 <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Gerentes</a></li>

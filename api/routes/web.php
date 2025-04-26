@@ -45,8 +45,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('linea_personal_index', 'lineas_personales\LineasPersonalesController@index');
     $router->post('query_consultor/{idConsultor}', 'lineas_personales\LineasPersonalesController@queryConsultor');
     $router->post('linea_personal_store', 'lineas_personales\LineasPersonalesController@store');
-    // $router->post('linea_personal_store', 'lineas_personales\LineasPersonalesController@store');
-    // $router->put('linea_personal_update/{idUsuario}', 'lineas_personales\LineasPersonalesController@update');
+    // $router->put('linea_personal_update/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
+// ASEGURADORAS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('aseguradora_index', 'aseguradoras\AseguradorasController@index');
+    $router->post('consultar_aseguradora', 'aseguradoras\AseguradorasController@consultarAseguradora');
+    $router->post('aseguradora_store', 'aseguradoras\AseguradorasController@store');
+    $router->put('aseguradora_update/{idAseguradora}', 'aseguradoras\AseguradorasController@update');
 });
 
 // =====================================================================

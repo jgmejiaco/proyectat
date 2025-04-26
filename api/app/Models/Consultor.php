@@ -19,7 +19,8 @@ class Consultor extends Model implements Auditable
     public $timestamps = true;
     protected $fillable = [
         'clave_consultor_global',
-        'consultor'
+        'consultor',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

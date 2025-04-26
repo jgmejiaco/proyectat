@@ -18,7 +18,8 @@ class Producto extends Model implements Auditable
     protected $primaryKey = 'id_producto';
     public $timestamps = true;
     protected $fillable = [
-        'producto'
+        'producto',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

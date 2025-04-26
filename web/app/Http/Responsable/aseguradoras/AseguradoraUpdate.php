@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Responsable\usuarios;
+namespace App\Http\Responsable\aseguradoras;
 
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
@@ -8,18 +8,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
 use GuzzleHttp\Client;
-use App\Models\Usuario;
 
-class UsuarioUpdate implements Responsable
+class AseguradoraUpdate implements Responsable
 {
     use MetodosTrait;
     protected $baseUri;
     protected $clientApi;
+    protected $idAseguradora;
 
-    public function __construct()
+    public function __construct($idAseguradora)
     {
         $this->baseUri = env('BASE_URI');
         $this->clientApi = new Client(['base_uri' => $this->baseUri]);
+        $this->idAseguradora = $idAseguradora;
     }
 
     // =============================================================
@@ -28,73 +29,99 @@ class UsuarioUpdate implements Responsable
     public function toResponse($request)
     {
         $validator = Validator::make($request->all(), [
-            'id_usuario'        => 'required|string',
-            'nombre_usuario'    => 'required|string',
-            'apellido_usuario'  => 'required|string',
-            'correo'            => 'required|email',
-            'id_rol'            => 'required|integer',
+            'aseguradora'       => 'required|string',
+            'id_estado'         => 'required|integer'
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errores' => $validator->errors()
-            ], 422);
+            alert()->error('Error', 'La Aseguradora es obligatoria');
+            return redirect()->route('aseguradoras.index');
         }
 
         // Si pasa la validación
-        $idUsuario = $request->input('id_usuario');
-        $nombreUsuario = $request->input('nombre_usuario');
-        $apellidoUsuario = $request->input('apellido_usuario');
-        $correo = $request->input('correo');
-        $idRol = $request->input('id_rol');
+        $idAseguradora = $this->idAseguradora;
+        $aseguradora = $request->input('aseguradora');
+        $idEstado = $request->input('id_estado');
 
-        try {
-            $peticionUsuarioUpdate = $this->clientApi->put($this->baseUri .'usuario_update/'. $idUsuario, [
-                'json' => [
-                    'nombre_usuario' => $nombreUsuario,
-                    'apellido_usuario' => $apellidoUsuario,
-                    'correo' => $correo,
-                    'id_rol' => $idRol,
-                    'id_audit' => session('id_usuario')
-                ]
-            ]);
-            $resUsuarioUpdate = json_decode($peticionUsuarioUpdate->getBody()->getContents());
+        // Consultamos si ya existe esa aseguradora
+        $consultarAseguradora = $this->consultarAseguradora($aseguradora);
 
-            if(isset($resUsuarioUpdate->success) && $resUsuarioUpdate->success === true) {
-                return $this->respuestaExito(
-                    'Usuario editado satisfactoriamente.', 'usuarios.index'
-                );
+
+        // Si existe la aseguradora
+        if (isset($consultarAseguradora->data)) {
+
+            // Caso 1: No hay cambios
+            if (
+                $consultarAseguradora->data->id_aseguradora == $idAseguradora &&
+                $consultarAseguradora->data->aseguradora == $aseguradora &&
+                $consultarAseguradora->data->id_estado == $idEstado
+            ) {
+                alert()->info('Info', 'No hay cambios a realizar!');
+                return redirect()->route('aseguradoras.index');
             }
+
+            // Caso 2: Se debe actualizar (solo id_estado cambia)
+            if (
+                $consultarAseguradora->data->id_aseguradora == $idAseguradora &&
+                $consultarAseguradora->data->aseguradora == $aseguradora &&
+                $consultarAseguradora->data->id_estado != $idEstado
+            ) {
+                return $this->actualizarAseguradora($idAseguradora, $aseguradora, $idEstado);
+            }
+        }
+
+        // Caso 3: Si ya existe otra aseguradora con el mismo nombre
+        if ($consultarAseguradora && $consultarAseguradora->success) {
+            alert()->warning('Precaución', 'Esta aseguradora ya existe.');
+            return back();
+        }
+
+        // Si no existe la aseguradora, la actualizamos
+        return $this->actualizarAseguradora($idAseguradora, $aseguradora, $idEstado);
+
+    } // FIN toResponse($request)
+    
+    // ===================================================================
+    // ===================================================================
+
+    // Método para consultar la aseguradora
+    private function consultarAseguradora($aseguradora)
+    {
+        try {
+            $queryAseguradora = $this->clientApi->post($this->baseUri.'consultar_aseguradora', [
+                'query' => ['aseguradora' => $aseguradora]
+            ]);
+            return json_decode($queryAseguradora->getBody()->getContents());
+
         } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
+            alert()->error('Error, Exception, contacte a Soporte.');
+            return redirect()->route('aseguradoras.index');
         }
     }
 
     // ===================================================================
     // ===================================================================
 
-    // Método auxiliar para mensajes de exito
-    private function respuestaExito($mensaje, $ruta)
+    // Método para actualizar la aseguradora
+    private function actualizarAseguradora($idAseguradora, $aseguradora, $idEstado)
     {
-        alert()->success('Exito', $mensaje);
-        return redirect()->to(route($ruta));
-    }
+        try {
+            $peticionAseguradoraUpdate = $this->clientApi->put($this->baseUri . 'aseguradora_update/' . $idAseguradora, [
+                'json' => [
+                    'aseguradora' => $aseguradora,
+                    'id_estado' => $idEstado,
+                    'id_audit' => session('id_usuario')
+                ]
+            ]);
+            $resAseguradoraUpdate = json_decode($peticionAseguradoraUpdate->getBody()->getContents());
 
-    // ========================================================
-
-    // Método auxiliar para manejar errores
-    private function respuestaError($mensaje, $ruta)
-    {
-        alert()->error('Error', $mensaje);
-        return redirect()->to(route($ruta));
-    }
-
-    // ========================================================
-
-    // Método auxiliar para manejar excepciones
-    private function respuestaException($mensaje)
-    {
-        alert()->error('Error', $mensaje);
-        return back();
+            if (isset($resAseguradoraUpdate->success) && $resAseguradoraUpdate->success) {
+                alert()->success('Exito', 'Administradora editada satisfactoriamente.');
+                return redirect()->route('aseguradoras.index');
+            }
+        } catch (Exception $e) {
+            alert()->error('Error editando la aseguradora, contacte a Soporte.');
+            return redirect()->route('aseguradoras.index');
+        }
     }
 }

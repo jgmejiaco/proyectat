@@ -18,7 +18,8 @@ class Aseguradora extends Model implements Auditable
     protected $primaryKey = 'id_aseguradora';
     public $timestamps = true;
     protected $fillable = [
-        'aseguradora'
+        'aseguradora',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

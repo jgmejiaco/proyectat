@@ -4,11 +4,13 @@
     'action' => '#',
     'id' => null,
     'class' => '',
+    'hasFiles' => false, // agregamos valor por defecto aquí
 ])
 
 @php
     $formMethod = strtoupper($method);
     $spoofMethod = in_array($formMethod, ['PUT', 'PATCH', 'DELETE']);
+    $enctype = $hasFiles ? 'multipart/form-data' : null; // 👈 definimos el enctype limpio
 @endphp
 
 <form
@@ -17,7 +19,8 @@
     id="{{ $id }}"
     class="{{ $class }}"
     autocomplete="off"
-    @if($hasFiles) enctype="multipart/form-data" @endif
+    {{-- @if($hasFiles) enctype="multipart/form-data" @endif --}}
+    @if ($enctype) enctype="{{ $enctype }}" @endif
     {{ $attributes }}
 >
     @if($formMethod !== 'GET')
