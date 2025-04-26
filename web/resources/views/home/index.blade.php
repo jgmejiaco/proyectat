@@ -22,7 +22,7 @@
 
             if ($hora >= 5 && $hora < 12) {
                 $saludo = 'Buenos días ☀️';
-            } elseif ($hora >= 12 && $hora < 19) {
+            } elseif ($hora >= 12 && $hora < 18) {
                 $saludo = 'Buenas tardes 🌤️';
             } else {
                 $saludo = 'Buenas noches 🌙';

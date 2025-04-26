@@ -5,11 +5,11 @@ namespace App\Http\Responsable\lineas_personales;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
 use App\Traits\FileUploadTrait;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use App\Models\Usuario;
 
 class LineaPersonalStore implements Responsable
@@ -115,17 +115,18 @@ class LineaPersonalStore implements Responsable
 
         $polizaAsistente = ($polizaAsistente === 'N/A') ? '0' : $polizaAsistente;
 
-        // dd($polizaAsistente, $identificacionTomador, $tomador);
-
         // ==============================================================================
 
-        $fileNameCedula = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
-        $fileNameMatricula = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
-        $fileNameSolicitudAsegurabilidad = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
-        $fileNameSarlaft = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
-        $fileNameCaratulaPoliza = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
-        $fileNameRenovacion = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
-        $fileNameOtros = $fechaRadicado . ' - ' .$polizaAsistente. ' - ' . $identificacionTomador . ' - '. $tomador . ' - '. $consultor;
+        $nombreTomador = Str::slug($tomador, '_'); // reemplaza espacios y caracteres especiales por _
+        $nombreConsultor = Str::slug($consultor, '_');
+
+        $fileNameCedula = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
+        $fileNameMatricula = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
+        $fileNameSolicitudAsegurabilidad = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
+        $fileNameSarlaft = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
+        $fileNameCaratulaPoliza = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
+        $fileNameRenovacion = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
+        $fileNameOtros = $fechaRadicado . '_' .$polizaAsistente. '_' . $identificacionTomador . '_'. $nombreTomador . '_'. $nombreConsultor;
 
         $carpetaArchivos = 'upfiles/lineas_personales';
 
