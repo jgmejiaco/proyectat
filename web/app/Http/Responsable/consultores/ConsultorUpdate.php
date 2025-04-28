@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Responsable\consultores;
+
+use Exception;
+use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use App\Traits\MetodosTrait;
+use GuzzleHttp\Client;
+
+class ConsultorUpdate implements Responsable
+{
+    use MetodosTrait;
+    protected $baseUri;
+    protected $clientApi;
+    protected $idConsultor;
+
+    public function __construct($idConsultor)
+    {
+        $this->baseUri = env('BASE_URI');
+        $this->clientApi = new Client(['base_uri' => $this->baseUri]);
+        $this->idConsultor = $idConsultor;
+    }
+
+    // =============================================================
+    // =============================================================
+
+    public function toResponse($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'clave_consultor_global'    =>  'required|string',
+            'consultor'                 =>  'required|string',
+            'id_estado'                 =>  'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            alert()->error('Error', 'Ambos campos son obligatorios!');
+            return redirect()->route('consultores.index');
+        }
+
+        // Si pasa la validación
+        $idConsultor = $this->idConsultor;
+        $claveConsultorGlobal = $request->input('clave_consultor_global');
+        $consultor = $request->input('consultor');
+        $idEstado = $request->input('id_estado');
+
+        // Consultamos si ya existe esa aseguradora
+        $consultarConsultor = $this->consultarConsultor($consultor);
+
+
+        // Si existe la aseguradora
+        if (isset($consultarConsultor->data)) {
+
+            // Caso 1: No hay cambios
+            if (
+                $consultarConsultor->data->id_consultor == $idConsultor &&
+                $consultarConsultor->data->clave_consultor_global == $claveConsultorGlobal &&
+                $consultarConsultor->data->consultor == $consultor &&
+                $consultarConsultor->data->id_estado == $idEstado
+            ) {
+                alert()->info('Info', 'No hay cambios a realizar!');
+                return redirect()->route('consultores.index');
+            }
+
+            // Caso 2: Se debe actualizar (solo id_estado cambia)
+            if (
+                ($consultarConsultor->data->id_consultor == $idConsultor) &&
+                ($consultarConsultor->data->consultor != $consultor ||
+                $consultarConsultor->data->id_estado != $idEstado ||
+                $consultarConsultor->data->clave_consultor_global != $claveConsultorGlobal)
+            ) {
+                return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal);
+            }
+        }
+
+        // Caso 3: Si ya existe otra aseguradora con el mismo nombre
+        if ($consultarConsultor && $consultarConsultor->success) {
+            alert()->warning('Precaución', 'Esta aseguradora ya existe.');
+            return back();
+        }
+
+        // Si no existe la aseguradora, la actualizamos
+        return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal);
+
+    } // FIN toResponse($request)
+    
+    // ===================================================================
+    // ===================================================================
+
+    // Método para consultar la aseguradora
+    private function consultarConsultor($consultor)
+    {
+        try {
+            $queryConsultor = $this->clientApi->post($this->baseUri.'consultar_consultor', [
+                'query' => ['consultor' => $consultor]
+            ]);
+            return json_decode($queryConsultor->getBody()->getContents());
+
+        } catch (Exception $e) {
+            alert()->error('Error, Exception, contacte a Soporte.');
+            return redirect()->route('consultores.index');
+        }
+    }
+
+    // ===================================================================
+    // ===================================================================
+
+    // Método para actualizar la aseguradora
+    private function actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal)
+    {
+        try {
+            $peticionConsultorUpdate = $this->clientApi->put($this->baseUri . 'consultor_update/' . $idConsultor, [
+                'json' => [
+                    'consultor' => $consultor,
+                    'id_estado' => $idEstado,
+                    'clave_consultor_global' => $claveConsultorGlobal,
+                    'id_audit' => session('id_usuario')
+                ]
+            ]);
+            $resConsultorUpdate = json_decode($peticionConsultorUpdate->getBody()->getContents());
+
+            if (isset($resConsultorUpdate) && $resConsultorUpdate->success) {
+                alert()->success('Exito', 'Consultor editado satisfactoriamente.');
+                return redirect()->route('consultores.index');
+            }
+
+        } catch (Exception $e) {
+            alert()->error('Error editando el consultor, contacte a Soporte.');
+            return redirect()->route('consultores.index');
+        }
+    }
+}

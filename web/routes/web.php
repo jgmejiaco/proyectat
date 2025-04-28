@@ -85,7 +85,15 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // ASEGURADORAS
     Route::controller(AseguradorasController::class)->group(function () {
         Route::resource('aseguradoras', AseguradorasController::class);
-        // Route::post('query_consultor', 'queryConsultor')->name('query_consultor');
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+        
+    // CONSULTORES
+    Route::controller(ConsultoresController::class)->group(function () {
+        Route::resource('consultores', ConsultoresController::class);
+        Route::post('query_clave_consultor_global', 'queryClaveConsultorGlobal')->name('query_clave_consultor_global');
     });
 
     // ===========================================================================

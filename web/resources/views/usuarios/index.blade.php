@@ -484,7 +484,7 @@
                             columns: ':visible'
                         },
                         orientation: 'landscape',
-                        pageSize: 'A4',
+                        pageSize: 'letter',
                         title: 'Listado de Usuarios'
                     }
                 ],
@@ -500,7 +500,8 @@
                 bSort: true,
                 stripe: true,
                 responsive: true,
-                infoEmpty: "No hay registros disponibles"
+                infoEmpty: "No hay registros disponibles",
+                order: [[0, 'asc']]  // Indicar la columna predeterminada contando desde 0
             });
             // CIERRE DataTable Lista Usuarios
 

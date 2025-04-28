@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\aseguradoras;
+namespace App\Http\Controllers\consultores;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Responsable\aseguradoras\AseguradoraIndex;
-use App\Http\Responsable\aseguradoras\AseguradoraStore;
-use App\Http\Responsable\aseguradoras\AseguradoraUpdate;
-use App\Models\Aseguradora;
+use App\Http\Responsable\consultores\ConsultorIndex;
+use App\Http\Responsable\consultores\ConsultorStore;
+use App\Http\Responsable\consultores\ConsultorUpdate;
+use App\Models\Consultor;
 
-class AseguradorasController extends Controller
+class ConsultoresController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return new AseguradoraIndex();
+        return new ConsultorIndex();
     }
 
     // ======================================================================
@@ -38,7 +38,7 @@ class AseguradorasController extends Controller
      */
     public function store(Request $request)
     {
-        return new AseguradoraStore($request);
+        return new ConsultorStore($request);
     }
 
     // ======================================================================
@@ -69,9 +69,9 @@ class AseguradorasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $idAseguradora)
+    public function update(Request $request, string $idConsultor)
     {
-        return new AseguradoraUpdate($idAseguradora);
+        return new ConsultorUpdate($idConsultor);
     }
 
     // ======================================================================
@@ -84,20 +84,42 @@ class AseguradorasController extends Controller
     {
         //
     }
-
+    
     // ======================================================================
     // ======================================================================
 
-    public function consultarAseguradora(Request $request)
+    public function queryClaveConsultorGlobal(Request $request)
     {
         try {
-            $aseguradoraInput = $request->input('aseguradora');
+            $claveConsultorGlobal = $request->input('clave_consultor_global');
         
             // Consultamos si ya existe esta aseguradora
-            $aseguradora = Aseguradora::where('aseguradora', $aseguradoraInput)->first();
+            $consultor = Consultor::where('clave_consultor_global', $claveConsultorGlobal)->first();
 
-            if ($aseguradora) {
-                return response()->json(['success' => true, 'data' => $aseguradora]);
+            if ($consultor) {
+                return response()->json(['success' => true, 'data' => $consultor]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'No existe consultor']);
+            }
+
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
+    public function consultarConsultor(Request $request)
+    {
+        try {
+            $consultorInput = $request->input('consultor');
+        
+            // Consultamos si ya existe esta aseguradora
+            $consultor = Consultor::where('consultor', $consultorInput)->first();
+
+            if ($consultor) {
+                return response()->json(['success' => true, 'data' => $consultor]);
             } else {
                 return response()->json(['success' => false, 'message' => 'No existe aseguradora']);
             }

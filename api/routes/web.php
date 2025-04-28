@@ -62,6 +62,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// CONSULTORES
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('consultor_index', 'consultores\ConsultoresController@index');
+    $router->post('query_clave_consultor_global', 'consultores\ConsultoresController@queryClaveConsultorGlobal');
+    $router->post('consultar_consultor', 'consultores\ConsultoresController@consultarConsultor');
+    $router->post('consultor_store', 'consultores\ConsultoresController@store');
+    $router->put('consultor_update/{idConsultor}', 'consultores\ConsultoresController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
 // PERMISOS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_permisos', 'permisos\PermisosController@consultarPermisosPorUsuario');
