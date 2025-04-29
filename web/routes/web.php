@@ -99,6 +99,14 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // ===========================================================================
     // ===========================================================================
 
+    // FRECUENCIAS
+    Route::controller(FrecuenciasController::class)->group(function () {
+        Route::resource('frecuencias', FrecuenciasController::class);
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+
     // PERMISOS
     Route::controller(PermisosController::class)->group(function () {
         Route::resource('permisos', PermisosController::class);

@@ -74,6 +74,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// FRECUENCIAS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('frecuencia_index', 'frecuencias\FrecuenciasController@index');
+    $router->post('consultar_frecuencia', 'frecuencias\FrecuenciasController@consultarFrecuencia');
+    $router->post('frecuencia_store', 'frecuencias\FrecuenciasController@store');
+    $router->put('frecuencia_update/{idFrecuencia}', 'frecuencias\FrecuenciasController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
 // PERMISOS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_permisos', 'permisos\PermisosController@consultarPermisosPorUsuario');
