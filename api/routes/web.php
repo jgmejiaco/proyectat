@@ -85,6 +85,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// GERENTES
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('gerente_index', 'gerentes\GerentesController@index');
+    $router->post('consultar_gerente', 'gerentes\GerentesController@consultarGerente');
+    $router->post('gerente_store', 'gerentes\GerentesController@store');
+    $router->put('gerente_update/{idGerente}', 'gerentes\GerentesController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
 // PERMISOS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_permisos', 'permisos\PermisosController@consultarPermisosPorUsuario');

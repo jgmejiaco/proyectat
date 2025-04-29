@@ -106,6 +106,38 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // ===========================================================================
     // ===========================================================================
+    
+    // GERENTES
+    Route::controller(GerentesController::class)->group(function () {
+        Route::resource('gerentes', GerentesController::class);
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+    
+    // PRODUCTOS
+    Route::controller(ProductosController::class)->group(function () {
+        Route::resource('productos', ProductosController::class);
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+
+    // RAMOS
+    Route::controller(RamosController::class)->group(function () {
+        Route::resource('ramos', RamosController::class);
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+
+    // ROLES
+    Route::controller(RolesController::class)->group(function () {
+        Route::resource('roles', RolesController::class);
+    });
+
+    // ===========================================================================
+    // ===========================================================================
 
     // PERMISOS
     Route::controller(PermisosController::class)->group(function () {

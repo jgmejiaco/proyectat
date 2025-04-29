@@ -29,7 +29,7 @@
                                 <li><a href="{{route('aseguradoras.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a></li>
                                 <li><a href="{{route('consultores.index')}}" class="dropdown-item text-black hover-li">Consultores</a></li>
                                 <li><a href="{{route('frecuencias.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a></li>
-                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Gerentes</a></li>
+                                <li><a href="{{route('gerentes.index')}}" class="dropdown-item text-black hover-li">Gerentes</a></li>
                                 <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Productos</a></li>
                                 <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Ramos</a></li>
                                 <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Roles</a></li>
