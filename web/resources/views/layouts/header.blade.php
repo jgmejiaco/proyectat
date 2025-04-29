@@ -28,6 +28,7 @@
                             <ul class="dropdown-menu bg-white">
                                 <li><a href="{{route('aseguradoras.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a></li>
                                 <li><a href="{{route('consultores.index')}}" class="dropdown-item text-black hover-li">Consultores</a></li>
+                                <li><a href="{{route('estados.index')}}" class="dropdown-item text-black hover-li">Estados</a></li>
                                 <li><a href="{{route('frecuencias.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a></li>
                                 <li><a href="{{route('gerentes.index')}}" class="dropdown-item text-black hover-li">Gerentes</a></li>
                                 <li><a href="{{route('productos.index')}}" class="dropdown-item text-black hover-li">Productos</a></li>

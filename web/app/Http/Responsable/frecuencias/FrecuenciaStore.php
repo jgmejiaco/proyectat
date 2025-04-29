@@ -63,7 +63,7 @@ class FrecuenciaStore implements Responsable
             }
         } catch (Exception $e) {
             alert()->error('Error, contacte a Soporte.');
-            return redirect()->route('frecuencia.index');
+            return redirect()->route('frecuencias.index');
         }
     } // FIN toResponse($request)
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\lineas_personales\LineasPersonalesController;
 use App\Http\Controllers\permisos\PermisosController;
 use App\Http\Controllers\aseguradoras\AseguradorasController;
 use App\Http\Controllers\consultores\ConsultoresController;
+use App\Http\Controllers\estados\EstadosController;
 use App\Http\Controllers\frecuencias\FrecuenciasController;
 use App\Http\Controllers\gerentes\GerentesController;
 use App\Http\Controllers\productos\ProductosController;
@@ -94,6 +95,14 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     Route::controller(ConsultoresController::class)->group(function () {
         Route::resource('consultores', ConsultoresController::class);
         Route::post('query_clave_consultor_global', 'queryClaveConsultorGlobal')->name('query_clave_consultor_global');
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+            
+    // ESTADOS
+    Route::controller(EstadosController::class)->group(function () {
+        Route::resource('estados', EstadosController::class);
     });
 
     // ===========================================================================

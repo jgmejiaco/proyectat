@@ -85,6 +85,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// ESTADOS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('estado_index', 'estados\EstadosController@index');
+    $router->post('consultar_estado', 'estados\EstadosController@consultarEstado');
+    $router->post('estado_store', 'estados\EstadosController@store');
+    $router->put('estado_update/{idEstado}', 'estados\EstadosController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
 // GERENTES
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('gerente_index', 'gerentes\GerentesController@index');
