@@ -96,6 +96,39 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// PRODUCTOS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('producto_index', 'productos\ProductosController@index');
+    $router->post('consultar_producto', 'productos\ProductosController@consultarProducto');
+    $router->post('producto_store', 'productos\ProductosController@store');
+    $router->put('producto_update/{idProducto}', 'productos\ProductosController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
+// RAMOS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('ramo_index', 'ramos\RamosController@index');
+    $router->post('consultar_ramo', 'ramos\RamosController@consultarRamo');
+    $router->post('ramo_store', 'ramos\RamosController@store');
+    $router->put('ramo_update/{idRamo}', 'ramos\RamosController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
+// ROLES
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('rol_index', 'roles\RolesController@index');
+    $router->post('consultar_rol', 'roles\RolesController@consultarRol');
+    $router->post('rol_store', 'roles\RolesController@store');
+    $router->put('rol_update/{idRol}', 'roles\RolesController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
 // PERMISOS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_permisos', 'permisos\PermisosController@consultarPermisosPorUsuario');
