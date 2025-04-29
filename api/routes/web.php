@@ -133,6 +133,5 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_permisos', 'permisos\PermisosController@consultarPermisosPorUsuario');
     $router->post('crear_permiso', 'permisos\PermisosController@crearPermiso');
-    $router->post('crear_rol', 'permisos\PermisosController@crearRol');
     $router->post('asignar_permiso_usuario', 'permisos\PermisosController@asignarPermisoUsuario');
 });

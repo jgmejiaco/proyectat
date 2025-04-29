@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permission;
 use App\Models\ModelHasPermissions;
-use App\Models\Rol;
 
 class PermisosController extends Controller
 {
@@ -67,50 +66,6 @@ class PermisosController extends Controller
     public function validarNombrePermiso($name)
     {
         return Permission::select('name', 'guard_name')
-                ->where('name', $name)
-                ->count();
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    function crearRol(Request $request)
-    {
-        try {
-            $nameRol = $request->input('name');
-            $validarRole = $this->validarNombreRol(ucwords($nameRol));
-
-            if ($validarRole == 0) {
-                $createRol = Rol::create([
-                    'name' => ucwords($nameRol),
-                    'guard_name' => 'API'
-                ]);
-    
-                if($createRol) {
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Rol creado correctamente'
-                    ]);
-                }
-
-            } else {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'El nombre de rol ya existe en la base de datos'
-                ]);
-            }
-            
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
-
-    // ======================================================================
-    // ======================================================================
-
-    public function validarNombreRol($name)
-    {
-        return Rol::select('name', 'guard_name')
                 ->where('name', $name)
                 ->count();
     }
