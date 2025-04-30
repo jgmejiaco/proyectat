@@ -18,6 +18,7 @@ class Producto extends Model implements Auditable
     protected $primaryKey = 'id_producto';
     public $timestamps = true;
     protected $fillable = [
+        'codigo_producto',
         'producto',
         'id_estado'
     ];

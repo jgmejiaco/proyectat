@@ -14,7 +14,8 @@ class Ramo extends Model
     protected $primaryKey = 'id_ramo';
     public $timestamps = true;
     protected $fillable = [
-        'ramo'
+        'ramo',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

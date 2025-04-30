@@ -14,7 +14,8 @@ class Gerente extends Model
     protected $primaryKey = 'id_gerente';
     public $timestamps = true;
     protected $fillable = [
-        'gerente'
+        'gerente',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

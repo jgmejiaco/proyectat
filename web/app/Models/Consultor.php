@@ -15,7 +15,8 @@ class Consultor extends Model
     public $timestamps = true;
     protected $fillable = [
         'clave_consultor_global',
-        'consultor'
+        'consultor',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

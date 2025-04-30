@@ -25,7 +25,6 @@ class UsuarioIndex implements Responsable
             return view('usuarios.index', compact('usuariosIndex'));
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error', 'Exception usuariosIndex, contacte a Soporte.');
             return back();
         }

@@ -14,7 +14,8 @@ class Frecuencia extends Model
     protected $primaryKey = 'id_frecuencia';
     public $timestamps = true;
     protected $fillable = [
-        'frecuencia'
+        'frecuencia',
+        'id_estado'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',

@@ -36,16 +36,28 @@ class ConsultorStore implements Responsable
             return redirect()->route('consultores.index');
         }
 
+        // =============================================================
+
         // Si pasa la validación
         $claveConsultorGlobal = $request->input('clave_consultor_global');
         $consultor = $request->input('consultor');
         $idEstado = 1;
 
+        // Consultamos si ya existe esa clave consultor global
+        $consultarClaveConsultorGlobal = $this->consultarClaveConsultorGlobal($claveConsultorGlobal);
+
+        if(isset($consultarClaveConsultorGlobal) && $consultarClaveConsultorGlobal->success) {
+            alert()->info('Info', 'Esta clave del consultor ya existe.');
+            return back();
+        }
+
+        // =============================================================
+
         // Consultamos si ya existe esa consultor$consultor
         $consultarConsultor = $this->consultarConsultor($consultor);
         
         if($consultarConsultor && $consultarConsultor->success) {
-            alert()->info('Info', 'Este consultor ya existe.');
+            alert()->info('Info', 'Este nombre de consultor ya existe.');
             return back();
         }
 
@@ -73,6 +85,23 @@ class ConsultorStore implements Responsable
     // ===================================================================
     // ===================================================================
 
+    private function consultarClaveConsultorGlobal($claveConsultorGlobal)
+    {
+        try {
+            $peticionClaveConsultorGlobal = $this->clientApi->post($this->baseUri.'query_clave_consultor_global', [
+                'json' => ['clave_consultor_global' => $claveConsultorGlobal]
+            ]);
+            return json_decode($peticionClaveConsultorGlobal->getBody()->getContents());
+            
+        } catch (Exception $e) {
+            alert()->error('Error consultando la clave del Consultor, contacte a Soporte.');
+            return redirect()->route('consultores.index');
+        }
+    }
+    
+    // ===================================================================
+    // ===================================================================
+
     private function consultarConsultor($consultor)
     {
         try {
@@ -82,7 +111,7 @@ class ConsultorStore implements Responsable
             return json_decode($queryConsultor->getBody()->getContents());
 
         } catch (Exception $e) {
-            alert()->error('Error, Exception, contacte a Soporte.');
+            alert()->error('Error consultando el nombre del Consultor, contacte a Soporte.');
             return redirect()->route('consultores.index');
         }
     }

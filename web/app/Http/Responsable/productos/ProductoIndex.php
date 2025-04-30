@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Responsable\aseguradoras;
+namespace App\Http\Responsable\productos;
 
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 
-class AseguradoraIndex implements Responsable
+class ProductoIndex implements Responsable
 {
     public function toResponse($request)
     {
@@ -18,13 +18,13 @@ class AseguradoraIndex implements Responsable
             // ==============================================================
             
             // Realiza la solicitud a la API
-            $response = $clientApi->get($baseUri . 'aseguradora_index');
-            $aseguradorasIndex = json_decode($response->getBody()->getContents());
+            $response = $clientApi->get($baseUri . 'producto_index');
+            $productosIndex = json_decode($response->getBody()->getContents());
 
-            return view('aseguradoras.index', compact('aseguradorasIndex'));
+            return view('productos.index', compact('productosIndex'));
 
         } catch (Exception $e) {
-            alert()->error('Error', 'Exception aseguradorasIndex, contacte a Soporte.');
+            alert()->error('Error', 'Exception productosIndex, contacte a Soporte.');
             return back();
         }
     }

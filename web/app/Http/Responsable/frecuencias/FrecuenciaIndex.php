@@ -24,7 +24,6 @@ class FrecuenciaIndex implements Responsable
             return view('frecuencias.index', compact('frecuenciasIndex'));
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error', 'Exception frecuenciasIndex, contacte a Soporte.');
             return back();
         }

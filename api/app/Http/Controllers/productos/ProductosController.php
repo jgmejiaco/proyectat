@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\consultores;
+namespace App\Http\Controllers\productos;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Responsable\consultores\ConsultorIndex;
-use App\Http\Responsable\consultores\ConsultorStore;
-use App\Http\Responsable\consultores\ConsultorUpdate;
-use App\Models\Consultor;
+use App\Http\Responsable\productos\ProductoIndex;
+use App\Http\Responsable\productos\ProductoStore;
+use App\Http\Responsable\productos\ProductoUpdate;
+use App\Models\Producto;
 
-class ConsultoresController extends Controller
+class ProductosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return new ConsultorIndex();
+        return new ProductoIndex();
     }
 
     // ======================================================================
@@ -38,7 +38,7 @@ class ConsultoresController extends Controller
      */
     public function store(Request $request)
     {
-        return new ConsultorStore($request);
+        return new ProductoStore($request);
     }
 
     // ======================================================================
@@ -69,9 +69,9 @@ class ConsultoresController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $idConsultor)
+    public function update(Request $request, string $idProducto)
     {
-        return new ConsultorUpdate($idConsultor);
+        return new ProductoUpdate($idProducto);
     }
 
     // ======================================================================
@@ -88,18 +88,18 @@ class ConsultoresController extends Controller
     // ======================================================================
     // ======================================================================
 
-    public function queryClaveConsultorGlobal(Request $request)
+    public function queryCodigoProducto(Request $request)
     {
         try {
-            $claveConsultorGlobal = $request->input('clave_consultor_global');
+            $codigoProducto = $request->input('codigo_producto');
         
-            // Consultamos si ya existe esta aseguradora
-            $consultor = Consultor::where('clave_consultor_global', $claveConsultorGlobal)->first();
+            // Consultamos si ya existe este código del producto
+            $producto = Producto::where('codigo_producto', $codigoProducto)->first();
 
-            if ($consultor) {
-                return response()->json(['success' => true, 'data' => $consultor]);
+            if ($producto) {
+                return response()->json(['success' => true, 'data' => $producto]);
             } else {
-                return response()->json(['success' => false, 'message' => 'No existe consultor']);
+                return response()->json(['success' => false, 'message' => 'No existe ese código de producto']);
             }
 
         } catch (Exception $e) {
@@ -110,18 +110,18 @@ class ConsultoresController extends Controller
     // ======================================================================
     // ======================================================================
 
-    public function consultarConsultor(Request $request)
+    public function consultarProducto(Request $request)
     {
         try {
-            $consultorInput = $request->input('consultor');
+            $productoInput = $request->input('producto');
         
-            // Consultamos si ya existe esta aseguradora
-            $consultor = Consultor::where('consultor', $consultorInput)->first();
+            // Consultamos si ya existe este producto
+            $producto = Producto::where('producto', $productoInput)->first();
 
-            if ($consultor) {
-                return response()->json(['success' => true, 'data' => $consultor]);
+            if ($producto) {
+                return response()->json(['success' => true, 'data' => $producto]);
             } else {
-                return response()->json(['success' => false, 'message' => 'No existe consultor']);
+                return response()->json(['success' => false, 'message' => 'No existe producto']);
             }
 
         } catch (Exception $e) {

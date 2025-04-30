@@ -39,17 +39,33 @@ class ConsultorUpdate implements Responsable
             return redirect()->route('consultores.index');
         }
 
+        // =============================================================
+
         // Si pasa la validación
         $idConsultor = $this->idConsultor;
         $claveConsultorGlobal = $request->input('clave_consultor_global');
         $consultor = $request->input('consultor');
         $idEstado = $request->input('id_estado');
+        
+        // =============================================================
 
-        // Consultamos si ya existe esa aseguradora
+        // Consultamos si ya existe esa clave consultor global
+        $consultarClaveConsultorGlobal = $this->consultarClaveConsultorGlobal($claveConsultorGlobal);
+
+        if(isset($consultarClaveConsultorGlobal) && $consultarClaveConsultorGlobal->success) {
+
+            if ( isset($consultarClaveConsultorGlobal->data) && $consultarClaveConsultorGlobal->data->id_consultor != $idConsultor ) {
+                alert()->warning('Atención', 'Esta clave del consultor Global ya existe.');
+                return back();
+            }
+        }
+
+        // =============================================================
+
+        // Consultamos si ya existe esa consultor
         $consultarConsultor = $this->consultarConsultor($consultor);
 
-
-        // Si existe la aseguradora
+        // Si existe la consultor
         if (isset($consultarConsultor->data)) {
 
             // Caso 1: No hay cambios
@@ -74,21 +90,38 @@ class ConsultorUpdate implements Responsable
             }
         }
 
-        // Caso 3: Si ya existe otra aseguradora con el mismo nombre
+        // Caso 3: Si ya existe otra consultor con el mismo nombre
         if ($consultarConsultor && $consultarConsultor->success) {
-            alert()->warning('Precaución', 'Esta aseguradora ya existe.');
+            alert()->warning('Atención', 'Esta consultor ya existe.');
             return back();
         }
 
-        // Si no existe la aseguradora, la actualizamos
+        // Si no existe la consultor, la actualizamos
         return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal);
 
     } // FIN toResponse($request)
+
+    // ===================================================================
+    // ===================================================================
+
+    private function consultarClaveConsultorGlobal($claveConsultorGlobal)
+    {
+        try {
+            $peticionClaveConsultorGlobal = $this->clientApi->post($this->baseUri.'query_clave_consultor_global', [
+                'json' => ['clave_consultor_global' => $claveConsultorGlobal]
+            ]);
+            return json_decode($peticionClaveConsultorGlobal->getBody()->getContents());
+            
+        } catch (Exception $e) {
+            alert()->error('Error consultando la clave del Consultor, contacte a Soporte.');
+            return redirect()->route('consultores.index');
+        }
+    }
     
     // ===================================================================
     // ===================================================================
 
-    // Método para consultar la aseguradora
+    // Método para consultar la consultor
     private function consultarConsultor($consultor)
     {
         try {
@@ -106,7 +139,7 @@ class ConsultorUpdate implements Responsable
     // ===================================================================
     // ===================================================================
 
-    // Método para actualizar la aseguradora
+    // Método para actualizar la consultor
     private function actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal)
     {
         try {

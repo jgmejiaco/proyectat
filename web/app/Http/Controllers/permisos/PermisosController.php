@@ -162,7 +162,6 @@ class PermisosController extends Controller
             }
             
         } catch (Exception $e) {
-            dd($e);
             alert()->error("Error creando el permiso!");
             return back();
         }

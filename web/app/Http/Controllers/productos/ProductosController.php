@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\consultores;
+namespace App\Http\Controllers\productos;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
 use GuzzleHttp\Client;
 use App\Traits\MetodosTrait;
-use App\Http\Responsable\consultores\ConsultorIndex;
-use App\Http\Responsable\consultores\ConsultorStore;
-use App\Http\Responsable\consultores\ConsultorUpdate;
+use App\Http\Responsable\productos\ProductoIndex;
+use App\Http\Responsable\productos\ProductoStore;
+use App\Http\Responsable\productos\ProductoUpdate;
 
-class ConsultoresController extends Controller
+class ProductosController extends Controller
 {
     use MetodosTrait;
     protected $baseUri;
@@ -42,11 +42,11 @@ class ConsultoresController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return new ConsultorIndex();
+                    return new ProductoIndex();
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Consultor!");
+            alert()->error("Exception Index Producto!");
             return redirect()->route('login');
         }
     }
@@ -76,11 +76,11 @@ class ConsultoresController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return new ConsultorStore();
+                    return new ProductoStore();
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Consultor!");
+            alert()->error("Exception Store Producto!");
             return redirect()->route('login');
         }
     }
@@ -104,7 +104,7 @@ class ConsultoresController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $idConsultor)
+    public function update(Request $request, string $idProducto)
     {
         try {
             if (!$this->checkDatabaseConnection()) {
@@ -118,11 +118,11 @@ class ConsultoresController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return new ConsultorUpdate($idConsultor);
+                    return new ProductoUpdate($idProducto);
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Usuario!");
+            alert()->error("Exception Update Producto!");
             return redirect()->to(route('login'));
         }
     }

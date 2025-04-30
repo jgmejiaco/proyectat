@@ -47,7 +47,6 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            dd($e);
             alert()->error("Exception Index Líneas Personales!");
             return redirect()->to(route('login'));
         }
@@ -74,7 +73,6 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            dd($e);
             alert()->error("Exception Create Líneas Personales!");
             return redirect()->to(route('login'));
         }

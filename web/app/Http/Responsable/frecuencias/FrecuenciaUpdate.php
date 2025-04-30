@@ -120,7 +120,6 @@ class FrecuenciaUpdate implements Responsable
                 return redirect()->route('frecuencias.index');
             }
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error editando la frecuencia, contacte a Soporte.');
             return redirect()->route('frecuencias.index');
         }

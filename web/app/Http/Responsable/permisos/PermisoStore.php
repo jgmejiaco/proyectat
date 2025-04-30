@@ -51,7 +51,6 @@ class PermisoStore implements Responsable
             }
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error("Ha ocurrido un error asignando los permisos!");
             return back();
         }
