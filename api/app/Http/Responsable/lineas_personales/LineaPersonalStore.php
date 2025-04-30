@@ -36,6 +36,8 @@ class LineaPersonalStore implements Responsable
         $fileRenovacion = $request->input('file_renovacion');
         $fileOtros = $request->input('file_otros');
 
+        $usuLogueado = $request->input('id_usuario');
+
         // =================================================
 
         try {
@@ -62,7 +64,8 @@ class LineaPersonalStore implements Responsable
                 'file_sarlaft' => $fileSarlaft,
                 'file_caratula_poliza' => $fileCaratulaPoliza,
                 'file_renovacion' => $fileRenovacion,
-                'file_otros' => $fileOtros
+                'file_otros' => $fileOtros,
+                'id_usuario' => $usuLogueado
             ]);
     
             if ($nuevoRadicado) {

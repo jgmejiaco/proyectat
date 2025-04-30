@@ -181,6 +181,10 @@ class LineaPersonalStore implements Responsable
 
         // ===============================
 
+        $usuLogueado = session('id_usuario');
+
+        // ===============================
+
         try {
             $peticionLineaPersonalStore = $this->clientApi->post($this->baseUri.'linea_personal_store', [
                 'json' => [
@@ -207,6 +211,7 @@ class LineaPersonalStore implements Responsable
                     'file_caratula_poliza' => $fileCaratulaPoliza,
                     'file_renovacion' => $fileRenovacion,
                     'file_otros' => $fileOtros,
+                    'id_usuario' => $usuLogueado,
                     'id_audit' => session('id_usuario')
                 ]
             ]);

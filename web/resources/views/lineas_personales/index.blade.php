@@ -55,6 +55,7 @@
                                 <th class="bg-warning-subtle">Carátula Póliza</th>
                                 <th class="bg-warning-subtle">Renvación</th>
                                 <th class="bg-warning-subtle">Otros</th>
+                                <th class="bg-info-subtle">Creado por</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -124,6 +125,8 @@
                                     @else
                                         <td class="text-center align-content-center bg-warning-subtle"></td>
                                     @endif
+
+                                    <td class="text-center align-content-center bg-info-subtle">{{$radicado->nombres_usuario}}</td>
 
                                     <td class="text-center align-content-center">
                                         <a href="{{route('lineas_personales.index', $radicado->id_lineas_personal)}}" role="button"
