@@ -26,6 +26,7 @@ class LineaPersonalIndex implements Responsable
                 ->select(
                     'id_lineas_personal',
                     'fecha_radicado',
+                    DB::raw("DATE_FORMAT(fecha_radicado, '%m-%Y') as mes_anio_radicado"),
                     'aseguradoras.id_aseguradora',
                     'aseguradoras.aseguradora',
                     'poliza_asistente',

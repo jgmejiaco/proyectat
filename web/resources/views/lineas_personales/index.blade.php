@@ -26,37 +26,56 @@
                 </div>
             </div>
 
+            <div class="row mb-3 p-3">
+                <div class="col-12 offset-md-0 col-md-3">
+                    <label for="filtroMesAnio" class="form-label">Filtrar por Mes/Año:</label>
+                    <select id="filtroMesAnio" class="form-select">
+                        <option value="">Todos</option>
+                        @php
+                            $mesesUnicos = array_unique(array_map(function($item) {
+                                return $item->mes_anio_radicado;
+                            }, $lineasPersonalesIndex));
+                            sort($mesesUnicos);
+                        @endphp
+                        @foreach ($mesesUnicos as $mes)
+                            <option value="{{ $mes }}">{{ $mes }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <div class="col-12 p-3" id="">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered w-100 mb-0" id="tbl_radicados" aria-describedby="radicados">
                         <thead>
                             <tr class="header-table text-center">
-                                <th>Fecha Radicado</th>
-                                <th>Aseguradora</th>
-                                <th>Póliza Asistente</th>
-                                <th>Identificación Tomador</th>
-                                <th>Nombres Tomador</th>
-                                <th>Producto</th>
-                                <th>Ramo</th>
-                                <th>Prima Anualizada</th>
-                                <th>Frecuencia</th>
-                                <th>Proceso</th>
-                                <th>Estado Inicial</th>
-                                <th>Fecha Emisión</th>
-                                <th>Clave Consultor Global</th>
-                                <th>Consultor</th>
-                                <th>Gerente</th>
-                                <th>Estado Póliza</th>
-                                <th>Fecha Cancelación</th>
-                                <th class="bg-warning-subtle">Cédula</th>
-                                <th class="bg-warning-subtle">Matrícula</th>
-                                <th class="bg-warning-subtle">Asegurabilidad</th>
-                                <th class="bg-warning-subtle">Sarlaft</th>
-                                <th class="bg-warning-subtle">Carátula Póliza</th>
-                                <th class="bg-warning-subtle">Renvación</th>
-                                <th class="bg-warning-subtle">Otros</th>
-                                <th class="bg-info-subtle">Creado por</th>
-                                <th>Opciones</th>
+                                <th class="text-center align-content-center">Fecha Radicado</th>
+                                <th class="text-center align-content-center">Mes/Año Radicado</th>
+                                <th class="text-center align-content-center">Aseguradora</th>
+                                <th class="text-center align-content-center">Póliza Asistente</th>
+                                <th class="text-center align-content-center">Identificación Tomador</th>
+                                <th class="text-center align-content-center">Nombres Tomador</th>
+                                <th class="text-center align-content-center">Producto</th>
+                                <th class="text-center align-content-center">Ramo</th>
+                                <th class="text-center align-content-center">Prima Anualizada</th>
+                                <th class="text-center align-content-center">Frecuencia</th>
+                                <th class="text-center align-content-center">Proceso</th>
+                                <th class="text-center align-content-center">Estado Inicial</th>
+                                <th class="text-center align-content-center">Fecha Emisión</th>
+                                <th class="text-center align-content-center">Clave Consultor Global</th>
+                                <th class="text-center align-content-center">Consultor</th>
+                                <th class="text-center align-content-center">Gerente</th>
+                                <th class="text-center align-content-center">Estado Póliza</th>
+                                <th class="text-center align-content-center">Fecha Cancelación</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Cédula</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Matrícula</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Asegurabilidad</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Sarlaft</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Carátula Póliza</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Renvación</th>
+                                <th class="text-center align-content-center bg-warning-subtle">Otros</th>
+                                <th class="text-center align-content-center bg-info-subtle">Creado por</th>
+                                <th class="text-center align-content-center bg-success">Opciones</th>
                             </tr>
                         </thead>
                         {{-- ============================== --}}
@@ -64,6 +83,7 @@
                             @foreach ($lineasPersonalesIndex as $radicado)
                                 <tr class="text-center">
                                     <td class="text-center align-content-center">{{$radicado->fecha_radicado}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->mes_anio_radicado}}</td>
                                     <td class="text-center align-content-center">{{$radicado->aseguradora}}</td>
                                     <td class="text-center align-content-center">{{$radicado->poliza_asistente}}</td>
                                     <td class="text-center align-content-center">{{$radicado->identificacion_tomador}}</td>
@@ -152,7 +172,7 @@
     <script>
         $(document).ready(function() {
             // INICIO DataTable Líneas Personales
-            $("#tbl_radicados").DataTable({
+            let table = $("#tbl_radicados").DataTable({
                 dom: 'Blfrtip',
                 buttons: [
                     {
@@ -193,6 +213,12 @@
                 responsive: true,
                 infoEmpty: "No hay registros disponibles",
                 order: [[0, 'desc']]  // Indicar la columna predeterminada contando desde 0
+            });
+
+            // Filtro personalizado para el Mes/Año
+            $('#filtroMesAnio').on('change', function() {
+                var valor = $(this).val();
+                table.column(1).search(valor).draw(); // columna 1 = Mes/Año
             });
             // CIERRE DataTable Líneas Personales
 
