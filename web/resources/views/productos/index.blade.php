@@ -335,6 +335,19 @@
 
                 const producto = '#producto';
                 $(producto).prop("readonly", true).addClass("bg-secondary-subtle");
+
+                const idRamo = '#idRamo';
+                $(idRamo)
+                    .prop("disabled", true)
+                    .addClass("bg-secondary-subtle")
+                    .each(function() {
+                        // Agregamos un input hidden para enviar el valor
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: $(this).attr('name'),
+                            value: $(this).val()
+                        }).appendTo(form);
+                    });
                 
                 // Mostrar Spinner
                 loadingIndicator.show();
@@ -375,10 +388,23 @@
                 // Capturo campos
                 const codigoProducto = $(`#codigo_producto_${id}`);
                 const producto = $(`#producto_${id}`);
+                const idRamo = $(`#idRamo_${id}`);
                 const idEstado = $(`#idEstado_${id}`);
 
                 producto.prop("readonly", true).addClass("bg-secondary-subtle");
                 codigoProducto.prop("readonly", true).addClass("bg-secondary-subtle");
+
+                $(idRamo)
+                    .prop("disabled", true)
+                    .addClass("bg-secondary-subtle")
+                    .each(function() {
+                        // Agregamos un input hidden para enviar el valor
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: $(this).attr('name'),
+                            value: $(this).val()
+                        }).appendTo(form);
+                    });
 
                 $(idEstado)
                     .prop("disabled", true)

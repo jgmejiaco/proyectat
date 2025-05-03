@@ -70,7 +70,7 @@ class ProductoStore implements Responsable
         try {
             $peticionProductoStore = $this->clientApi->post($this->baseUri . 'producto_store', [
                 'json' => [
-                    'codigo_producto' => $codigoProducto,
+                    'codigo_producto' => strtoupper($codigoProducto),
                     'producto' => ucwords(strtolower(trim($producto))),
                     'id_ramo' => $idRamo,
                     'id_estado' => $idEstado,

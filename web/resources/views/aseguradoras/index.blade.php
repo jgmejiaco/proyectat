@@ -62,6 +62,9 @@
                                             type="text"
                                             label="Nit Aseguradora"
                                             id="nit_aseguradora"
+                                            pattern="\d{9,}"
+                                            inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -168,6 +171,9 @@
                                                                     label="Nit Aseguradora"
                                                                     value="{{$aseguradora->nit_aseguradora}}"
                                                                     id="nit_aseguradora_{{$aseguradora->id_aseguradora}}"
+                                                                    pattern="\d{9,}"
+                                                                    inputmode="numeric"
+                                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />
@@ -306,6 +312,9 @@
 
                 const aseguradora = '#aseguradora';
                 $(aseguradora).prop("readonly", true).addClass("bg-secondary-subtle");
+
+                const nitAseguradora = '#nit_aseguradora';
+                $(nitAseguradora).prop("readonly", true).addClass("bg-secondary-subtle");
                 
                 // Mostrar Spinner
                 loadingIndicator.show();
@@ -335,6 +344,9 @@
 
                 const aseguradora = `#aseguradora_${id}`;
                 $(aseguradora).prop("readonly", true).addClass("bg-secondary-subtle");
+
+                const nitAseguradora = `#nit_aseguradora_${id}`;
+                $(nitAseguradora).prop("readonly", true).addClass("bg-secondary-subtle");
 
 
                 const idEstado = `#idEstado_${id}`;

@@ -29,15 +29,17 @@ class AseguradoraUpdate implements Responsable
     public function toResponse($request)
     {
         $validator = Validator::make($request->all(), [
-            'aseguradora'       => 'required|string',
-            'nit_aseguradora'   => 'required|string',
-            'id_estado'         => 'required|integer'
+            'aseguradora'     => 'required|string',
+            'nit_aseguradora' => ['required', 'digits_between:9,11'],
+            'id_estado'       => 'required|integer'
         ]);
 
         if ($validator->fails()) {
-            alert()->error('Error', 'La Aseguradora es obligatoria');
+            alert()->error('Error', 'Todps los campos son obligatorios, el nit debe estar entrer 9 y 11 dígitos');
             return redirect()->route('aseguradoras.index');
         }
+
+        // =============================================================
 
         // Si pasa la validación
         $idAseguradora = $this->idAseguradora;
@@ -45,6 +47,26 @@ class AseguradoraUpdate implements Responsable
         $nitAseguradora = $request->input('nit_aseguradora');
         $idEstado = $request->input('id_estado');
 
+        $aseguradora = trim($aseguradora);
+        $aseguradora = strtolower($aseguradora);
+
+        // Detectar si termina en 'sa' o 's.a' y separarlo
+        if (preg_match('/\b(s\.?a\.?)$/i', $aseguradora, $match)) {
+            $aseguradora = preg_replace('/\b(s\.?a\.?)$/i', '', $aseguradora); // quitar el sufijo
+            $aseguradora = ucwords(trim($aseguradora)) . ' S.A';
+        } else {
+            $aseguradora = ucwords($aseguradora);
+        }
+
+        // =============================================================
+
+        // Consultamos si ya existe esa aseguradora
+        $consultarNitAseguradora = $this->consultarNitAseguradora($nitAseguradora);
+        
+        if(isset($consultarNitAseguradora) && $consultarNitAseguradora->success && isset($consultarNitAseguradora->data) && $consultarNitAseguradora->data->id_aseguradora != $idAseguradora) {
+            alert()->warning('Atención', 'Este Nit de la aseguradora ya existe.');
+            return back();
+        }
         // Consultamos si ya existe esa aseguradora
         $consultarAseguradora = $this->consultarAseguradora($aseguradora);
 
@@ -112,7 +134,7 @@ class AseguradoraUpdate implements Responsable
         try {
             $peticionAseguradoraUpdate = $this->clientApi->put($this->baseUri . 'aseguradora_update/' . $idAseguradora, [
                 'json' => [
-                    'aseguradora' => ucwords(strtolower(trim($aseguradora))),
+                    'aseguradora' => $aseguradora,
                     'nit_aseguradora' => trim($nitAseguradora),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
@@ -126,6 +148,23 @@ class AseguradoraUpdate implements Responsable
             }
         } catch (Exception $e) {
             alert()->error('Error editando la aseguradora, contacte a Soporte.');
+            return redirect()->route('aseguradoras.index');
+        }
+    }
+    
+    // ===================================================================
+    // ===================================================================
+
+    private function consultarNitAseguradora($nitAseguradora)
+    {
+        try {
+            $queryNitAseguradora = $this->clientApi->post($this->baseUri.'consultar_nit_aseguradora', [
+                'query' => ['nit_aseguradora' => $nitAseguradora]
+            ]);
+            return json_decode($queryNitAseguradora->getBody()->getContents());
+
+        } catch (Exception $e) {
+            alert()->error('Error consultando el Nit de la aseguradora, contacte a Soporte.');
             return redirect()->route('aseguradoras.index');
         }
     }

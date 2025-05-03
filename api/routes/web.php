@@ -55,6 +55,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('aseguradora_index', 'aseguradoras\AseguradorasController@index');
     $router->post('consultar_aseguradora', 'aseguradoras\AseguradorasController@consultarAseguradora');
+    $router->post('consultar_nit_aseguradora', 'aseguradoras\AseguradorasController@consultarNitAseguradora');
     $router->post('aseguradora_store', 'aseguradoras\AseguradorasController@store');
     $router->put('aseguradora_update/{idAseguradora}', 'aseguradoras\AseguradorasController@update');
 });

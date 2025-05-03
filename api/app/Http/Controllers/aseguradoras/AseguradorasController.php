@@ -106,4 +106,26 @@ class AseguradorasController extends Controller
             return response()->json(['error_exception'=>$e->getMessage()]);
         }
     }
+    
+    // ======================================================================
+    // ======================================================================
+
+    public function consultarNitAseguradora(Request $request)
+    {
+        try {
+            $nitAseguradoraInput = $request->input('nit_aseguradora');
+        
+            // Consultamos si ya existe esta aseguradora
+            $aseguradora = Aseguradora::where('nit_aseguradora', $nitAseguradoraInput)->first();
+
+            if ($aseguradora) {
+                return response()->json(['success' => true, 'data' => $aseguradora]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'No existe aseguradora']);
+            }
+
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
 }

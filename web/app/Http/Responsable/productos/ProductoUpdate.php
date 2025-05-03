@@ -54,12 +54,10 @@ class ProductoUpdate implements Responsable
         // Consultamos si ya existe ese código del producto
         $consultarCodigoProducto = $this->consultarCodigoProducto($codigoProducto);
 
-        if(isset($consultarCodigoProducto) && $consultarCodigoProducto->success) {
+        if(isset($consultarCodigoProducto) && $consultarCodigoProducto->success && isset($consultarCodigoProducto->data) && $consultarCodigoProducto->data->id_producto != $idProducto) {
 
-            if ( isset($consultarCodigoProducto->data) && $consultarCodigoProducto->data->id_producto != $idProducto ) {
-                alert()->warning('Atención', 'Este código del producto ya existe.');
-                return back();
-            }
+            alert()->warning('Atención', 'Este código del producto ya existe.');
+            return back();
         }
 
         // =============================================================
@@ -152,7 +150,7 @@ class ProductoUpdate implements Responsable
         try {
             $peticionProductoUpdate = $this->clientApi->put($this->baseUri . 'producto_update/' . $idProducto, [
                 'json' => [
-                    'codigo_producto' => $codigoProducto,
+                    'codigo_producto' => strtoupper($codigoProducto),
                     'producto' => ucwords(strtolower(trim($producto))),
                     'id_ramo' => $idRamo,
                     'id_estado' => $idEstado,
