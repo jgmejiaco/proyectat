@@ -55,15 +55,33 @@
                                         />
                                     </div>
 
-                                    <div class="col-12 col-md-8 mt-3 mb-4">
+                                    <div class="col-12 col-md-8 mt-3">
                                         <x-input
                                             name="producto"
                                             type="text"
                                             label="Producto"
                                             id="producto"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-3 mb-4">
+                                        <x-select
+                                            name="id_ramo"
+                                            label="Ramo"
+                                            id="idRamo"
+                                            autocomplete="organization-title"
+                                            required
+                                        >
+                                            <option value="">Seleccionar...</option>
+                                            @foreach($ramos as $key => $value)
+                                                <option value="{{$key}}" {{(isset($producto) && $producto->id_ramo == $key) ? 'selected' : ''}}>
+                                                    {{$value}}
+                                                </option>
+                                            @endforeach
+                                        </x-select>
                                     </div>
                                 </div>
                             </div>
@@ -100,9 +118,9 @@
                         aria-describedby="consultores">
                         <thead>
                             <tr class="header-table text-center">
-                                <th>Id Consultor</th>
-                                <th>Clave Consultor Global</th>
-                                <th>Nombre Consultor</th>
+                                <th>Código Producto</th>
+                                <th>Producto</th>
+                                <th>Ramo</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
@@ -111,9 +129,9 @@
                         <tbody>
                             @foreach ($productosIndex as $producto)
                                 <tr class="text-center">
-                                    <td>{{$producto->id_producto}}</td>
                                     <td>{{$producto->codigo_producto}}</td>
                                     <td>{{$producto->producto}}</td>
+                                    <td>{{$producto->ramo}}</td>
                                     <td>{{$producto->estado}}</td>
                                     <td>
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto_{{$producto->id_producto}}">
@@ -169,9 +187,27 @@
                                                                     label="Producto"
                                                                     value="{{$producto->producto}}"
                                                                     id="producto_{{$producto->id_producto}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6 mt-3">
+                                                                <x-select
+                                                                    name="id_ramo"
+                                                                    label="Ramo"
+                                                                    id="idRamo_{{$producto->id_producto}}"
+                                                                    autocomplete="organization-title"
+                                                                    required
+                                                                >
+                                                                    <option value="">Seleccionar...</option>
+                                                                    @foreach($ramos as $key => $value)
+                                                                        <option value="{{$key}}" {{(isset($producto) && $producto->id_ramo == $key) ? 'selected' : ''}}>
+                                                                            {{$value}}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </x-select>
                                                             </div>
 
                                                             <div class="col-12 col-md-6 mt-3">

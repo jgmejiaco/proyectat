@@ -62,9 +62,9 @@ class RamoUpdate implements Responsable
 
             // Caso 2: Se debe actualizar (solo id_estado cambia)
             if (
-                $consultarRamo->data->id_ramo == $idRamo &&
-                $consultarRamo->data->ramo == $ramo &&
-                $consultarRamo->data->id_estado != $idEstado
+                ($consultarRamo->data->id_ramo == $idRamo) &&
+                ($consultarRamo->data->ramo != $ramo ||
+                $consultarRamo->data->id_estado != $idEstado)
             ) {
                 return $this->actualizarRamo($idRamo, $ramo, $idEstado);
             }
@@ -108,7 +108,7 @@ class RamoUpdate implements Responsable
         try {
             $peticionRamoUpdate = $this->clientApi->put($this->baseUri . 'ramo_update/' . $idRamo, [
                 'json' => [
-                    'ramo' => $ramo,
+                    'ramo' => ucwords(strtolower(trim($ramo))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

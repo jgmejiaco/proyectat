@@ -27,7 +27,8 @@ class AseguradoraStore implements Responsable
     public function toResponse($request)
     {
         $validator = Validator::make($request->all(), [
-            'aseguradora' => 'required|string',
+            'aseguradora'       => 'required|string',
+            'nit_aseguradora'   => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -37,6 +38,7 @@ class AseguradoraStore implements Responsable
 
         // Si pasa la validación
         $aseguradora = $request->input('aseguradora');
+        $nitAseguradora = $request->input('nit_aseguradora');
         $idEstado = 1;
 
         // Consultamos si ya existe esa aseguradora
@@ -50,7 +52,8 @@ class AseguradoraStore implements Responsable
         try {
             $peticionAseguradoraStore = $this->clientApi->post($this->baseUri . 'aseguradora_store', [
                 'json' => [
-                    'aseguradora' => $aseguradora,
+                    'aseguradora' => ucwords(strtolower(trim($aseguradora))),
+                    'nit_aseguradora' => trim($nitAseguradora),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

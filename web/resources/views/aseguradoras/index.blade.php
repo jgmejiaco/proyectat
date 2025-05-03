@@ -44,12 +44,24 @@
 
                             <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
                                 <div class="row m-2">
-                                    <div class="col-12 mt-3 mb-4">
+                                    <div class="col-12 col-md-6 mt-3 mb-4">
                                         <x-input
                                             name="aseguradora"
                                             type="text"
                                             label="Aseguradora"
                                             id="aseguradora"
+                                            class="text-lowercase text-capitalize"
+                                            autocomplete="given-name"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-3 mb-4">
+                                        <x-input
+                                            name="nit_aseguradora"
+                                            type="text"
+                                            label="Nit Aseguradora"
+                                            id="nit_aseguradora"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -91,19 +103,18 @@
                             <tr class="header-table text-center">
                                 <th>Id Aseguradora</th>
                                 <th>Nombre Aseguradora</th>
+                                <th>Nit Aseguradora</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
                         {{-- ============================== --}}
                         <tbody>
-                            @php
-                                // dd($usuariosIndex);
-                            @endphp
                             @foreach ($aseguradorasIndex as $aseguradora)
                                 <tr class="text-center">
                                     <td>{{$aseguradora->id_aseguradora}}</td>
                                     <td>{{$aseguradora->aseguradora}}</td>
+                                    <td>{{$aseguradora->nit_aseguradora}}</td>
                                     <td>{{$aseguradora->estado}}</td>
                                     <td>
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarAseguradora_{{$aseguradora->id_aseguradora}}">
@@ -137,19 +148,32 @@
 
                                                     <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
                                                         <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-8">
+                                                            <div class="col-12 col-md-6">
                                                                 <x-input
                                                                     name="aseguradora"
                                                                     type="text"
                                                                     label="Aseguradora"
                                                                     value="{{$aseguradora->aseguradora}}"
                                                                     id="aseguradora_{{$aseguradora->id_aseguradora}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />
                                                             </div>
 
-                                                            <div class="col-12 col-md-4">
+                                                            <div class="col-12 col-md-6">
+                                                                <x-input
+                                                                    name="nit_aseguradora"
+                                                                    type="text"
+                                                                    label="Nit Aseguradora"
+                                                                    value="{{$aseguradora->nit_aseguradora}}"
+                                                                    id="nit_aseguradora_{{$aseguradora->id_aseguradora}}"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6">
                                                                 <x-select
                                                                     name="id_estado"
                                                                     label="Estado"

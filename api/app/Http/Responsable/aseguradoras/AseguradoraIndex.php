@@ -15,6 +15,7 @@ class AseguradoraIndex implements Responsable
                 ->select(
                     'id_aseguradora',
                     'aseguradora',
+                    'nit_aseguradora',
                     'estados.id_estado',
                     'estados.estado',
                 )

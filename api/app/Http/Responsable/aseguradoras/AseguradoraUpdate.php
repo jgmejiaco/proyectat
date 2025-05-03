@@ -23,6 +23,7 @@ class AseguradoraUpdate implements Responsable
         if (isset($aseguradora) && !is_null($aseguradora) && !empty($aseguradora)) {
             try {
                 $aseguradora->aseguradora = $request->input('aseguradora');
+                $aseguradora->nit_aseguradora = $request->input('nit_aseguradora');
                 $aseguradora->id_estado = $request->input('id_estado');
                 $aseguradora->update();
 

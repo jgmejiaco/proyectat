@@ -50,7 +50,7 @@ class FrecuenciaStore implements Responsable
         try {
             $peticionFrecuenciaStore = $this->clientApi->post($this->baseUri . 'frecuencia_store', [
                 'json' => [
-                    'frecuencia' => $frecuencia,
+                    'frecuencia' => ucwords(strtolower(trim($frecuencia))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

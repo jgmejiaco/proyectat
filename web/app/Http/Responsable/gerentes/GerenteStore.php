@@ -50,7 +50,7 @@ class GerenteStore implements Responsable
         try {
             $peticionGerenteStore = $this->clientApi->post($this->baseUri . 'gerente_store', [
                 'json' => [
-                    'gerente' => $gerente,
+                    'gerente' => ucwords(strtolower(trim($gerente))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

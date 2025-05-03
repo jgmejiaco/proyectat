@@ -50,6 +50,7 @@
                                             type="text"
                                             label="Estado"
                                             id="estado"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -141,6 +142,7 @@
                                                                     label="Estado"
                                                                     value="{{$estado->estado}}"
                                                                     id="estado_{{$estado->id_estado}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />

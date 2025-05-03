@@ -50,6 +50,7 @@
                                             type="text"
                                             label="Rol"
                                             id="rol"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -111,11 +112,6 @@
                                     {{-- ====================================================== --}}
                                     {{-- ====================================================== --}}
 
-                                    
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
                                     {{-- INICIO Modal EDITAR ROL --}}
                                     <div class="modal fade" id="modalEditarRol_{{$rol->id_rol}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                                         <div class="modal-dialog">
@@ -141,6 +137,7 @@
                                                                     label="Rol"
                                                                     value="{{$rol->rol}}"
                                                                     id="rol_{{$rol->id_rol}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />

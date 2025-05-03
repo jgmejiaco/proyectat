@@ -80,7 +80,7 @@ trait MetodosTrait
         view()->share('gerentes', Gerente::orderBy('gerente','asc')->pluck('gerente', 'id_gerente'));
 
         view()->share('productos', Producto::select(
-            DB::raw("CONCAT(id_producto, ' - ', producto) AS productos"),
+            DB::raw("CONCAT(codigo_producto, ' - ', producto) AS productos"),
             'id_producto'
         )
         ->orderBy('producto', 'asc')

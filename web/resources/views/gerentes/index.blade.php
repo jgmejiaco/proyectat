@@ -50,6 +50,7 @@
                                             type="text"
                                             label="Gerente"
                                             id="gerente"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -114,11 +115,6 @@
                                     {{-- ====================================================== --}}
                                     {{-- ====================================================== --}}
 
-                                    
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
                                     {{-- INICIO Modal EDITAR GERENTE --}}
                                     <div class="modal fade" id="modalEditarGerente_{{$gerente->id_gerente}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                                         <div class="modal-dialog">
@@ -144,6 +140,7 @@
                                                                     label="Gerente"
                                                                     value="{{$gerente->gerente}}"
                                                                     id="gerente_{{$gerente->id_gerente}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />

@@ -26,6 +26,7 @@ class ProductoUpdate implements Responsable
             try {
                 $producto->codigo_producto = $request->input('codigo_producto');
                 $producto->producto = $request->input('producto');
+                $producto->id_ramo = $request->input('id_ramo');
                 $producto->id_estado = $request->input('id_estado');
                 $producto->update();
 

@@ -30,6 +30,7 @@ class AseguradoraUpdate implements Responsable
     {
         $validator = Validator::make($request->all(), [
             'aseguradora'       => 'required|string',
+            'nit_aseguradora'   => 'required|string',
             'id_estado'         => 'required|integer'
         ]);
 
@@ -41,6 +42,7 @@ class AseguradoraUpdate implements Responsable
         // Si pasa la validación
         $idAseguradora = $this->idAseguradora;
         $aseguradora = $request->input('aseguradora');
+        $nitAseguradora = $request->input('nit_aseguradora');
         $idEstado = $request->input('id_estado');
 
         // Consultamos si ya existe esa aseguradora
@@ -54,6 +56,7 @@ class AseguradoraUpdate implements Responsable
             if (
                 $consultarAseguradora->data->id_aseguradora == $idAseguradora &&
                 $consultarAseguradora->data->aseguradora == $aseguradora &&
+                $consultarAseguradora->data->nit_aseguradora == $nitAseguradora &&
                 $consultarAseguradora->data->id_estado == $idEstado
             ) {
                 alert()->info('Info', 'No hay cambios a realizar!');
@@ -62,11 +65,12 @@ class AseguradoraUpdate implements Responsable
 
             // Caso 2: Se debe actualizar (solo id_estado cambia)
             if (
-                $consultarAseguradora->data->id_aseguradora == $idAseguradora &&
-                $consultarAseguradora->data->aseguradora == $aseguradora &&
-                $consultarAseguradora->data->id_estado != $idEstado
+                ($consultarAseguradora->data->id_aseguradora == $idAseguradora) &&
+                ($consultarAseguradora->data->aseguradora != $aseguradora ||
+                $consultarAseguradora->data->nit_aseguradora != $nitAseguradora ||
+                $consultarAseguradora->data->id_estado != $idEstado)
             ) {
-                return $this->actualizarAseguradora($idAseguradora, $aseguradora, $idEstado);
+                return $this->actualizarAseguradora($idAseguradora, $aseguradora, $idEstado, $nitAseguradora);
             }
         }
 
@@ -77,7 +81,7 @@ class AseguradoraUpdate implements Responsable
         }
 
         // Si no existe la aseguradora, la actualizamos
-        return $this->actualizarAseguradora($idAseguradora, $aseguradora, $idEstado);
+        return $this->actualizarAseguradora($idAseguradora, $aseguradora, $idEstado, $nitAseguradora);
 
     } // FIN toResponse($request)
     
@@ -103,12 +107,13 @@ class AseguradoraUpdate implements Responsable
     // ===================================================================
 
     // Método para actualizar la aseguradora
-    private function actualizarAseguradora($idAseguradora, $aseguradora, $idEstado)
+    private function actualizarAseguradora($idAseguradora, $aseguradora, $idEstado,$nitAseguradora)
     {
         try {
             $peticionAseguradoraUpdate = $this->clientApi->put($this->baseUri . 'aseguradora_update/' . $idAseguradora, [
                 'json' => [
-                    'aseguradora' => $aseguradora,
+                    'aseguradora' => ucwords(strtolower(trim($aseguradora))),
+                    'nit_aseguradora' => trim($nitAseguradora),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

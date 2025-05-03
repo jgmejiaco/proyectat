@@ -50,7 +50,7 @@ class RolStore implements Responsable
         try {
             $peticionRolStore = $this->clientApi->post($this->baseUri . 'rol_store', [
                 'json' => [
-                    'rol' => $rol,
+                    'rol' => ucwords(strtolower(trim($rol))),
                     // 'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

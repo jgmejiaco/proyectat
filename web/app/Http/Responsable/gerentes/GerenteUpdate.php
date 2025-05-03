@@ -62,9 +62,9 @@ class GerenteUpdate implements Responsable
 
             // Caso 2: Se debe actualizar (solo id_estado cambia)
             if (
-                $consultarGerente->data->id_gerente == $idGerente &&
-                $consultarGerente->data->gerente == $gerente &&
-                $consultarGerente->data->id_estado != $idEstado
+                ($consultarGerente->data->id_gerente == $idGerente) &&
+                ($consultarGerente->data->gerente != $gerente ||
+                $consultarGerente->data->id_estado != $idEstado)
             ) {
                 return $this->actualizarGerente($idGerente, $gerente, $idEstado);
             }
@@ -108,7 +108,7 @@ class GerenteUpdate implements Responsable
         try {
             $peticionGerenteUpdate = $this->clientApi->put($this->baseUri . 'gerente_update/' . $idGerente, [
                 'json' => [
-                    'gerente' => $gerente,
+                    'gerente' => ucwords(strtolower(trim($gerente))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

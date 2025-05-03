@@ -15,6 +15,7 @@ class Aseguradora extends Model
     public $timestamps = true;
     protected $fillable = [
         'aseguradora',
+        'nit_aseguradora',
         'id_estado'
     ];
     protected $casts = [

@@ -49,7 +49,7 @@ class EstadoStore implements Responsable
         try {
             $peticionEstadoStore = $this->clientApi->post($this->baseUri . 'estado_store', [
                 'json' => [
-                    'estado' => $estado,
+                    'estado' => ucwords(strtolower(trim($estado))),
                     'id_audit' => session('id_usuario')
                 ]
             ]);

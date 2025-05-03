@@ -13,6 +13,7 @@ class ProductoStore implements Responsable
     {
         $codigoProducto = $request->input('codigo_producto');
         $producto = $request->input('producto');
+        $idRamo = $request->input('id_ramo');
         $idEstado = $request->input('id_estado');
 
         // =================================================
@@ -21,7 +22,8 @@ class ProductoStore implements Responsable
             $nuevoProducto = Producto::create([
                 'codigo_producto' => $codigoProducto,
                 'producto' => $producto,
-                'id_estado' => $idEstado
+                'id_estado' => $idEstado,
+                'id_ramo' => $idRamo
             ]);
     
             if ($nuevoProducto) {

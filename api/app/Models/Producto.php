@@ -20,6 +20,7 @@ class Producto extends Model implements Auditable
     protected $fillable = [
         'codigo_producto',
         'producto',
+        'id_ramo',
         'id_estado'
     ];
     protected $casts = [

@@ -62,9 +62,9 @@ class FrecuenciaUpdate implements Responsable
 
             // Caso 2: Se debe actualizar (solo id_estado cambia)
             if (
-                $consultarFrecuencia->data->id_frecuencia == $idFrecuencia &&
-                $consultarFrecuencia->data->frecuencia == $frecuencia &&
-                $consultarFrecuencia->data->id_estado != $idEstado
+                ($consultarFrecuencia->data->id_frecuencia == $idFrecuencia) &&
+                ($consultarFrecuencia->data->frecuencia != $frecuencia ||
+                $consultarFrecuencia->data->id_estado != $idEstado)
             ) {
                 return $this->actualizarFrecuencia($idFrecuencia, $frecuencia, $idEstado);
             }
@@ -108,7 +108,7 @@ class FrecuenciaUpdate implements Responsable
         try {
             $peticionFrecuenciaUpdate = $this->clientApi->put($this->baseUri . 'frecuencia_update/' . $idFrecuencia, [
                 'json' => [
-                    'frecuencia' => $frecuencia,
+                    'frecuencia' => ucwords(strtolower(trim($frecuencia))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

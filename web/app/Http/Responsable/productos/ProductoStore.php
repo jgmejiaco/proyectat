@@ -29,6 +29,7 @@ class ProductoStore implements Responsable
         $validator = Validator::make($request->all(), [
             'codigo_producto' => 'required|string',
             'producto'        => 'required|string',
+            'id_ramo'         => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -41,6 +42,7 @@ class ProductoStore implements Responsable
         // Si pasa la validación
         $codigoProducto = $request->input('codigo_producto');
         $producto = $request->input('producto');
+        $idRamo = $request->input('id_ramo');
         $idEstado = 1;
 
         // =============================================================
@@ -69,7 +71,8 @@ class ProductoStore implements Responsable
             $peticionProductoStore = $this->clientApi->post($this->baseUri . 'producto_store', [
                 'json' => [
                     'codigo_producto' => $codigoProducto,
-                    'producto' => $producto,
+                    'producto' => ucwords(strtolower(trim($producto))),
+                    'id_ramo' => $idRamo,
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

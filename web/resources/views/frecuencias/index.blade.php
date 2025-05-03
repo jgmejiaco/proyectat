@@ -50,6 +50,7 @@
                                             type="text"
                                             label="Frecuencia"
                                             id="frecuencia"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -144,6 +145,7 @@
                                                                     label="Frecuencia"
                                                                     value="{{$frecuencia->frecuencia}}"
                                                                     id="frecuencia_{{$frecuencia->id_frecuencia}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />

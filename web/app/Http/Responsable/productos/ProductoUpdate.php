@@ -31,7 +31,8 @@ class ProductoUpdate implements Responsable
         $validator = Validator::make($request->all(), [
             'codigo_producto'   =>  'required|string',
             'producto'          =>  'required|string',
-            'id_estado'         =>  'required|integer'
+            'id_ramo'         =>  'required|integer',
+            'id_estado'         =>  'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -45,6 +46,7 @@ class ProductoUpdate implements Responsable
         $idProducto = $this->idProducto;
         $codigoProducto = $request->input('codigo_producto');
         $producto = $request->input('producto');
+        $idRamo = $request->input('id_ramo');
         $idEstado = $request->input('id_estado');
 
         // =============================================================
@@ -75,7 +77,8 @@ class ProductoUpdate implements Responsable
                 $consultarProducto->data->id_producto == $idProducto &&
                 $consultarProducto->data->codigo_producto == $codigoProducto &&
                 $consultarProducto->data->producto == $producto &&
-                $consultarProducto->data->id_estado == $idEstado
+                $consultarProducto->data->id_estado == $idEstado &&
+                $consultarProducto->data->id_ramo == $idRamo
             ) {
                 alert()->info('Info', 'No hay cambios a realizar!');
                 return redirect()->route('productos.index');
@@ -86,9 +89,10 @@ class ProductoUpdate implements Responsable
                 ($consultarProducto->data->id_producto == $idProducto) &&
                 ($consultarProducto->data->producto != $producto ||
                 $consultarProducto->data->id_estado != $idEstado ||
-                $consultarProducto->data->codigo_producto != $codigoProducto)
+                $consultarProducto->data->codigo_producto != $codigoProducto ||
+                $consultarProducto->data->id_estado != $idRamo)
             ) {
-                return $this->actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto);
+                return $this->actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto, $idRamo);
             }
         }
 
@@ -99,7 +103,7 @@ class ProductoUpdate implements Responsable
         }
 
         // Si no existe la producto, la actualizamos
-        return $this->actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto);
+        return $this->actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto, $idRamo);
 
     } // FIN toResponse($request)
     
@@ -143,14 +147,15 @@ class ProductoUpdate implements Responsable
     // ===================================================================
 
     // Método para actualizar el producto
-    private function actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto)
+    private function actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto, $idRamo)
     {
         try {
             $peticionProductoUpdate = $this->clientApi->put($this->baseUri . 'producto_update/' . $idProducto, [
                 'json' => [
-                    'producto' => $producto,
-                    'id_estado' => $idEstado,
                     'codigo_producto' => $codigoProducto,
+                    'producto' => ucwords(strtolower(trim($producto))),
+                    'id_ramo' => $idRamo,
+                    'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]
             ]);

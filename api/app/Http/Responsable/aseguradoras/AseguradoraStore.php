@@ -12,6 +12,7 @@ class AseguradoraStore implements Responsable
     public function toResponse($request)
     {
         $aseguradora = $request->input('aseguradora');
+        $nitAseguradora = $request->input('nit_aseguradora');
         $idEstado = $request->input('id_estado');
 
         // =================================================
@@ -19,6 +20,7 @@ class AseguradoraStore implements Responsable
         try {
             $nuevaAseguradora = Aseguradora::create([
                 'aseguradora' => $aseguradora,
+                'nit_aseguradora' => $nitAseguradora,
                 'id_estado' => $idEstado
             ]);
     

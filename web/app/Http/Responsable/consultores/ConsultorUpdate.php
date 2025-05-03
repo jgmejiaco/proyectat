@@ -145,7 +145,7 @@ class ConsultorUpdate implements Responsable
         try {
             $peticionConsultorUpdate = $this->clientApi->put($this->baseUri . 'consultor_update/' . $idConsultor, [
                 'json' => [
-                    'consultor' => $consultor,
+                    'consultor' => ucwords(strtolower(trim($consultor))),
                     'id_estado' => $idEstado,
                     'clave_consultor_global' => $claveConsultorGlobal,
                     'id_audit' => session('id_usuario')

@@ -61,6 +61,7 @@
                                             type="text"
                                             label="Consultor"
                                             id="consultor"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -167,6 +168,7 @@
                                                                     label="Consultor"
                                                                     value="{{$consultor->consultor}}"
                                                                     id="consultor_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />

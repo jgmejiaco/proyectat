@@ -65,7 +65,7 @@ class ConsultorStore implements Responsable
             $peticionConsultorStore = $this->clientApi->post($this->baseUri . 'consultor_store', [
                 'json' => [
                     'clave_consultor_global' => $claveConsultorGlobal,
-                    'consultor' => $consultor,
+                    'consultor' => ucwords(strtolower(trim($consultor))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

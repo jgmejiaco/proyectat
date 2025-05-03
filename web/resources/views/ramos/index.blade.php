@@ -50,6 +50,7 @@
                                             type="text"
                                             label="Ramo"
                                             id="ramo"
+                                            class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
                                         />
@@ -141,6 +142,7 @@
                                                                     label="Ramo"
                                                                     value="{{$ramo->ramo}}"
                                                                     id="ramo_{{$ramo->id_ramo}}"
+                                                                    class="text-lowercase text-capitalize"
                                                                     autocomplete="given-name"
                                                                     required
                                                                 />
