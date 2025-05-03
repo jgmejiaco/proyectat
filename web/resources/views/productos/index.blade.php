@@ -28,7 +28,7 @@
 
             {{-- INICIO Modal CREAR PRODUCTO --}}
             <div class="modal fade" id="modalCrearProducto" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog">
+                <div class="modal-dialog" style="min-width: 55%">
                     <div class="modal-content border-0 p-3">
                         <x-form
                             action="{{route('productos.store')}}"
@@ -149,7 +149,7 @@
 
                                     {{-- INICIO Modal EDITAR PRODUCTO --}}
                                     <div class="modal fade" id="modalEditarProducto_{{$producto->id_producto}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog" style="min-width: 55%">
                                             <div class="modal-content border-0 p-3">
                                                 <x-form
                                                     action="{{route('productos.update', $producto->id_producto)}}"
@@ -168,7 +168,7 @@
 
                                                     <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
                                                         <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-6">
+                                                            <div class="col-12 col-md-4">
                                                                 <x-input
                                                                     name="codigo_producto"
                                                                     type="text"
@@ -180,7 +180,7 @@
                                                                 />
                                                             </div>
 
-                                                            <div class="col-12 col-md-6">
+                                                            <div class="col-12 col-md-8">
                                                                 <x-input
                                                                     name="producto"
                                                                     type="text"
@@ -311,7 +311,7 @@
                 stripe: true,
                 responsive: true,
                 infoEmpty: "No hay registros disponibles",
-                order: [[2, 'asc']]  // Indicar la columna predeterminada contando desde 0
+                order: [[1, 'asc']]  // Indicar la columna predeterminada contando desde 0
             });
             // CIERRE DataTable Lista producto
 
