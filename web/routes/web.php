@@ -78,6 +78,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     Route::controller(LineasPersonalesController::class)->group(function () {
         Route::resource('lineas_personales', LineasPersonalesController::class);
         Route::post('query_consultor', 'queryConsultor')->name('query_consultor');
+        Route::post('query_producto', 'queryProducto')->name('query_producto');
     });
 
     // ===========================================================================

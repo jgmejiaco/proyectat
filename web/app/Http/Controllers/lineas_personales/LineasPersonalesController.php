@@ -11,6 +11,7 @@ use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
 use App\Http\Responsable\lineas_personales\QueryConsultor;
+use App\Http\Responsable\lineas_personales\queryProducto;
 
 class LineasPersonalesController extends Controller
 {
@@ -169,6 +170,29 @@ class LineasPersonalesController extends Controller
                     return redirect()->route('login');
                 } else {
                     return new QueryConsultor();
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Exception consulta consultor!");
+            return redirect()->route('login');
+        }
+    }
+    
+    public function queryProducto()
+    {
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->route('login');
+                } else {
+                    return new QueryProducto();
                 }
             }
         } catch (Exception $e) {

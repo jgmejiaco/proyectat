@@ -65,6 +65,12 @@
     {{-- ======================= --}}
 
     <div class="col-12 col-md-3 mt-5">
+        <x-input name="ramo" type="text" value="{{ $radicado->ramo ?? null }}" id="ramo" label="Ramo"  autocomplete="off" class="bg-secondary-subtle" readonly required />
+    </div>
+
+    {{-- ======================= --}}
+
+    {{-- <div class="col-12 col-md-3 mt-5">
         <x-select name="id_ramo" label="Ramo" id="id_ramo" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($ramos as $key => $value)
@@ -74,7 +80,7 @@
             @endforeach
         </x-select>
         @error('id_ramo')<div class="text-danger mt-1">{{ $message }}</div>@enderror
-    </div>
+    </div> --}}
 
     {{-- ======================= --}}
 

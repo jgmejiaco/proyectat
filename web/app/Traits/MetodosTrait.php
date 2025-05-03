@@ -72,7 +72,13 @@ trait MetodosTrait
         view()->share('estados', Estado::orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('estados_gral', Estado::whereIn('id_estado',[1,2])->orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
-        view()->share('aseguradoras', Aseguradora::orderBy('aseguradora','asc')->pluck('aseguradora', 'id_aseguradora'));
+
+        view()->share('aseguradoras', Aseguradora::select(
+            DB::raw("CONCAT(nit_aseguradora, ' - ', aseguradora) AS aseguradoras"),
+            'id_aseguradora'
+        )
+        ->orderBy('aseguradora', 'asc')
+        ->pluck('aseguradoras', 'id_aseguradora'));
 
         view()->share('consultores', Consultor::orderBy('clave_consultor_global','asc')->pluck('clave_consultor_global', 'id_consultor'));
 

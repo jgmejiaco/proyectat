@@ -98,6 +98,37 @@
             // ===================================================================================
             // ===================================================================================
 
+            $('#id_producto').change(function() {
+                let idProducto = $(this).val();
+                let ramo = $('#ramo').val('');
+                console.log(idProducto);
+
+                $.ajax({
+                    async: true,
+                    url: "{{route('query_producto')}}",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'id_producto': idProducto
+                    },
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        console.log(respuesta.ramo);
+
+                        ramo.val(respuesta.ramo);
+
+                        if(respuesta == "error_exception") {
+                            Swal.fire('Error!', 'No fue posible consultar el Ramo del Producto!', 'error');
+                            return;
+                        }
+                    }
+                });
+            });
+
+            // ===================================================================================
+            // ===================================================================================
+
             // formCrearUsuario para cargar gif en el submit
             $(document).on("submit", "form[id^='formCrearRadicado']", function(e) {
                 e.preventDefault(); // Evita el envío si hay errores

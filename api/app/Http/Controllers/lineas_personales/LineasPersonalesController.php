@@ -9,6 +9,7 @@ use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
 use App\Models\Consultor;
+use App\Models\Producto;
 
 class LineasPersonalesController extends Controller
 {
@@ -107,7 +108,32 @@ class LineasPersonalesController extends Controller
     // ======================================================================
     // ======================================================================
 
- 
+    public function queryProducto($idProducto)
+    {
+        try {
+            // Consultamos si ya existe este usuario específico
+            $producto = Producto::leftJoin('ramos','ramos.id_ramo','=','productos.id_ramo')
+                ->leftJoin('estados','estados.id_estado','=','productos.id_estado')
+                ->select(
+                    'id_producto',
+                    'codigo_producto',
+                    'producto',
+                    'ramos.id_ramo',
+                    'ramo',
+                    'estados.id_estado',
+                    'estados.estado',
+                )
+                ->where('id_producto', $idProducto)
+                ->first();
+
+            if ($producto) {
+                return response()->json($producto);
+            }
+
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
 
     // ======================================================================
     // ======================================================================
