@@ -11,7 +11,7 @@ use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
 use App\Http\Responsable\lineas_personales\QueryConsultor;
-use App\Http\Responsable\lineas_personales\queryProducto;
+use App\Http\Responsable\lineas_personales\QueryProducto;
 
 class LineasPersonalesController extends Controller
 {
