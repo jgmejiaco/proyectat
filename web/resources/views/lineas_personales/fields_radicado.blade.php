@@ -186,7 +186,7 @@
 
     {{-- ======================= --}}
 
-    <div class="col-12 col-md-4 mt-5">
+    <div class="col-12 col-md-2 mt-5">
         <x-select name="id_estado_poliza" label="Estado Póliza" id="id_estado_poliza" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($estados as $key => $value)
