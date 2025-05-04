@@ -44,7 +44,7 @@
 
                             <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
                                 <div class="row p-2">
-                                    <div class="col-12 col-md-3 mt-3 mb-4">
+                                    <div class="col-12 col-md-3 mt-3">
                                         <x-input
                                             name="clave_consultor_global"
                                             type="text"
@@ -55,12 +55,48 @@
                                         />
                                     </div>
 
-                                    <div class="col-12 col-md-9 mt-3 mb-4">
+                                    <div class="col-12 col-md-9 mt-3">
                                         <x-input
                                             name="consultor"
                                             type="text"
                                             label="Consultor"
                                             id="consultor"
+                                            class="text-lowercase text-capitalize"
+                                            autocomplete="given-name"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <x-input
+                                            name="gerente_comercial"
+                                            type="text"
+                                            label="Gerente Comercial"
+                                            id="gerente_comercial"
+                                            class="text-lowercase text-capitalize"
+                                            autocomplete="given-name"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <x-input
+                                            name="lider_comercial"
+                                            type="text"
+                                            label="Lider Comercial"
+                                            id="lider_comercial"
+                                            class="text-lowercase text-capitalize"
+                                            autocomplete="given-name"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-3 mb-4">
+                                        <x-input
+                                            name="equipo_informes"
+                                            type="text"
+                                            label="Equipo Informes"
+                                            id="equipo_informes"
                                             class="text-lowercase text-capitalize"
                                             autocomplete="given-name"
                                             required
@@ -101,9 +137,12 @@
                         aria-describedby="consultores">
                         <thead>
                             <tr class="header-table text-center">
-                                <th>Id Consultor</th>
+                                {{-- <th>Id Consultor</th> --}}
                                 <th>Clave Consultor Global</th>
                                 <th>Nombre Consultor</th>
+                                <th>Gerente Comercial</th>
+                                <th>Lider Comercial</th>
+                                <th>Equipo Informes</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
@@ -115,9 +154,12 @@
                             @endphp
                             @foreach ($consultoresIndex as $consultor)
                                 <tr class="text-center">
-                                    <td>{{$consultor->id_consultor}}</td>
+                                    {{-- <td>{{$consultor->id_consultor}}</td> --}}
                                     <td>{{$consultor->clave_consultor_global}}</td>
                                     <td>{{$consultor->consultor}}</td>
+                                    <td>{{$consultor->gerente_comercial}}</td>
+                                    <td>{{$consultor->lider_comercial}}</td>
+                                    <td>{{$consultor->equipo_informes}}</td>
                                     <td>{{$consultor->estado}}</td>
                                     <td>
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarConsultor_{{$consultor->id_consultor}}">
@@ -131,7 +173,7 @@
                                     {{-- INICIO Modal EDITAR CONSULTOR --}}
                                     <div class="modal fade" id="modalEditarConsultor_{{$consultor->id_consultor}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                                         <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
+                                            <div class="modal-content border-0 p-2">
                                                 <x-form
                                                     action="{{route('consultores.update', $consultor->id_consultor)}}"
                                                     method="PUT"
@@ -148,12 +190,12 @@
                                                     </div>
 
                                                     <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-6">
+                                                        <div class="row m-0">
+                                                            <div class="col-12 col-md-3 mt-3">
                                                                 <x-input
                                                                     name="clave_consultor_global"
                                                                     type="text"
-                                                                    label="Clave Consultor Global"
+                                                                    label="Clave Global"
                                                                     value="{{$consultor->clave_consultor_global}}"
                                                                     id="clave_consultor_global_{{$consultor->id_consultor}}"
                                                                     autocomplete="given-name"
@@ -161,7 +203,7 @@
                                                                 />
                                                             </div>
 
-                                                            <div class="col-12 col-md-6">
+                                                            <div class="col-12 col-md-9 mt-3">
                                                                 <x-input
                                                                     name="consultor"
                                                                     type="text"
@@ -174,7 +216,46 @@
                                                                 />
                                                             </div>
 
-                                                            <div class="col-12 col-md-6 mt-3">
+                                                            <div class="col-12 mt-3">
+                                                                <x-input
+                                                                    name="gerente_comercial"
+                                                                    type="text"
+                                                                    label="Gerente Comercial"
+                                                                    value="{{$consultor->gerente_comercial}}"
+                                                                    id="gerente_comercial_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 mt-3">
+                                                                <x-input
+                                                                    name="lider_comercial"
+                                                                    type="text"
+                                                                    label="Lider Comercial"
+                                                                    value="{{$consultor->lider_comercial}}"
+                                                                    id="lider_comercial_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6 mt-3 mb-3">
+                                                                <x-input
+                                                                    name="equipo_informes"
+                                                                    type="text"
+                                                                    label="Equipo Informes"
+                                                                    value="{{$consultor->equipo_informes}}"
+                                                                    id="equipo_informes_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6 mt-3 mb-3">
                                                                 <x-select
                                                                     name="id_estado"
                                                                     label="Estado"
@@ -195,10 +276,6 @@
 
                                                     <div class="modal-footer d-block mt-0 border border-0">
                                                         <!-- Contenedor para el GIF -->
-                                                        {{-- <div id="loadingIndicatorEditConsultor_{{$consultor->id_consultor}}" class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div> --}}
-
                                                         <div id="loadingIndicatorEditConsultor_{{$consultor->id_consultor}}" class="loadingIndicator">
                                                             <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
                                                         </div>
@@ -278,7 +355,7 @@
                 stripe: true,
                 responsive: true,
                 infoEmpty: "No hay registros disponibles",
-                order: [[2, 'asc']]  // Indicar la columna predeterminada contando desde 0
+                order: [[1, 'asc']]  // Indicar la columna predeterminada contando desde 0
             });
             // CIERRE DataTable Lista Consultores
 
@@ -298,10 +375,16 @@
                 submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
 
                 const claveConsultorGlobal = '#clave_consultor_global';
-                $(claveConsultorGlobal).prop("readonly", true).addClass("bg-secondary-subtle");
-
                 const consultor = '#consultor';
+                const gerenteComercial = '#gerente_comercial';
+                const liderComercial = '#lider_comercial';
+                const equipoInformes = '#equipo_informes';
+
+                $(claveConsultorGlobal).prop("readonly", true).addClass("bg-secondary-subtle");
                 $(consultor).prop("readonly", true).addClass("bg-secondary-subtle");
+                $(gerenteComercial).prop("readonly", true).addClass("bg-secondary-subtle");
+                $(liderComercial).prop("readonly", true).addClass("bg-secondary-subtle");
+                $(equipoInformes).prop("readonly", true).addClass("bg-secondary-subtle");
                 
                 // Mostrar Spinner
                 loadingIndicator.show();
@@ -343,10 +426,16 @@
                 // Capturo campos
                 const claveConsultorGlobal = $(`#clave_consultor_global_${id}`);
                 const consultor = $(`#consultor_${id}`);
+                const gerenteComercial = $(`#gerente_comercial_${id}`);
+                const liderComercial = $(`#lider_comercial_${id}`);
+                const equipoInformes = $(`#equipo_informes_${id}`);
                 const idEstado = $(`#idEstado_${id}`);
 
-                consultor.prop("readonly", true).addClass("bg-secondary-subtle");
                 claveConsultorGlobal.prop("readonly", true).addClass("bg-secondary-subtle");
+                consultor.prop("readonly", true).addClass("bg-secondary-subtle");
+                gerenteComercial.prop("readonly", true).addClass("bg-secondary-subtle");
+                liderComercial.prop("readonly", true).addClass("bg-secondary-subtle");
+                equipoInformes.prop("readonly", true).addClass("bg-secondary-subtle");
 
                 $(idEstado)
                     .prop("disabled", true)

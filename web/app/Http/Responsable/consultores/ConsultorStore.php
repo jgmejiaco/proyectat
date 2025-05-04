@@ -29,6 +29,9 @@ class ConsultorStore implements Responsable
         $validator = Validator::make($request->all(), [
             'clave_consultor_global' => 'required|string',
             'consultor'              => 'required|string',
+            'gerente_comercial'      => 'required|string',
+            'lider_comercial'        => 'required|string',
+            'equipo_informes'        => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -41,6 +44,9 @@ class ConsultorStore implements Responsable
         // Si pasa la validación
         $claveConsultorGlobal = $request->input('clave_consultor_global');
         $consultor = $request->input('consultor');
+        $gerenteComercial = $request->input('gerente_comercial');
+        $liderComercial = $request->input('lider_comercial');
+        $equipoInformes = $request->input('equipo_informes');
         $idEstado = 1;
 
         // Consultamos si ya existe esa clave consultor global
@@ -66,6 +72,9 @@ class ConsultorStore implements Responsable
                 'json' => [
                     'clave_consultor_global' => $claveConsultorGlobal,
                     'consultor' => ucwords(strtolower(trim($consultor))),
+                    'gerente_comercial' => ucwords(strtolower(trim($gerenteComercial))),
+                    'lider_comercial' => ucwords(strtolower(trim($liderComercial))),
+                    'equipo_informes' => ucwords(strtolower(trim($equipoInformes))),
                     'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]

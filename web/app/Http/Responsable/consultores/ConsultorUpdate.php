@@ -29,9 +29,12 @@ class ConsultorUpdate implements Responsable
     public function toResponse($request)
     {
         $validator = Validator::make($request->all(), [
-            'clave_consultor_global'    =>  'required|string',
-            'consultor'                 =>  'required|string',
-            'id_estado'                 =>  'required|integer'
+            'clave_consultor_global' => 'required|string',
+            'consultor'              => 'required|string',
+            'gerente_comercial'      => 'required|string',
+            'lider_comercial'        => 'required|string',
+            'equipo_informes'        => 'required|string',
+            'id_estado'              => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -45,6 +48,9 @@ class ConsultorUpdate implements Responsable
         $idConsultor = $this->idConsultor;
         $claveConsultorGlobal = $request->input('clave_consultor_global');
         $consultor = $request->input('consultor');
+        $gerenteComercial = $request->input('gerente_comercial');
+        $liderComercial = $request->input('lider_comercial');
+        $equipoInformes = $request->input('equipo_informes');
         $idEstado = $request->input('id_estado');
         
         // =============================================================
@@ -52,12 +58,12 @@ class ConsultorUpdate implements Responsable
         // Consultamos si ya existe esa clave consultor global
         $consultarClaveConsultorGlobal = $this->consultarClaveConsultorGlobal($claveConsultorGlobal);
 
-        if(isset($consultarClaveConsultorGlobal) && $consultarClaveConsultorGlobal->success) {
+        if(isset($consultarClaveConsultorGlobal) && $consultarClaveConsultorGlobal->success && $consultarClaveConsultorGlobal->data && $consultarClaveConsultorGlobal->data->id_consultor != $idConsultor) {
 
-            if ( isset($consultarClaveConsultorGlobal->data) && $consultarClaveConsultorGlobal->data->id_consultor != $idConsultor ) {
-                alert()->warning('Atención', 'Esta clave del consultor Global ya existe.');
-                return back();
-            }
+            // if ( isset($consultarClaveConsultorGlobal->data) && $consultarClaveConsultorGlobal->data->id_consultor != $idConsultor ) {
+            alert()->warning('Atención', 'Esta clave del consultor Global ya existe.');
+            return back();
+        // }
         }
 
         // =============================================================
@@ -73,6 +79,9 @@ class ConsultorUpdate implements Responsable
                 $consultarConsultor->data->id_consultor == $idConsultor &&
                 $consultarConsultor->data->clave_consultor_global == $claveConsultorGlobal &&
                 $consultarConsultor->data->consultor == $consultor &&
+                $consultarConsultor->data->gerente_comercial == $gerenteComercial &&
+                $consultarConsultor->data->lider_comercial == $liderComercial &&
+                $consultarConsultor->data->equipo_informes == $equipoInformes &&
                 $consultarConsultor->data->id_estado == $idEstado
             ) {
                 alert()->info('Info', 'No hay cambios a realizar!');
@@ -81,23 +90,27 @@ class ConsultorUpdate implements Responsable
 
             // Caso 2: Se debe actualizar (solo id_estado cambia)
             if (
-                ($consultarConsultor->data->id_consultor == $idConsultor) &&
-                ($consultarConsultor->data->consultor != $consultor ||
-                $consultarConsultor->data->id_estado != $idEstado ||
-                $consultarConsultor->data->clave_consultor_global != $claveConsultorGlobal)
+                ($consultarConsultor->data->id_consultor == $idConsultor) && (
+                    $consultarConsultor->data->clave_consultor_global != $claveConsultorGlobal ||
+                    $consultarConsultor->data->consultor != $consultor ||
+                    $consultarConsultor->data->gerente_comercial != $gerenteComercial ||
+                    $consultarConsultor->data->lider_comercial != $liderComercial ||
+                    $consultarConsultor->data->equipo_informes != $equipoInformes ||
+                    $consultarConsultor->data->id_estado != $idEstado
+                )
             ) {
-                return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal);
+                return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal,$gerenteComercial,$liderComercial,$equipoInformes);
             }
         }
 
         // Caso 3: Si ya existe otra consultor con el mismo nombre
         if ($consultarConsultor && $consultarConsultor->success) {
-            alert()->warning('Atención', 'Esta consultor ya existe.');
+            alert()->warning('Atención', 'Este consultor ya existe.');
             return back();
         }
 
         // Si no existe la consultor, la actualizamos
-        return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal);
+        return $this->actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal,$gerenteComercial,$liderComercial,$equipoInformes);
 
     } // FIN toResponse($request)
 
@@ -131,7 +144,7 @@ class ConsultorUpdate implements Responsable
             return json_decode($queryConsultor->getBody()->getContents());
 
         } catch (Exception $e) {
-            alert()->error('Error, Exception, contacte a Soporte.');
+            alert()->error('Error consultando el nombre del consultor, contacte a Soporte.');
             return redirect()->route('consultores.index');
         }
     }
@@ -140,14 +153,17 @@ class ConsultorUpdate implements Responsable
     // ===================================================================
 
     // Método para actualizar la consultor
-    private function actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal)
+    private function actualizarConsultor($idConsultor, $consultor, $idEstado, $claveConsultorGlobal,$gerenteComercial,$liderComercial,$equipoInformes)
     {
         try {
             $peticionConsultorUpdate = $this->clientApi->put($this->baseUri . 'consultor_update/' . $idConsultor, [
                 'json' => [
-                    'consultor' => ucwords(strtolower(trim($consultor))),
-                    'id_estado' => $idEstado,
                     'clave_consultor_global' => $claveConsultorGlobal,
+                    'consultor' => ucwords(strtolower(trim($consultor))),
+                    'gerente_comercial' => ucwords(strtolower(trim($gerenteComercial))),
+                    'lider_comercial' => ucwords(strtolower(trim($liderComercial))),
+                    'equipo_informes' => ucwords(strtolower(trim($equipoInformes))),
+                    'id_estado' => $idEstado,
                     'id_audit' => session('id_usuario')
                 ]
             ]);
