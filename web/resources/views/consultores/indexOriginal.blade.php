@@ -162,12 +162,139 @@
                                     <td>{{$consultor->equipo_informes}}</td>
                                     <td>{{$consultor->estado}}</td>
                                     <td>
-                                        <button class="btn btn-success btn-editar-consultor" data-id="{{ $consultor->id_consultor }}">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarConsultor_{{$consultor->id_consultor}}">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
 
-                                    
+                                    {{-- ====================================================== --}}
+                                    {{-- ====================================================== --}}
+
+                                    {{-- INICIO Modal EDITAR CONSULTOR --}}
+                                    {{-- <div class="modal fade" id="modalEditarConsultor_{{$consultor->id_consultor}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content border-0 p-2">
+                                                <x-form
+                                                    action="{{route('consultores.update', $consultor->id_consultor)}}"
+                                                    method="PUT"
+                                                    class="mt-2"
+                                                    id="formEditarConsultor_{{$consultor->id_consultor}}"
+                                                    autocomplete="off">
+
+                                                    <x-input name="id_consultor" type="hidden" value="{{$consultor->id_consultor}}" id="id_consultor_{{$consultor->id_consultor}}" autocomplete="given-name" />
+
+                                                    <div class="rounded-top text-white text-center"
+                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
+                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Consultor</h5>
+                                                    </div>
+
+                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
+                                                        <div class="row m-0">
+                                                            <div class="col-12 col-md-3 mt-3">
+                                                                <x-input
+                                                                    name="clave_consultor_global"
+                                                                    type="text"
+                                                                    label="Clave Global"
+                                                                    value="{{$consultor->clave_consultor_global}}"
+                                                                    id="clave_consultor_global_{{$consultor->id_consultor}}"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-9 mt-3">
+                                                                <x-input
+                                                                    name="consultor"
+                                                                    type="text"
+                                                                    label="Consultor"
+                                                                    value="{{$consultor->consultor}}"
+                                                                    id="consultor_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 mt-3">
+                                                                <x-input
+                                                                    name="gerente_comercial"
+                                                                    type="text"
+                                                                    label="Gerente Comercial"
+                                                                    value="{{$consultor->gerente_comercial}}"
+                                                                    id="gerente_comercial_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 mt-3">
+                                                                <x-input
+                                                                    name="lider_comercial"
+                                                                    type="text"
+                                                                    label="Lider Comercial"
+                                                                    value="{{$consultor->lider_comercial}}"
+                                                                    id="lider_comercial_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6 mt-3 mb-3">
+                                                                <x-input
+                                                                    name="equipo_informes"
+                                                                    type="text"
+                                                                    label="Equipo Informes"
+                                                                    value="{{$consultor->equipo_informes}}"
+                                                                    id="equipo_informes_{{$consultor->id_consultor}}"
+                                                                    class="text-lowercase text-capitalize"
+                                                                    autocomplete="given-name"
+                                                                    required
+                                                                />
+                                                            </div>
+
+                                                            <div class="col-12 col-md-6 mt-3 mb-3">
+                                                                <x-select
+                                                                    name="id_estado"
+                                                                    label="Estado"
+                                                                    id="idEstado_{{$consultor->id_consultor}}"
+                                                                    autocomplete="organization-title"
+                                                                    required
+                                                                >
+                                                                    <option value="">Seleccionar...</option>
+                                                                    @foreach($estados_gral as $key => $value)
+                                                                        <option value="{{$key}}" {{(isset($consultor) && $consultor->id_estado == $key) ? 'selected' : ''}}>
+                                                                            {{$value}}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </x-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal-footer d-block mt-0 border border-0">
+                                                        <div id="loadingIndicatorEditConsultor_{{$consultor->id_consultor}}" class="loadingIndicator">
+                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-center mt-3">
+                                                            <button type="button" id="btn_cancelar_consultor_{{ $consultor->id_consultor }}"
+                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
+                                                                <i class="fa fa-times"></i> Cancelar
+                                                            </button>
+
+                                                            <button type="submit" id="btn_editar_consultor_{{$consultor->id_consultor}}"
+                                                                class="btn btn-success" title="Editar">
+                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </x-form>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                    {{-- FINAL Modal EDITAR CONSULTOR --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -176,19 +303,6 @@
             </div> {{-- FIN div_campos_usuarios --}}
         </div> {{-- FIN div_crear_usuario --}}
     </div>
-
-    {{-- ====================================================== --}}
-    {{-- ====================================================== --}}
-
-    {{-- INICIO Modal EDITAR CONSULTOR --}}
-    <div class="modal fade" id="modalEditarConsultor" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content border-0 p-2" id="modalEditarConsultorContent">
-                {{-- El contenido AJAX se cargará aquí --}}
-            </div>
-        </div>
-    </div>
-    {{-- FINAL Modal EDITAR CONSULTOR --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -279,31 +393,15 @@
 
             // ===========================================================================================
 
-            $(document).on('click', '.btn-editar-consultor', function () {
-                const idConsultor = $(this).data('id');
-
-                $.ajax({
-                    url: `consultores_edit/${idConsultor}`,
-                    type: 'GET',
-                    beforeSend: function () {
-                        $('#modalEditarConsultorContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
-                        $('#modalEditarConsultor').modal('show');
-                    },
-                    success: function (html) {
-                        $('#modalEditarConsultorContent').html(html);
-
-                        // Reinicializar select2 si lo usas en el modal
-                        $('#modalEditarConsultor .select2').select2({
-                            dropdownParent: $('#modalEditarConsultor'),
-                            width: '100%'
-                        });
-                    },
-                    error: function () {
-                        $('#modalEditarConsultorContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
-                    }
+            // Cargar el select2 cuando el modal está abierto
+            $(document).on('shown.bs.modal', "div[id^='modalEditarConsultor_']", function () {
+                $(this).find('.select2').select2({
+                    dropdownParent: $(this),
+                    allowClear: false,
+                    width: '100%'
                 });
-            });
-            
+            }); // FIN shown.bs.modal->modalEditarConsultor_
+
             // ===========================================================================================
 
             // Validaciones editar Consultor al submit

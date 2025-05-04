@@ -95,7 +95,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // CONSULTORES
     Route::controller(ConsultoresController::class)->group(function () {
         Route::resource('consultores', ConsultoresController::class);
-        // Route::post('query_clave_consultor_global', 'queryClaveConsultorGlobal')->name('query_clave_consultor_global');
+        Route::get('consultores_edit/{idConsultor}', 'edit')->name('consultores_edit');
     });
 
     // ===========================================================================

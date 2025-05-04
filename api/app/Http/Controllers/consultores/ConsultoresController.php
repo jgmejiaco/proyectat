@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\consultores\ConsultorIndex;
 use App\Http\Responsable\consultores\ConsultorStore;
 use App\Http\Responsable\consultores\ConsultorUpdate;
+use App\Http\Responsable\consultores\ConsultorEdit;
 use App\Models\Consultor;
 
 class ConsultoresController extends Controller
@@ -58,9 +59,9 @@ class ConsultoresController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $idConsultor)
     {
-        //
+        return new ConsultorEdit($idConsultor);
     }
 
     // ======================================================================

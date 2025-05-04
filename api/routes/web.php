@@ -71,6 +71,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_consultor', 'consultores\ConsultoresController@consultarConsultor');
     $router->post('consultor_store', 'consultores\ConsultoresController@store');
     $router->put('consultor_update/{idConsultor}', 'consultores\ConsultoresController@update');
+    $router->get('consultor_edit/{idConsultor}', 'consultores\ConsultoresController@edit');
 });
 
 // =====================================================================
