@@ -16,6 +16,9 @@ class ConsultorIndex implements Responsable
                     'id_consultor',
                     'clave_consultor_global',
                     'consultor',
+                    'gerente_comercial',
+                    'lider_comercial',
+                    'equipo_informes',
                     'estados.id_estado',
                     'estados.estado',
                 )

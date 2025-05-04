@@ -16,6 +16,9 @@ class Consultor extends Model
     protected $fillable = [
         'clave_consultor_global',
         'consultor',
+        'gerente_comercial',
+        'lider_comercial',
+        'equipo_informes',
         'id_estado'
     ];
     protected $casts = [

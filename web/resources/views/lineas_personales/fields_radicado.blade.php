@@ -167,22 +167,26 @@
     </div>
 
     {{-- ======================= --}}
-
-    <div class="col-12 col-md-3 mt-5">
-        <x-select name="id_gerente" label="Gerente" id="id_gerente" autocomplete="organization-title" required>
-            <option value="">Seleccionar...</option>
-            @foreach($gerentes as $key => $value)
-                <option value="{{ $key }}" {{ old('id_gerente', $radicado->id_gerente ?? null) == $key ? 'selected' : '' }}>
-                    {{ $value }}
-                </option>
-            @endforeach
-        </x-select>
-        @error('id_gerente')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    
+    <div class="col-12 col-md-5 mt-5">
+        <x-input name="gerente_comercial" type="text" value="{{ $radicado->gerente_comercial ?? null }}" id="gerente_comercial" label="Gerente Comercial"  autocomplete="off" class="bg-secondary-subtle" readonly required />
     </div>
-        
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-5 mt-5">
+        <x-input name="lider_comercial" type="text" value="{{ $radicado->lider_comercial ?? null }}" id="lider_comercial" label="Lider Comercial"  autocomplete="off" class="bg-secondary-subtle" readonly required />
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-2 mt-5">
+        <x-input name="equipo_informes" type="text" value="{{ $radicado->equipo_informes ?? null }}" id="equipo_informes" label="Equipo Informes"  autocomplete="off" class="bg-secondary-subtle" readonly required />
+    </div>
+
     {{-- ======================= --}}
 
-    <div class="col-12 col-md-3 mt-5">
+    <div class="col-12 col-md-4 mt-5">
         <x-select name="id_estado_poliza" label="Estado Póliza" id="id_estado_poliza" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($estados as $key => $value)

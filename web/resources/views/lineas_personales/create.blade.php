@@ -70,7 +70,14 @@
             $('#id_consultor').change(function() {
                 let idConsultor = $(this).val();
                 let consultor = $('#consultor').val('');
+                let gerenteComercial = $('#gerente_comercial').val('');
+                let liderComercial = $('#lider_comercial').val('');
+                let equipoInformes = $('#equipo_informes').val('');
+                
                 console.log(idConsultor);
+                console.log(gerenteComercial);
+                console.log(liderComercial);
+                console.log(equipoInformes);
 
                 $.ajax({
                     async: true,
@@ -86,6 +93,9 @@
                         console.log(respuesta.consultor);
 
                         consultor.val(respuesta.consultor);
+                        gerenteComercial.val(respuesta.gerente_comercial);
+                        liderComercial.val(respuesta.lider_comercial);
+                        equipoInformes.val(respuesta.equipo_informes);
 
                         if(respuesta == "error_exception") {
                             Swal.fire('Error!', 'No fue posible consultar el Consultor!', 'error');

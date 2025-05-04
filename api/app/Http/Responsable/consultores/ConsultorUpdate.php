@@ -26,6 +26,9 @@ class ConsultorUpdate implements Responsable
             try {
                 $consultor->clave_consultor_global = $request->input('clave_consultor_global');
                 $consultor->consultor = $request->input('consultor');
+                $consultor->gerente_comercial = $request->input('gerente_comercial');
+                $consultor->lider_comercial = $request->input('lider_comercial');
+                $consultor->equipo_informes = $request->input('equipo_informes');
                 $consultor->id_estado = $request->input('id_estado');
                 $consultor->update();
 
