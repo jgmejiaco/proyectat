@@ -58,12 +58,12 @@ class ProductoStore implements Responsable
         // =============================================================
 
         // Consultamos si ya existe ese producto
-        $consultarProducto = $this->consultarProducto($producto);
+        // $consultarProducto = $this->consultarProducto($producto);
         
-        if(isset($consultarProducto->success) && $consultarProducto->success) {
-            alert()->warning('Atención', 'Este nombre de producto ya existe.');
-            return back();
-        }
+        // if(isset($consultarProducto->success) && $consultarProducto->success) {
+        //     alert()->warning('Atención', 'Este nombre de producto ya existe.');
+        //     return back();
+        // }
 
         // =============================================================
 
@@ -109,17 +109,17 @@ class ProductoStore implements Responsable
     // ===================================================================
     // ===================================================================
 
-    private function consultarProducto($producto)
-    {
-        try {
-            $queryProducto = $this->clientApi->post($this->baseUri.'consultar_producto', [
-                'query' => ['producto' => $producto]
-            ]);
-            return json_decode($queryProducto->getBody()->getContents());
+    // private function consultarProducto($producto)
+    // {
+    //     try {
+    //         $queryProducto = $this->clientApi->post($this->baseUri.'consultar_producto', [
+    //             'query' => ['producto' => $producto]
+    //         ]);
+    //         return json_decode($queryProducto->getBody()->getContents());
 
-        } catch (Exception $e) {
-            alert()->error('Error, consultando el nombre del producto, contacte a Soporte.');
-            return redirect()->route('productos.index');
-        }
-    }
+    //     } catch (Exception $e) {
+    //         alert()->error('Error, consultando el nombre del producto, contacte a Soporte.');
+    //         return redirect()->route('productos.index');
+    //     }
+    // }
 }

@@ -82,23 +82,25 @@ class ProductoUpdate implements Responsable
                 return redirect()->route('productos.index');
             }
 
-            // Caso 2: Se debe actualizar (solo id_estado cambia)
+            // Caso 2: Se debe actualizar
             if (
                 ($consultarProducto->data->id_producto == $idProducto) &&
-                ($consultarProducto->data->producto != $producto ||
-                $consultarProducto->data->id_estado != $idEstado ||
-                $consultarProducto->data->codigo_producto != $codigoProducto ||
-                $consultarProducto->data->id_estado != $idRamo)
+                (
+                    $consultarProducto->data->producto != $producto ||
+                    $consultarProducto->data->id_estado != $idEstado ||
+                    $consultarProducto->data->codigo_producto != $codigoProducto ||
+                    $consultarProducto->data->id_estado != $idRamo
+                )
             ) {
                 return $this->actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto, $idRamo);
             }
         }
 
         // Caso 3: Si ya existe otro producto con el mismo nombre
-        if ($consultarProducto && $consultarProducto->success) {
-            alert()->warning('Atención', 'Este producto ya existe.');
-            return back();
-        }
+        // if ($consultarProducto && $consultarProducto->success) {
+        //     alert()->warning('Atención', 'Este producto ya existe.');
+        //     return back();
+        // }
 
         // Si no existe la producto, la actualizamos
         return $this->actualizarProducto($idProducto, $producto, $idEstado, $codigoProducto, $idRamo);
