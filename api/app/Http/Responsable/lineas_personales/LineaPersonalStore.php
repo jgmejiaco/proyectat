@@ -17,14 +17,12 @@ class LineaPersonalStore implements Responsable
         $identificacionTomador = $request->input('identificacion_tomador');
         $tomador = $request->input('tomador');
         $idProducto = $request->input('id_producto');
-        $idRamo = $request->input('id_ramo');
         $primaAnualizada = $request->input('prima_anualizada');
         $idFrecuencia = $request->input('id_frecuencia');
         $idProceso = $request->input('id_proceso');
         $idEstadoInicial = $request->input('id_estado_inicial');
         $fechaEmision = $request->input('fecha_emision');
         $idConsultor = $request->input('id_consultor');
-        $idGerente = $request->input('id_gerente');
         $idEstadoPoliza = $request->input('id_estado_poliza');
         $fechaCancelacion = $request->input('fecha_cancelacion');
 
@@ -48,14 +46,12 @@ class LineaPersonalStore implements Responsable
                 'identificacion_tomador' => $identificacionTomador,
                 'tomador' => $tomador,
                 'id_producto' => $idProducto,
-                'id_ramo' => $idRamo,
                 'prima_anualizada' => $primaAnualizada,
                 'id_frecuencia' => $idFrecuencia,
                 'id_proceso' => $idProceso,
                 'id_estado_inicial' => $idEstadoInicial,
                 'fecha_emision' => $fechaEmision,
                 'id_consultor' => $idConsultor,
-                'id_gerente' => $idGerente,
                 'id_estado_poliza' => $idEstadoPoliza,
                 'fecha_cancelacion' => $fechaCancelacion,
                 'file_cedula' => $fileCedula,

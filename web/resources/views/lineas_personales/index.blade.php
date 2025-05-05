@@ -97,7 +97,7 @@
                                     <td class="text-center align-content-center">{{$radicado->fecha_emision}}</td>
                                     <td class="text-center align-content-center">{{$radicado->clave_consultor_global}}</td>
                                     <td class="text-center align-content-center">{{$radicado->consultor}}</td>
-                                    <td class="text-center align-content-center">{{$radicado->gerente}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->gerente_comercial}}</td>
                                     <td class="text-center align-content-center">{{$radicado->estado_poliza}}</td>
                                     <td class="text-center align-content-center">{{$radicado->fecha_cancelacion}}</td>
 

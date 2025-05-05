@@ -41,13 +41,11 @@ class LineaPersonalStore implements Responsable
             'identificacion_tomador'    => $requiredString,
             'tomador'                   => $requiredString,
             'id_producto'               => $requiredInteger,
-            'id_ramo'                   => $requiredInteger,
             'prima_anualizada'          => $requiredString,
             'id_frecuencia'             => $requiredInteger,
             'id_proceso'                => $requiredInteger,
             'id_estado_inicial'         => $requiredInteger,
             'id_consultor'              => $requiredInteger,
-            'id_gerente'                => $requiredInteger,
             'id_estado_poliza'          => $requiredInteger
         ], [
             'fecha_radicado.required'         => 'La fecha de radicado es obligatoria.',
@@ -63,9 +61,6 @@ class LineaPersonalStore implements Responsable
             'id_producto.required'            => 'Debe seleccionar un producto.',
             'id_producto.integer'             => 'El campo producto debe ser un número.',
 
-            'id_ramo.required'                => 'Debe seleccionar un ramo.',
-            'id_ramo.integer'                 => 'El campo ramo debe ser un número.',
-
             'prima_anualizada.required'       => 'Debe ingresar la prima anualizada.',
 
             'id_frecuencia.required'          => 'Debe seleccionar una frecuencia.',
@@ -79,9 +74,6 @@ class LineaPersonalStore implements Responsable
 
             'id_consultor.required'           => 'Debe seleccionar un consultor.',
             'id_consultor.integer'            => 'El campo consultor debe ser un número.',
-
-            'id_gerente.required'             => 'Debe seleccionar un gerente.',
-            'id_gerente.integer'              => 'El campo gerente debe ser un número.',
 
             'id_estado_poliza.required'       => 'Debe seleccionar un estado de póliza.',
             'id_estado_poliza.integer'        => 'El campo estado de póliza debe ser un número.'
@@ -99,9 +91,8 @@ class LineaPersonalStore implements Responsable
         $idAseguradora = $request->input('id_aseguradora');
         $polizaAsistente = $request->input('poliza_asistente');
         $identificacionTomador = $request->input('identificacion_tomador');
-        $tomador = ucwords(strtolower($request->input('tomador')));
+        $tomador = ucwords(strtolower(trim($request->input('tomador'))));
         $idProducto = $request->input('id_producto');
-        $idRamo = $request->input('id_ramo');
         $primaAnualizada = $request->input('prima_anualizada');
         $idFrecuencia = $request->input('id_frecuencia');
         $idProceso = $request->input('id_proceso');
@@ -109,7 +100,6 @@ class LineaPersonalStore implements Responsable
         $fechaEmision = $request->input('fecha_emision');
         $idConsultor = $request->input('id_consultor');
         $consultor = $request->input('consultor');
-        $idGerente = $request->input('id_gerente');
         $idEstadoPoliza = $request->input('id_estado_poliza');
         $fechaCancelacion = $request->input('fecha_cancelacion');
 
@@ -194,14 +184,12 @@ class LineaPersonalStore implements Responsable
                     'identificacion_tomador' => $identificacionTomador,
                     'tomador' =>  $tomador,
                     'id_producto' => $idProducto,
-                    'id_ramo' => $idRamo,
                     'prima_anualizada' => $primaAnualizada,
                     'id_frecuencia' => $idFrecuencia,
                     'id_proceso' => $idProceso,
                     'id_estado_inicial' => $idEstadoInicial,
                     'fecha_emision' => $fechaEmision,
                     'id_consultor' => $idConsultor,
-                    'id_gerente' => $idGerente,
                     'id_estado_poliza' => $idEstadoPoliza,
                     'fecha_cancelacion' => $fechaCancelacion,
                     'file_cedula' => $fileCedula,
