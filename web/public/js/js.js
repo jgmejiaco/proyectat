@@ -20,30 +20,76 @@ $(document).ready(function () {
 // ===================================================================
 
 // Función global para mostrar nombre de archivo seleccionado
-function displaySelectedFile(inputId, displayElementId) {
+function displaySelectedFile(inputId, previewId) {
     const input = document.getElementById(inputId);
-    const selectedFile = input.files[0];
-    const displayElement = document.getElementById(displayElementId);
+    const preview = document.getElementById(previewId);
 
-    displayElement.textContent = '';
-    displayElement.classList.add('hidden');
+    preview.innerHTML = '';
+    preview.classList.add('hidden');
 
-    if (!selectedFile) return;
+    if (!input.files || !input.files[0]) return;
 
-    const selectedFileName = selectedFile.name;
-    const fileExtension = selectedFileName.split('.').pop().toLowerCase();
+    const file = input.files[0];
+    const fileName = file.name;
+    const extension = fileName.split('.').pop().toLowerCase();
 
-    // Paso 1: definir extensiones válidas
     const allowedExtensions = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'];
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
 
-    if (!allowedExtensions.includes(fileExtension)) {
-        const errorMessage = 'Tipo de archivo no permitido. Solo se permiten: ' + allowedExtensions.join(', ');
-        input.value = ''; // limpiar el input
-        displayElement.textContent = errorMessage;
-        displayElement.classList.remove('hidden');
+    if (!allowedExtensions.includes(extension)) {
+        input.value = ''; // Limpiar el input
+        preview.textContent = 'Tipo de archivo no permitido. Solo se permiten: ' + allowedExtensions.join(', ');
+        preview.classList.remove('hidden');
         return;
     }
 
-    displayElement.textContent = selectedFileName;
-    displayElement.classList.remove('hidden');
+    if (imageExtensions.includes(extension)) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `
+                <img src="${e.target.result}" alt="Vista previa" class="img-thumbnail mt-2" style="max-width: 40px; max-height: 40px;">
+                <span class="text-muted ms-2">${fileName}</span>
+            `;
+        };
+        reader.readAsDataURL(file);
+    } else if (extension === 'pdf') {
+        const pdfIcon = "/img/pdf-icon.png"; // Asegúrate que exista en public/images
+        preview.innerHTML = `
+            <img src="${pdfIcon}" alt="Archivo PDF" class="mt-2" style="max-width: 40px; max-height: 40px;">
+            <span class="text-muted ms-2">${fileName}</span>
+        `;
+    } else {
+        preview.innerHTML = `<span class="text-muted mt-2">${fileName}</span>`;
+    }
+
+    preview.classList.remove('hidden');
 }
+
+// Función global para mostrar nombre de archivo seleccionado
+// function displaySelectedFile(inputId, displayElementId) {
+//     const input = document.getElementById(inputId);
+//     const selectedFile = input.files[0];
+//     const displayElement = document.getElementById(displayElementId);
+
+//     displayElement.textContent = '';
+//     displayElement.classList.add('hidden');
+
+//     if (!selectedFile) return;
+
+//     const selectedFileName = selectedFile.name;
+//     const fileExtension = selectedFileName.split('.').pop().toLowerCase();
+
+//     // Paso 1: definir extensiones válidas
+//     const allowedExtensions = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'];
+
+//     if (!allowedExtensions.includes(fileExtension)) {
+//         const errorMessage = 'Tipo de archivo no permitido. Solo se permiten: ' + allowedExtensions.join(', ');
+//         input.value = ''; // limpiar el input
+//         displayElement.textContent = errorMessage;
+//         displayElement.classList.remove('hidden');
+//         return;
+//     }
+
+//     displayElement.textContent = selectedFileName;
+//     displayElement.classList.remove('hidden');
+// }
