@@ -26,17 +26,6 @@ class LoginStore implements Responsable
 
     public function toResponse($request)
     {
-        $validator = Validator::make($request->all(), [
-            'usuario'   => 'required|string',
-            'clave'     => 'required|string|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'errores' => $validator->errors()
-            ], 422);
-        }
-
         $usuario = $request->input('usuario');
         $clave = $request->input('clave');
 
@@ -82,7 +71,7 @@ class LoginStore implements Responsable
                 alert()->error('Error','Credenciales Inválidas');
                 return back();
             }
-        } elseif ($user == 'null') {
+        } elseif ($user == null) {
             alert()->error('Error','Este usuario no existe: ' . $usuario);
             return back();
         } else {
