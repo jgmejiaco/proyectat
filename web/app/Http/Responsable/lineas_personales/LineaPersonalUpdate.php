@@ -105,7 +105,7 @@ class LineaPersonalUpdate implements Responsable
         $idEstadoPoliza = $request->input('id_estado_poliza');
         $fechaCancelacion = $request->input('fecha_cancelacion');
 
-        $polizaAsistente = ($polizaAsistente === 'N/A') ? '0' : $polizaAsistente;
+        $polizaAsistente = ($polizaAsistente === 'N/A') ? 'NA' : $polizaAsistente;
 
         // ==============================================================================
 
