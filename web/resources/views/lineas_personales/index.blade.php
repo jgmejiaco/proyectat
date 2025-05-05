@@ -149,8 +149,7 @@
                                     <td class="text-center align-content-center bg-info-subtle">{{$radicado->nombres_usuario}}</td>
 
                                     <td class="text-center align-content-center">
-                                        <a href="{{route('lineas_personales.index', $radicado->id_lineas_personal)}}" role="button"
-                                            class="btn btn-success">
+                                        <a href="{{route('lineas_personales.edit', $radicado->id_lineas_personal)}}" role="button" class="btn btn-success">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </a>
                                     </td>

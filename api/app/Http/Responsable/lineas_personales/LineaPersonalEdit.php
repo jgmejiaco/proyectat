@@ -4,16 +4,22 @@ namespace App\Http\Responsable\lineas_personales;
 
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use App\Models\LineaPersonal;
 
-class LineaPersonalIndex implements Responsable
+class LineaPersonalEdit implements Responsable
 {
+    protected $idLineasPersonal;
+
+    public function __construct($idLineasPersonal)
+    {
+        $this->idLineasPersonal = $idLineasPersonal;
+    }
+
     public function toResponse($request)
     {
         try {
-            $radicadosLineaPersonal = LineaPersonal::leftjoin('aseguradoras', 'aseguradoras.id_aseguradora', '=', 'lineas_personales.id_aseguradora')
+            $radicadoLineaPersonal = LineaPersonal::leftjoin('aseguradoras', 'aseguradoras.id_aseguradora', '=', 'lineas_personales.id_aseguradora')
                 ->leftjoin('productos', 'productos.id_producto', '=', 'lineas_personales.id_producto')
                 ->leftjoin('ramos', 'ramos.id_ramo', '=', 'productos.id_ramo')
                 ->leftjoin('frecuencias', 'frecuencias.id_frecuencia', '=', 'lineas_personales.id_frecuencia')
@@ -25,7 +31,6 @@ class LineaPersonalIndex implements Responsable
                 ->select(
                     'id_lineas_personal',
                     'fecha_radicado',
-                    DB::raw("DATE_FORMAT(fecha_radicado, '%m-%Y') as mes_anio_radicado"),
                     'aseguradoras.id_aseguradora',
                     'aseguradoras.aseguradora',
                     'poliza_asistente',
@@ -47,6 +52,8 @@ class LineaPersonalIndex implements Responsable
                     'consultores.clave_consultor_global',
                     'consultores.consultor',
                     'consultores.gerente_comercial',
+                    'consultores.lider_comercial',
+                    'consultores.equipo_informes',
                     'lineas_personales.id_estado_poliza',
                     'estado_poliza.estado as estado_poliza',
                     'fecha_cancelacion',
@@ -58,12 +65,12 @@ class LineaPersonalIndex implements Responsable
                     'file_renovacion',
                     'file_otros',
                     'usuarios.id_usuario',
-                    DB::raw("CONCAT(usuarios.nombre_usuario, ' ', usuarios.apellido_usuario) AS nombres_usuario"),
                 )
+                ->where('id_lineas_personal', $this->idLineasPersonal)
                 ->orderByDesc('fecha_radicado')
-                ->get();
+                ->first();
 
-            return response()->json($radicadosLineaPersonal);
+            return response()->json($radicadoLineaPersonal);
             
         } catch (Exception $e) {
             return response()->json(['error_exception' => $e->getMessage()]);

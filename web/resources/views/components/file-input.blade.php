@@ -25,7 +25,7 @@
     </div>
 
     @if ($link)
-        <a href="{{ $link }}" target="_blank" class="text-primary text-decoration-none mt-1">Ver archivo</a>
+        <a href="{{ asset('storage/' . $link) }}" target="_blank" class="text-primary text-decoration-none mt-1">Ver archivo</a>
     @endif
 
     <span id="selected_{{ $id }}" class="text-danger hidden mt-1"></span>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
+use App\Http\Responsable\lineas_personales\LineaPersonalEdit;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
 use App\Models\Consultor;
 use App\Models\Producto;
@@ -60,9 +61,9 @@ class LineasPersonalesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idLineasPersonal)
     {
-        //
+        return new LineaPersonalEdit($idLineasPersonal);
     }
 
     // ======================================================================
@@ -71,9 +72,9 @@ class LineasPersonalesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $idUsuario)
+    public function update(Request $request, string $idLineasPersonal)
     {
-        return new LineaPersonalUpdate($idUsuario);
+        return new LineaPersonalUpdate($idLineasPersonal);
     }
 
     // ======================================================================
