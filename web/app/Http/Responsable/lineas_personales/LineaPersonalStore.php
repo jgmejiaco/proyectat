@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
 use App\Traits\FileUploadTrait;
-use GuzzleHttp\Client;
 use Illuminate\Support\Str;
-use App\Models\Usuario;
+use GuzzleHttp\Client;
 
 class LineaPersonalStore implements Responsable
 {

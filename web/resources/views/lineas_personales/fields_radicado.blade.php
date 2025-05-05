@@ -112,7 +112,7 @@
         <x-select name="id_proceso" label="Proceso" id="id_proceso" autocomplete="organization-title" required>
             <option value="">Seleccionar...</option>
             @foreach($estados as $key => $value)
-                <option value="{{ $key }}" {{ old('id_proceso', $resLineaPersonalEdit->id_estado ?? null) == $key ? 'selected' : '' }}>
+                <option value="{{ $key }}" {{ old('id_proceso', $resLineaPersonalEdit->id_proceso ?? null) == $key ? 'selected' : '' }}>
                     {{ $value }}
                 </option>
             @endforeach

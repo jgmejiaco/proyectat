@@ -36,7 +36,7 @@
                     {{-- ========================================================= --}}
 
                     <!-- Contenedor para el GIF -->
-                    <div id="loadingIndicatorUpdate" class="loadingIndicator">
+                    <div id="loadingIndicatorRadicadoUpdate_{{$resLineaPersonalEdit->id_lineas_personal}}" class="loadingIndicator">
                         <img src="{{asset('img/loading.gif')}}" alt="Procesando...">
                     </div>
 
@@ -44,7 +44,7 @@
                     {{-- ========================================================= --}}
 
                     <div class="mt-5 mb-0 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success rounded-2">
+                        <button type="submit" class="btn btn-success rounded-2" id="btnEditarRadicado_{{$resLineaPersonalEdit->id_lineas_personal}}">
                             <i class="fa-regular fa-floppy-disk"></i> Editar Radicado
                         </button>
                     </div>
@@ -138,7 +138,7 @@
             // ===================================================================================
             // ===================================================================================
 
-            // formCrearUsuario para cargar gif en el submit
+            // formCrearRadicado para cargar gif en el submit
             $(document).on("submit", "form[id^='formCrearRadicado']", function(e) {
                 e.preventDefault(); // Evita el envío si hay errores
 
@@ -148,7 +148,7 @@
 
                 // Mostrar Spinner, Dessactivar Botones
                 loadingIndicator.show();
-                submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+                submitButton.prop("disabled", true).html("Creando... <i class='fa fa-spinner fa-spin'></i>");
 
                 // Enviar formulario manualmente
                 this.submit();
@@ -157,7 +157,24 @@
             // ===================================================================================
             // ===================================================================================
 
-            
+            // Botón de submit de editar Radicado
+            $(document).on("submit", "form[id^='formEditarRadicado_']", function(e) {
+                const form = $(this);
+                const formId = form.attr('id'); // Obtenemos el ID del formulario
+                const id = formId.split('_')[1]; // Obtener el ID del formulario desde el ID del formulario
+
+                // Capturar el indicador de carga dinámicamente
+                const submitButton = $(`#btnEditarRadicado_${id}`);
+                const loadingIndicator = $(`#loadingIndicatorRadicadoUpdate_${id}`);
+
+                // Lógica del botón
+                submitButton.prop("disabled", true).html(
+                    "Editando... <i class='fa fa-spinner fa-spin'></i>"
+                );
+
+                // Mostrar Spinner
+                loadingIndicator.show();
+            });
         }); // FIN document.readey
     </script>
 @stop

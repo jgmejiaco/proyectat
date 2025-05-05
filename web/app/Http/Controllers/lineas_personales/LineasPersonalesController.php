@@ -143,33 +143,33 @@ class LineasPersonalesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $idLineasPersonal)
     {
-        // try {
-        //     if (!$this->checkDatabaseConnection()) {
-        //         return view('db_conexion');
-        //     } else {
-        //         $sesion = $this->validarVariablesSesion();
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
 
-        //         if (empty($sesion[0]) || is_null($sesion[0]) &&
-        //             empty($sesion[1]) || is_null($sesion[1]) &&
-        //             empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
-        //         {
-        //             return redirect()->to(route('login'));
-        //         } else {
-        //             return new LineaPersonalUpdate();
-        //         }
-        //     }
-        // } catch (Exception $e) {
-        //     alert()->error("Exception Update Usuario!");
-        //     return redirect()->to(route('login'));
-        // }
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return new LineaPersonalUpdate($idLineasPersonal);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Exception Update Radicado!");
+            return redirect()->to(route('login'));
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idUsuario)
+    public function destroy(string $idLineasPersonal)
     {
         //
     }

@@ -38,7 +38,6 @@ class LineaPersonalEdit implements Responsable
             return view('lineas_personales.edit', compact('resLineaPersonalEdit'));
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error consultando el radicado, contacte a soporte');
             return back();
         }

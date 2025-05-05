@@ -47,7 +47,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('query_producto/{idProducto}', 'lineas_personales\LineasPersonalesController@queryProducto');
     $router->post('linea_personal_store', 'lineas_personales\LineasPersonalesController@store');
     $router->get('linea_personal_edit/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@edit');
-    // $router->put('linea_personal_update/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@update');
+    $router->put('linea_personal_update/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@update');
 });
 
 // =====================================================================
