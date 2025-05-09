@@ -115,12 +115,12 @@ class PermisosController extends Controller
                     ]);
 
                     $permisos = $peticionPermisos->getBody()->getContents();
-
                     return $permisos;
                 }
             }
             
         } catch (Exception $e) {
+            dd($e);
             return response()->json("error_exception");
         }
     }

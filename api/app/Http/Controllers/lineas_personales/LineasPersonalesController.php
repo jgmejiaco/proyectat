@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\lineas_personales;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

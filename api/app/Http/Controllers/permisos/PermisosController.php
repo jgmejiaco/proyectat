@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers\permisos;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permission;
 use App\Models\ModelHasPermissions;
+use App\Models\RolHasPermission;
+use App\Models\ModelHasRoles;
 
 class PermisosController extends Controller
 {
     function consultarPermisosPorUsuario(Request $request)
     {
         try {
-            $usuario = request('id_usuario', null);
+            $usuario = $request->input('id_usuario');
 
-            $consulta = ModelHasPermissions::select('permission_id')
-                        ->where('model_id', isset($usuario) ? $usuario : $request->usuario_id)
-                        ->get();
+            // 1. Obtener los roles del usuario
+            $rolesUsuario = ModelHasRoles::where('model_id', $usuario)->pluck('role_id');
 
-            return response()->json(["permisos" => $consulta]);
+            // 2. Obtener los permisos asociados a esos roles
+            $permisos = RolHasPermission::whereIn('role_id', $rolesUsuario)->pluck('permission_id');
+
+            return response()->json(['permisos' => $permisos]);
             
         } catch (Exception $e) {
             return response()->json(['error_exception'=>$e->getMessage()]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\frecuencias;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Responsable\frecuencias\FrecuenciaIndex;

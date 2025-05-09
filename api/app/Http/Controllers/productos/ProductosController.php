@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\productos;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Responsable\productos\ProductoIndex;

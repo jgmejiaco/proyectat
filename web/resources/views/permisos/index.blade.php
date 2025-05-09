@@ -18,11 +18,56 @@
         <div class="p-0" style="border: solid 1px #337AB7; border-radius: 5px;">
             <h4 class="border rounded-top text-white text-center pt-2 pb-2 text-uppercase" style="background-color: #337AB7;">Asignar Permiso</h4>
 
-            <div class="d-flex p-3">
+            <div class="d-flex justify-content-end p-3">
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearPermiso">
                     <i class="fa-solid fa-unlock-keyhole"></i> Crear Permiso
                 </button>
             </div>
+
+            {{-- INICIO Modal Crear Permisos --}}
+            <div class="modal fade" id="modalCrearPermiso" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content border-0 p-3">
+                        <div class="rounded-top" style="border: solid 1px #337AB7;">
+                            <div class="rounded-top text-white text-center" style="background-color: #337AB7; border: solid 1px #337AB7;">
+                                <h5 class="m-0 pt-1 pb-1 align-middle">Crear Permiso</h5>
+                            </div>
+
+                            <x-form action="{{route('crear_permiso')}}" method="POST" class="mt-2" id="formCrearPermiso" autocomplete="off">
+                                <div class="modal-body p-0 m-0">
+                                    <div class="row m-0 pt-1 pb-4">
+                                        <div class="col-12 col-md-6">
+                                            <x-input name="permission" type="text" label="Nombres Permiso" id="permission" autocomplete="given-name" required />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer d-block mt-0 border border-0 p-0 mb-3">
+                                    <!-- Contenedor para el GIF -->
+                                    <div id="loadingIndicatorCrearPermiso" class="loadingIndicator">
+                                        <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button type="button" id="btn_cancelar_user" class="btn btn-secondary me-3" data-bs-dismiss="modal">
+                                            <i class="fa fa-times"></i> Cancelar
+                                        </button>
+
+                                        <button type="submit" id="btn_crear_user" class="btn btn-success">
+                                            <i class="fa-regular fa-floppy-disk"></i> Crear
+                                        </button>
+                                    </div>
+                                </div>
+                            </x-form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- FINAL Modal Crear Permisos --}}
+
+            {{-- ====================================================== --}}
+            {{-- ====================================================== --}}
+            {{-- ====================================================== --}}
 
             <x-form action="{{route('permisos.store')}}" method="POST" class="mt-0" id="formAsignarPermisos" autocomplete="off" >
                 <div class="m-0 p-3">
@@ -98,51 +143,6 @@
             </x-form>
         </div> {{-- FIN div_p-0 --}}
     </div> {{-- FIN div_p-3 d-flex flex-column --}}
-
-    {{-- ====================================================== --}}
-    {{-- ====================================================== --}}
-    {{-- ====================================================== --}}
-
-    {{-- INICIO Modal Crear Permisos --}}
-    <div class="modal fade" id="modalCrearPermiso" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content border-0 p-3">
-                <div class="rounded-top" style="border: solid 1px #337AB7;">
-                    <div class="rounded-top text-white text-center" style="background-color: #337AB7; border: solid 1px #337AB7;">
-                        <h5 class="m-0 pt-1 pb-1 align-middle">Crear Permiso</h5>
-                    </div>
-
-                    <x-form action="{{route('crear_permiso')}}" method="POST" class="mt-2" id="formCrearPermiso" autocomplete="off">
-                        <div class="modal-body p-0 m-0">
-                            <div class="row m-0 pt-1 pb-4">
-                                <div class="col-12 col-md-6">
-                                    <x-input name="permission" type="text" label="Nombres Permiso" id="permission" autocomplete="given-name" required />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer d-block mt-0 border border-0 p-0 mb-3">
-                            <!-- Contenedor para el GIF -->
-                            <div id="loadingIndicatorCrearPermiso" class="loadingIndicator">
-                                <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                            </div>
-
-                            <div class="d-flex justify-content-center mt-3">
-                                <button type="button" id="btn_cancelar_user" class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                    <i class="fa fa-times"></i> Cancelar
-                                </button>
-
-                                <button type="submit" id="btn_crear_user" class="btn btn-success">
-                                    <i class="fa-regular fa-floppy-disk"></i> Crear
-                                </button>
-                            </div>
-                        </div>
-                    </x-form>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- FINAL Modal Crear Permisos --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -162,6 +162,8 @@
                 $('.permiso-checkbox').prop('checked', false);
                 const submitButton = $("#btn_asignar_permisos");
 
+                console.log(idUsuario);
+
                 $.ajax({
                     url: "{{route('consultar_permisos_usuario')}}",
                     type: 'POST',
@@ -179,6 +181,8 @@
                     },
                     success: function(response)
                     {
+                        console.log(response.permisos);
+
                         $("#loadingPermissions").hide('slow');
                         $("#loadingPermissions").addClass('d-none');
                         submitButton.prop("disabled", false).html("Guardar");
@@ -239,6 +243,21 @@
                 // Mostrar Spinner
                 loadingIndicator.show();
             });
+
+            // ===============================================================
+
+            $('#modalCrearPermiso').on('show.bs.modal', function () {
+                $('#id_usuario').select2('destroy');
+            });
+
+            $('#modalCrearPermiso').on('hidden.bs.modal', function () {
+                $('#id_usuario').select2({
+                    allowClear: false,
+                    width: '100%'
+                });
+            });
+
+            // ===============================================================
         }); // FIN document.ready
     </script>
 @stop
