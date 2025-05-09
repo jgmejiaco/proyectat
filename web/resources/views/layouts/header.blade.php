@@ -46,9 +46,9 @@
 
                             {{-- ==================== --}}
                             
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{route('permisos.index')}}" title="Permisos" class="nav-link text-white fw-bold">Permisos</a>
-                            </li>
+                            </li> --}}
                         @endif
 
                         {{-- ==================== --}}
