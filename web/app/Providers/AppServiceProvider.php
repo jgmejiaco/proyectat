@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
                     ->select(
                         'nombre_usuario',
                         'apellido_usuario',
+                        'usuarios.id_rol',
                         'name AS rol'
                     )
                     ->first();

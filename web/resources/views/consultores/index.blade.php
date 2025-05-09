@@ -166,8 +166,6 @@
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
-
-                                    
                                 </tr>
                             @endforeach
                         </tbody>

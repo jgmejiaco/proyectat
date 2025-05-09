@@ -11,6 +11,7 @@ use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
 use App\Http\Responsable\lineas_personales\LineaPersonalEdit;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
+use App\Http\Responsable\lineas_personales\LineaPersonalDestroy;
 use App\Http\Responsable\lineas_personales\QueryConsultor;
 use App\Http\Responsable\lineas_personales\QueryProducto;
 
@@ -131,11 +132,15 @@ class LineasPersonalesController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return new LineaPersonalEdit($idLineasPersonal);
+                    // ✅ Instanciar y llamar toResponse()
+                    $lineaPersonalEdit = new LineaPersonalEdit($idLineasPersonal);
+                    $resLineaPersonalEdit = $lineaPersonalEdit->toResponse(request());
+
+                    return view('lineas_personales.edit', compact('resLineaPersonalEdit'));
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Radicado!");
+            alert()->error("Exception Edit Radicado!");
             return redirect()->to(route('login'));
         }
     }
@@ -171,7 +176,52 @@ class LineasPersonalesController extends Controller
      */
     public function destroy(string $idLineasPersonal)
     {
-        //
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return new LineaPersonalDestroy($idLineasPersonal);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Exception Destroy Radicado!");
+            return redirect()->to(route('login'));
+        }
+    }
+
+    public function consultaEliminarRadicado(string $idLineasPersonal)
+    {
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    // ✅ Instanciar y llamar toResponse()
+                    $lineaPersonalEdit = new LineaPersonalEdit($idLineasPersonal);
+                    $resLineaPersonalEdit = $lineaPersonalEdit->toResponse(request());
+
+                    return view('lineas_personales.modal_eliminar_radicado', compact('resLineaPersonalEdit'));
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Exception Store Radicado!");
+            return redirect()->to(route('login'));
+        }
     }
 
     public function queryConsultor()

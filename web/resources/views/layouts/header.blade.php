@@ -39,15 +39,17 @@
 
                         {{-- ==================== --}}
 
-                        <li class="nav-item">
-                            <a href="{{route('usuarios.index')}}" title="Usuarios" class="nav-link text-white fw-bold">Usuarios</a>
-                        </li>
+                        @if($usuarioLogueado->id_rol == 1)
+                            <li class="nav-item">
+                                <a href="{{route('usuarios.index')}}" title="Usuarios" class="nav-link text-white fw-bold">Usuarios</a>
+                            </li>
 
-                        {{-- ==================== --}}
-                        
-                        <li class="nav-item">
-                            <a href="{{route('permisos.index')}}" title="Permisos" class="nav-link text-white fw-bold">Permisos</a>
-                        </li>
+                            {{-- ==================== --}}
+                            
+                            <li class="nav-item">
+                                <a href="{{route('permisos.index')}}" title="Permisos" class="nav-link text-white fw-bold">Permisos</a>
+                            </li>
+                        @endif
 
                         {{-- ==================== --}}
 

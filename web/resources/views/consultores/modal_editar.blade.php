@@ -5,7 +5,7 @@
     id="formEditarConsultor_{{$resConsultorEdit->id_consultor}}"
     autocomplete="off">
 
-    <x-input name="id_consultor" type="hidden" value="{{$resConsultorEdit->id_consultor}}" id="id_consultor_{{$resConsultorEdit->id_consultor}}" autocomplete="given-name" />
+    <x-input name="id_consultor" type="hidden" value="{{$resConsultorEdit->id_consultor}}" id="id_consultor_{{$resConsultorEdit->id_consultor}}" autocomplete="off" />
 
     <div class="rounded-top text-white" style="background-color: #337AB7; border: solid 1px #337AB7;">
         <h5 class="fw-bold text-center" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Consultor: {{$resConsultorEdit->consultor}}</h5>
@@ -20,7 +20,7 @@
                     label="Clave Global"
                     value="{{$resConsultorEdit->clave_consultor_global}}"
                     id="clave_consultor_global_{{$resConsultorEdit->id_consultor}}"
-                    autocomplete="given-name"
+                    autocomplete="off"
                     required
                 />
             </div>
@@ -33,7 +33,7 @@
                     value="{{$resConsultorEdit->consultor}}"
                     id="consultor_{{$resConsultorEdit->id_consultor}}"
                     class="text-lowercase text-capitalize"
-                    autocomplete="given-name"
+                    autocomplete="off"
                     required
                 />
             </div>
@@ -46,7 +46,7 @@
                     value="{{$resConsultorEdit->gerente_comercial}}"
                     id="gerente_comercial_{{$resConsultorEdit->id_consultor}}"
                     class="text-lowercase text-capitalize"
-                    autocomplete="given-name"
+                    autocomplete="off"
                     required
                 />
             </div>
@@ -59,7 +59,7 @@
                     value="{{$resConsultorEdit->lider_comercial}}"
                     id="lider_comercial_{{$resConsultorEdit->id_consultor}}"
                     class="text-lowercase text-capitalize"
-                    autocomplete="given-name"
+                    autocomplete="off"
                     required
                 />
             </div>
@@ -72,7 +72,7 @@
                     value="{{$resConsultorEdit->equipo_informes}}"
                     id="equipo_informes_{{$resConsultorEdit->id_consultor}}"
                     class="text-lowercase text-capitalize"
-                    autocomplete="given-name"
+                    autocomplete="off"
                     required
                 />
             </div>
@@ -82,7 +82,7 @@
                     name="id_estado"
                     label="Estado"
                     id="idEstado_{{$resConsultorEdit->id_consultor}}"
-                    autocomplete="organization-title"
+                    autocomplete="off"
                     required
                 >
                     <option value="">Seleccionar...</option>

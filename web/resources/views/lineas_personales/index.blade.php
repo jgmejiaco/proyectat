@@ -149,9 +149,13 @@
                                     <td class="text-center align-content-center bg-info-subtle">{{$radicado->nombres_usuario}}</td>
 
                                     <td class="text-center align-content-center">
-                                        <a href="{{route('lineas_personales.edit', $radicado->id_lineas_personal)}}" role="button" class="btn btn-success">
-                                            <i class="fa-solid fa-pencil"></i> Editar
+                                        <a href="{{route('lineas_personales.edit', $radicado->id_lineas_personal)}}" role="button" class="btn btn-success" title="Editar Radicado">
+                                            <i class="fa-solid fa-pencil"></i>
                                         </a>
+
+                                        <button class="btn btn-danger btn-eliminar-radicado" title="Eliminar Radicado" data-id="{{$radicado->id_lineas_personal}}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -161,6 +165,19 @@
             </div> {{-- FIN col-12 p-3 --}}
         </div> {{-- FIN div p-0 --}}
     </div>{{-- FIN p-3 d-flex flex-column --}}
+    
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal ELIMINAR RADICADO --}}
+    <div class="modal fade" id="modalEliminarRadicado" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-2" id="modalEliminarRadicadoContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal ELIMINAR RADICADO --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -222,6 +239,47 @@
             // CIERRE DataTable Líneas Personales
 
             // ===========================================================================================
+
+            $(document).on('click', '.btn-eliminar-radicado', function () {
+                const idLineasPersonal = $(this).data('id');
+
+                $.ajax({
+                    url: `eliminar_radicado/${idLineasPersonal}`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEliminarRadicado').modal('show');
+                        $('#modalEliminarRadicadoContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                    },
+                    success: function (html) {
+                        $('#modalEliminarRadicadoContent').html(html);
+                    },
+                    error: function () {
+                        $('#modalEliminarRadicadoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
+            });
+
+            // ===========================================================================================
+
+            // Validaciones eliminar radicado al submit
+            $(document).on("submit", "form[id^='formEliminarRadicado_']", function(e) {
+                const form = $(this);
+                const formId = form.attr('id');
+                const id = formId.split('_')[1];
+
+                // Capturar dinámicamente spinner y btns
+                const submitButton = $(`#btn_eliminar_radicado_${id}`);
+                const cancelButton = $(`#btn_cancelar_eliminar_radicado_${id}`);
+                const loadingIndicator = $(`#loadingIndicatorEliminarRadicado_${id}`);
+
+                // Bloquear botones
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html(
+                    "Procesando... <i class='fa fa-spinner fa-spin'></i>"
+                );
+                
+                loadingIndicator.show();
+            }); // FIN submit.formEditarConsultor_
         }); // FIN document.ready
     </script>
 @stop

@@ -10,6 +10,7 @@ use App\Http\Responsable\lineas_personales\LineaPersonalIndex;
 use App\Http\Responsable\lineas_personales\LineaPersonalStore;
 use App\Http\Responsable\lineas_personales\LineaPersonalEdit;
 use App\Http\Responsable\lineas_personales\LineaPersonalUpdate;
+use App\Http\Responsable\lineas_personales\LineaPersonalDestroy;
 use App\Models\Consultor;
 use App\Models\Producto;
 
@@ -84,9 +85,9 @@ class LineasPersonalesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idUsuario)
+    public function destroy(string $idLineasPersonal)
     {
-        // return new UsuarioDestroy($idUsuario);
+        return new LineaPersonalDestroy($idLineasPersonal);
     }
 
     // ======================================================================

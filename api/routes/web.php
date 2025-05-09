@@ -48,6 +48,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('linea_personal_store', 'lineas_personales\LineasPersonalesController@store');
     $router->get('linea_personal_edit/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@edit');
     $router->put('linea_personal_update/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@update');
+    $router->delete('linea_personal_destroy/{idLineasPersonal}', 'lineas_personales\LineasPersonalesController@destroy');
 });
 
 // =====================================================================

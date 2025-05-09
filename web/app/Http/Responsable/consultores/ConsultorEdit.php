@@ -43,7 +43,6 @@ class ConsultorEdit implements Responsable
             }
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error consultando el consultor, contacte a Soporte.');
             return redirect()->route('consultores.index');
         }

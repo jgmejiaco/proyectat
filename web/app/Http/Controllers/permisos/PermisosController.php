@@ -120,7 +120,6 @@ class PermisosController extends Controller
             }
             
         } catch (Exception $e) {
-            dd($e);
             return response()->json("error_exception");
         }
     }

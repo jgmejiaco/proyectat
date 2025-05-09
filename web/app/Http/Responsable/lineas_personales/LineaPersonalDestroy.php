@@ -5,12 +5,10 @@ namespace App\Http\Responsable\lineas_personales;
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use App\Traits\MetodosTrait;
 use GuzzleHttp\Client;
-use App\Models\Usuario;
 
-class LineaPersonalEdit implements Responsable
+class LineaPersonalDestroy implements Responsable
 {
     use MetodosTrait;
     protected $baseUri;
@@ -29,15 +27,24 @@ class LineaPersonalEdit implements Responsable
 
     public function toResponse($request)
     {
+        $idLineasPersonal = $this->idLineasPersonal;
+        
+        // =============================================================
+
         try {
-            $peticionLineaPersonalEdit = $this->clientApi->get($this->baseUri.'linea_personal_edit/'. $this->idLineasPersonal, [
+            $peticionEliminarRadicado = $this->clientApi->delete($this->baseUri . 'linea_personal_destroy/' . $idLineasPersonal, [
                 'json' => []
             ]);
-            return json_decode($peticionLineaPersonalEdit->getBody()->getContents());
+            $resEliminarRadicado = json_decode($peticionEliminarRadicado->getBody()->getContents());
+
+            if (isset($resEliminarRadicado) && $resEliminarRadicado->success) {
+                alert()->success('Radicado eliminado exitosamente!.');
+                return redirect()->route('lineas_personales.index');
+            }
 
         } catch (Exception $e) {
-            alert()->error('Error consultando el radicado, contacte a soporte');
-            return back();
+            alert()->error('Error eliminando el Radicado, contacte a Soporte.');
+            return redirect()->route('lineas_personales.index');
         }
-    }
+    } // FIN toResponse($request)
 }
