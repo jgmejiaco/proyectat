@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\DB;
 use App\Traits\MetodosTrait;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 
 class LineaPersonalDestroy implements Responsable
 {
@@ -38,11 +39,21 @@ class LineaPersonalDestroy implements Responsable
             $resEliminarRadicado = json_decode($peticionEliminarRadicado->getBody()->getContents());
 
             if (isset($resEliminarRadicado) && $resEliminarRadicado->success) {
+
+                // ✅ Eliminar archivos locales
+                $archivos = $resEliminarRadicado->archivos ?? [];
+                foreach ($archivos as $archivo) {
+                    if (Storage::disk('public')->exists($archivo)) {
+                        Storage::disk('public')->delete($archivo);
+                    }
+                }
+
                 alert()->success('Radicado eliminado exitosamente!.');
                 return redirect()->route('lineas_personales.index');
             }
 
         } catch (Exception $e) {
+            dd($e);
             alert()->error('Error eliminando el Radicado, contacte a Soporte.');
             return redirect()->route('lineas_personales.index');
         }

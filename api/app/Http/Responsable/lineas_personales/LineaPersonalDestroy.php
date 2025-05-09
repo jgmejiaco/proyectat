@@ -21,16 +21,32 @@ class LineaPersonalDestroy implements Responsable
         $radicado = LineaPersonal::findOrFail($this->idLineasPersonal);
 
         try {
-            if (isset($radicado) && !is_null($radicado) && !empty($radicado)) {
+            $archivos = [];
+
+            if ($radicado) {
+
+                $camposArchivos = [
+                    'file_cedula', 'file_matricula', 'file_asegurabilidad',
+                    'file_sarlaft', 'file_caratula_poliza', 'file_renovacion', 'file_otros'
+                ];
+
+                foreach ($camposArchivos as $campo) {
+                    if (!empty($radicado->$campo)) {
+                        $archivos[] = $radicado->$campo;
+                    }
+                }
 
                 $radicado->forceDelete();
     
                 // forceDelete() es para eliminiar todo el registro ignorando el solfdelete deleted_at
                 // delete() es para softdelete en deleted_at
-                // destroy no aplica
+                // destroy() no aplica
             }
 
-            return response()->json(['success' => true]);
+            return response()->json([
+                'success' => true,
+                'archivos' => $archivos, // Devuelve las rutas
+            ]);
             
         } catch (Exception $e) {
             return response()->json(['error_exception' => $e->getMessage()]);
