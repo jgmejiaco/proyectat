@@ -18,7 +18,7 @@
 
     // Si no se pasan minDate y maxDate, asignar valores dinámicos
     $minDate = $minDate ?: Carbon::now()->subYears(100)->format('Y-m-d');
-    $maxDate = $maxDate ?: Carbon::now()->addYears(1)->format('Y-m-d');
+    $maxDate = $maxDate ?: Carbon::now()->addYears(7)->format('Y-m-d');
 @endphp
 
 <div class="form-group {{ $wrapperClass }}">
