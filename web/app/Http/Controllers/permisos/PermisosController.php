@@ -97,6 +97,35 @@ class PermisosController extends Controller
         }
     }
 
+    public function verPermisos(Request $request)
+    {
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+    
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    $peticionPermisosIndex = $this->clientApi->get($this->baseUri . 'ver_permisos', [
+                        'json' => []
+                    ]);
+                    $permisos = json_decode($peticionPermisosIndex->getBody()->getContents());
+
+                    return view('permisos.ver_permisos', compact('permisos'));
+                }
+            }
+            
+        } catch (Exception $e) {
+            alert()->error("Error consultando los permisos!");
+            return back();
+        }
+    }
+
     public function crearPermiso(Request $request)
     {
         try {
@@ -111,11 +140,13 @@ class PermisosController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    $permiso = request('permission', null);
+                    $nombrePermiso = request('nombre_permiso', null);
+                    $rutaPermiso = request('ruta_permiso', null);
 
                     $peticionPermissionStore = $this->clientApi->post($this->baseUri . 'crear_permiso', [
                         'json' => [
-                            'permission' => $permiso,
+                            'permission' => $nombrePermiso,
+                            'route_name' => $rutaPermiso,
                             'id_audit' => session('id_usuario')
                         ]
                     ]);
@@ -123,12 +154,12 @@ class PermisosController extends Controller
 
                     if (isset($resPermiso->success) && $resPermiso->success) {
                         alert()->success($resPermiso->message);
-                        return back();
+                        return redirect()->route('ver_permisos');
                     }
 
                     if (isset($resPermiso->error) && $resPermiso->error) {
                         alert()->error($resPermiso->message);
-                        return back();
+                        return redirect()->route('ver_permisos');
                     }
                 }
             }
@@ -136,6 +167,78 @@ class PermisosController extends Controller
         } catch (Exception $e) {
             alert()->error("Error creando el permiso!");
             return back();
+        }
+    }
+
+    public function permisoEdit(Request $request, $idPermiso)
+    {
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+    
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    $peticionPermisoEdit = $this->clientApi->get($this->baseUri . 'permiso_edit/'.$idPermiso, [
+                        'json' => []
+                    ]);
+                    $resPermisoEdit = json_decode($peticionPermisoEdit->getBody()->getContents());
+
+                    if (isset($resPermisoEdit)) {
+                        return view('permisos.modal_editar_permiso', compact('resPermisoEdit'));
+                    }
+                }
+            }
+            
+        } catch (Exception $e) {
+            alert()->error("Error consultando el permiso!");
+            return back();
+        }
+    }
+    
+    public function actualizarPermiso(Request $request)
+    {
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+    
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    $idPermiso = request('id_permiso', null);
+                    $nombrePermiso = request('nombre_permiso', null);
+                    $rutaPermiso = request('ruta_permiso', null);
+
+                    $peticionPermisoUpdate = $this->clientApi->post($this->baseUri . 'permiso_update/'.$idPermiso, [
+                        'json' => [
+                            'name' => $nombrePermiso,
+                            'route_name' => $rutaPermiso,
+                            'id_audit' => session('id_usuario')
+                        ]
+                    ]);
+                    $resPermisoUpdate = json_decode($peticionPermisoUpdate->getBody()->getContents());
+
+                    if (isset($resPermisoUpdate) && $resPermisoUpdate->success) {
+                        alert()->success('Exito', 'Permiso editado satisfactoriamente.');
+                        return redirect()->route('ver_permisos');
+                    }
+                }
+            }
+            
+        } catch (Exception $e) {
+            dd($e);
+            alert()->error("Error actualizando el permiso!");
+            return redirect()->route('ver_permisos');
         }
     }
 } // FIN Class PermisosController

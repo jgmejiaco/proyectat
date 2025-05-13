@@ -153,7 +153,10 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // PERMISOS
     Route::controller(PermisosController::class)->group(function () {
         Route::resource('permisos', PermisosController::class)->middleware('permission');
-        Route::post('crear_permiso', 'crearPermiso')->name('crear_permiso')->middleware('permission');
         Route::post('consultar_permisos_usuario', 'consultarPermisosUsuario')->name('consultar_permisos_usuario')->middleware('permission');
+        Route::post('crear_permiso', 'crearPermiso')->name('crear_permiso')->middleware('permission');
+        Route::get('ver_permisos', 'verPermisos')->name('ver_permisos')->middleware('permission');
+        Route::get('permiso_edit/{idPermiso}', 'permisoEdit')->name('permiso_edit');
+        Route::post('actualizar_permiso', 'actualizarPermiso')->name('actualizar_permiso')->middleware('permission');
     });
 }); // FIN Route::middleware(['web', 'prevent-back-history'])

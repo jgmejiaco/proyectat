@@ -13,17 +13,34 @@ use App\Models\Usuario;
 
 class PermisosController extends Controller
 {
+    public function verPermisos(Request $request)
+    {
+        try {
+            $permisos = Permission::orderBy('name','asc')->get();
+
+            return response()->json($permisos);
+            
+        } catch (Exception $e) {
+            return response()->json(['error_exception' => $e->getMessage()], 500);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
     public function crearPermiso(Request $request)
     {
         try {
             $namePermission = $request->input('permission');
+            $routeName = $request->input('route_name');
             $validarPermision = $this->validarNombrePermiso(ucwords($namePermission));
 
             if ($validarPermision == 0) {
 
                 $createPermission = Permission::create([
                     'name' => ucwords($namePermission),
-                    'guard_name' => 'API'
+                    'guard_name' => 'API',
+                    'route_name' => $routeName,
                 ]);
     
                 if ($createPermission) {
@@ -47,6 +64,44 @@ class PermisosController extends Controller
 
     // ======================================================================
     // ======================================================================
+    
+    public function permisoEdit(Request $request, $idPermiso)
+    {
+        try {
+            $permiso = Permission::where('id', $idPermiso)->first();
+
+            return response()->json($permiso);
+            
+        } catch (Exception $e) {
+            return response()->json(['error_exception' => $e->getMessage()], 500);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+        
+    public function permisoUpdate(Request $request, $idPermiso)
+    {
+        $permiso = Permission::findOrFail($idPermiso);
+
+        // =================================================
+
+        if (isset($permiso) && !is_null($permiso) && !empty($permiso)) {
+            try {
+                $permiso->name = $request->input('name');
+                $permiso->route_name = $request->input('route_name');
+                $permiso->update();
+
+                return response()->json(['success' => true]);
+            } catch (Exception $e) {
+                return response()->json(['error_exception' => $e->getMessage()], 500);
+            }
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
 
     public function validarNombrePermiso($name)
     {
