@@ -72,13 +72,11 @@
             <x-form action="{{route('permisos.store')}}" method="POST" class="mt-0" id="formAsignarPermisos" autocomplete="off" >
                 <div class="m-0 p-3">
                     <div class="row">
-                        <div class="col-12 col-md-6">
-                            <x-select name="id_usuario" label="Usuario" id="id_usuario" autocomplete="organization-title" required >
+                        <div class="col-12 col-md-3">
+                            <x-select name="id_rol" label="Rol" id="id_rol" autocomplete="organization-title" required >
                                 <option value="">Seleccionar...</option>
-                                @foreach($usuarios as $key => $value)
-                                    <option value="{{$key}}" {{(isset($usuario) && $usuario->id_usuario == $key) ? 'selected' : ''}}>
-                                        {{$value}}
-                                    </option>
+                                @foreach($roles as $id_rol => $rol)
+                                    <option value="{{$id_rol}}">{{$rol}}</option>
                                 @endforeach
                             </x-select>
                         </div>
@@ -103,14 +101,11 @@
                         {{-- Checkbox para seleccionar todos --}}
                         <div class="permiso-item" style="padding-bottom: 20px;">
                             <input type="checkbox" id="seleccionar_todos">
-                            <label for="seleccionar_todos" class="pointer"><strong>Seleccionar/Quitar todos</strong></label>
+                            <label for="seleccionar_todos" class="pointer"><strong>Seleccionar todos</strong></label>
                         </div>
         
                         <div class="permiso-grid" id="permisos-grid">
                             @foreach ($permisos as $permiso)
-                                @php
-                                    // dd($permiso);
-                                @endphp
                                 <div class="permiso-item">
                                     <input
                                         type="checkbox"
@@ -118,7 +113,6 @@
                                         name="permisos[]"
                                         value="{{ $permiso->id }}"
                                         id="permiso_{{ $permiso->id }}"
-                                        {{ in_array($permiso->id, $permisosAsignados ?? []) ? 'checked' : '' }}
                                     >
                                     <label for="permiso_{{ $permiso->id }}" class="pointer">{{ $permiso->name }}</label>
                                 </div>
@@ -134,7 +128,7 @@
                     {{-- ====================================================== --}}
             
                     <div class="mt-5 mb-2 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success rounded-2 me-3" id="btn_asignar_permisos">
+                        <button type="submit" class="btn btn-success rounded-2 me-3" id="btnAsignarPermisos">
                             <i class="fa-regular fa-floppy-disk"></i>
                             Asignar
                         </button>
@@ -152,17 +146,13 @@
 @section('scripts')
     <script>
         // Variable que se comparte desde el trait
-        let permisosAsignados = @json($permisosAsignados);
-        const permisos = @json($permisos);
 
         $(document).ready(function() {
 
-            $("#id_usuario").change(function() {
-                let idUsuario = $("#id_usuario").val();
+            $("#id_rol").change(function() {
+                let idRol = $("#id_rol").val();
                 $('.permiso-checkbox').prop('checked', false);
-                const submitButton = $("#btn_asignar_permisos");
-
-                console.log(idUsuario);
+                const submitButton = $("#btnAsignarPermisos");
 
                 $.ajax({
                     url: "{{route('consultar_permisos_usuario')}}",
@@ -170,7 +160,7 @@
                     dataType: 'JSON',
                     data: {
                         '_token': "{{ csrf_token() }}",
-                        'id_usuario': idUsuario
+                        'id_rol': idRol
                     },
                     beforeSend: function()
                     {
@@ -181,29 +171,23 @@
                     },
                     success: function(response)
                     {
-                        console.log(response.permisos);
+                        $("#loadingPermissions").hide('slow').addClass('d-none');
+                        submitButton.prop("disabled", false).html("<i class='fa-regular fa-floppy-disk'></i> Asignar");
 
-                        $("#loadingPermissions").hide('slow');
-                        $("#loadingPermissions").addClass('d-none');
-                        submitButton.prop("disabled", false).html("Guardar");
-
-                        if(response == "error_exception") {
+                        if (response == "error_exception") {
                             Swal.fire('Error!', 'Ha ocurrido un error consultando los permisos', 'error');
                             return;
                         }
 
                         // Si tiene permisos asignados, marcarlos
-                        if (response.permisos.length > 0) {
-                            let permisosAsignados = response.permisos.map(item => item.permission_id);
-
-                            permisosAsignados.forEach(id =>
-                            {
+                        if (response.permisos && response.permisos.length > 0) {
+                            response.permisos.forEach(id => {
                                 $('#permiso_' + id).prop('checked', true);
                             });
                         }
                     } // FIN success:
                 }); // FIN $.ajax
-            }); // FIN $("#id_usuario").change(function()
+            }); // FIN $("#id_rol").change(function()
 
             // ===============================================================
 
@@ -247,11 +231,11 @@
             // ===============================================================
 
             $('#modalCrearPermiso').on('show.bs.modal', function () {
-                $('#id_usuario').select2('destroy');
+                $('#id_rol').select2('destroy');
             });
 
             $('#modalCrearPermiso').on('hidden.bs.modal', function () {
-                $('#id_usuario').select2({
+                $('#id_rol').select2({
                     allowClear: false,
                     width: '100%'
                 });

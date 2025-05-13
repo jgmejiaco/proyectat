@@ -7,32 +7,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permission;
 use App\Models\ModelHasPermissions;
-use App\Models\RolHasPermission;
+use App\Models\RoleHasPermission;
 use App\Models\ModelHasRoles;
+use App\Models\Usuario;
 
 class PermisosController extends Controller
 {
-    function consultarPermisosPorUsuario(Request $request)
-    {
-        try {
-            $usuario = $request->input('id_usuario');
-
-            // 1. Obtener los roles del usuario
-            $rolesUsuario = ModelHasRoles::where('model_id', $usuario)->pluck('role_id');
-
-            // 2. Obtener los permisos asociados a esos roles
-            $permisos = RolHasPermission::whereIn('role_id', $rolesUsuario)->pluck('permission_id');
-
-            return response()->json(['permisos' => $permisos]);
-            
-        } catch (Exception $e) {
-            return response()->json(['error_exception'=>$e->getMessage()]);
-        }
-    }
-
-    // ======================================================================
-    // ======================================================================
-
     public function crearPermiso(Request $request)
     {
         try {
@@ -78,24 +58,45 @@ class PermisosController extends Controller
     // ======================================================================
     // ======================================================================
 
+    function consultarPermisosPorUsuario(Request $request)
+    {
+        try {
+            $idRol = $request->input('id_rol');
+
+            // 2. Obtener los permisos asociados a esos roles
+            $permisos = RoleHasPermission::where('role_id', $idRol)->pluck('permission_id');
+
+            return response()->json(['permisos' => $permisos]);
+            
+        } catch (Exception $e) {
+            return response()->json(['error_exception'=>$e->getMessage()]);
+        }
+    }
+
+    // ======================================================================
+    // ======================================================================
+
     function asignarPermisoUsuario(Request $request)
     {
         try {
+            $idRol = $request->input('id_rol');
 
-            foreach($request->permissions as $permissions) {
-                $modelHasPermissions = ModelHasPermissions::updateOrCreate([
-                    'permission_id' => $permissions,
-                    'model_type' => 'App\Models\Usuario',
-                    'model_id' => $request->id_usuario
+            // Borrar permisos actuales del rol
+            RoleHasPermission::where('role_id', $idRol)->delete();
+
+            $permisos = $request->input('permissions');
+
+            foreach ($permisos as $permisoId) {
+                RoleHasPermission::updateOrCreate([
+                    'permission_id' => $permisoId,
+                    'role_id' => $idRol
                 ]);
             }
 
-            if($modelHasPermissions) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Permisos asignados correctamente'
-                ]);
-            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Permisos asignados correctamente'
+            ]);
             
         } catch (Exception $e) {
             return response()->json(['error_exception'=>$e->getMessage()]);

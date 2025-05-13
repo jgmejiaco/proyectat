@@ -4,13 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use OwenIt\Auditing\Contracts\Auditable; // Interfaz
-use OwenIt\Auditing\Auditable as AuditableTrait; // Trait
-
-class RolHasPermission extends Model implements Auditable
+class RoleHasPermission extends Model
 {
-    use AuditableTrait;
-
     protected $connection = 'mysql';
     protected $table = 'role_has_permissions';
     public $timestamps = false;

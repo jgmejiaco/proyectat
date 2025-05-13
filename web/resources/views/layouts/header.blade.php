@@ -30,25 +30,30 @@
                                 <li><a href="{{route('consultores.index')}}" class="dropdown-item text-black hover-li">Consultores</a></li>
                                 <li><a href="{{route('estados.index')}}" class="dropdown-item text-black hover-li">Estados</a></li>
                                 <li><a href="{{route('frecuencias.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a></li>
-                                {{-- <li><a href="{{route('gerentes.index')}}" class="dropdown-item text-black hover-li">Gerentes</a></li> --}}
                                 <li><a href="{{route('productos.index')}}" class="dropdown-item text-black hover-li">Productos</a></li>
                                 <li><a href="{{route('ramos.index')}}" class="dropdown-item text-black hover-li">Ramos</a></li>
-                                <li><a href="{{route('roles.index')}}" class="dropdown-item text-black hover-li">Roles</a></li>
+                                @if($permisos->tienePermisoRuta('roles.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('roles.index')}}" class="dropdown-item text-black hover-li">Roles</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
 
                         {{-- ==================== --}}
 
-                        @if($usuarioLogueado->id_rol == 1)
+                        @if($permisos->tienePermisoRuta('usuarios.index'))
                             <li class="nav-item">
                                 <a href="{{route('usuarios.index')}}" title="Usuarios" class="nav-link text-white fw-bold">Usuarios</a>
                             </li>
+                        @endif
 
-                            {{-- ==================== --}}
-                            
-                            {{-- <li class="nav-item">
+                        {{-- ==================== --}}
+
+                        @if($permisos->tienePermisoRuta('permisos.index'))
+                            <li class="nav-item">
                                 <a href="{{route('permisos.index')}}" title="Permisos" class="nav-link text-white fw-bold">Permisos</a>
-                            </li> --}}
+                            </li>
                         @endif
 
                         {{-- ==================== --}}

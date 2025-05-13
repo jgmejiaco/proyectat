@@ -15,6 +15,7 @@ use App\Models\Ramo;
 use App\Models\Tomador;
 use App\Models\Usuario;
 use App\Models\Permission;
+use App\Models\RoleHasPermission;
 
 trait MetodosTrait
 {
@@ -66,6 +67,25 @@ trait MetodosTrait
 
     // ======================================
 
+    function tienePermisoRuta($routeName)
+    {
+        $idRol = session('id_rol');
+
+        // Busca el id del permiso asociado a la ruta
+        $permiso = Permission::where('route_name', $routeName)->first();
+
+        if (!$permiso) {
+            return false; // Ruta no asociada a permiso
+        }
+
+        // Verifica si el rol tiene ese permiso
+        return RoleHasPermission::where('role_id', $idRol)
+            ->where('permission_id', $permiso->id)
+            ->exists();
+    }
+
+    // ======================================
+
     public function shareData()
     {
         //
@@ -111,10 +131,9 @@ trait MetodosTrait
                         )
                         ->orderBy('id_usuario')
                         ->where('id_estado', 1)
-                        ->pluck('user', 'id_usuario'));
-        view()->share('permisos', Permission::orderBy('id')->get());
+                        ->pluck('user', 'id_usuario')); // SIN USO, alimentada el select de usuarios, ahora roles
 
-        view()->share('permisosAsignados', []);
+        view()->share('permisos', Permission::orderBy('name')->get()); // Retorna a @foreach ($permisos as $permiso) de permisos.index
 
         // ======================================
     }

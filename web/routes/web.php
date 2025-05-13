@@ -68,7 +68,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // USUARIOS
     Route::controller(UsuariosController::class)->group(function () {
-        Route::resource('usuarios', UsuariosController::class);
+        Route::resource('usuarios', UsuariosController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -76,7 +76,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // INFORME PRODUCCIÓN LÍNEAS PERSONALES
     Route::controller(LineasPersonalesController::class)->group(function () {
-        Route::resource('lineas_personales', LineasPersonalesController::class);
+        Route::resource('lineas_personales', LineasPersonalesController::class)->middleware('permission');
         Route::post('query_consultor', 'queryConsultor')->name('query_consultor');
         Route::post('query_producto', 'queryProducto')->name('query_producto');
         Route::get('eliminar_radicado/{idLineasPersonal}', 'consultaEliminarRadicado')->name('eliminar_radicado');
@@ -87,7 +87,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     
     // ASEGURADORAS
     Route::controller(AseguradorasController::class)->group(function () {
-        Route::resource('aseguradoras', AseguradorasController::class);
+        Route::resource('aseguradoras', AseguradorasController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -95,7 +95,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
         
     // CONSULTORES
     Route::controller(ConsultoresController::class)->group(function () {
-        Route::resource('consultores', ConsultoresController::class);
+        Route::resource('consultores', ConsultoresController::class)->middleware('permission');
         Route::get('consultores_edit/{idConsultor}', 'edit')->name('consultores_edit');
     });
 
@@ -104,7 +104,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
             
     // ESTADOS
     Route::controller(EstadosController::class)->group(function () {
-        Route::resource('estados', EstadosController::class);
+        Route::resource('estados', EstadosController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -112,7 +112,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // FRECUENCIAS
     Route::controller(FrecuenciasController::class)->group(function () {
-        Route::resource('frecuencias', FrecuenciasController::class);
+        Route::resource('frecuencias', FrecuenciasController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -120,7 +120,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     
     // GERENTES
     Route::controller(GerentesController::class)->group(function () {
-        Route::resource('gerentes', GerentesController::class);
+        Route::resource('gerentes', GerentesController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -128,7 +128,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     
     // PRODUCTOS
     Route::controller(ProductosController::class)->group(function () {
-        Route::resource('productos', ProductosController::class);
+        Route::resource('productos', ProductosController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -136,7 +136,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // RAMOS
     Route::controller(RamosController::class)->group(function () {
-        Route::resource('ramos', RamosController::class);
+        Route::resource('ramos', RamosController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -144,7 +144,7 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // ROLES
     Route::controller(RolesController::class)->group(function () {
-        Route::resource('roles', RolesController::class);
+        Route::resource('roles', RolesController::class)->middleware('permission');
     });
 
     // ===========================================================================
@@ -152,9 +152,8 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
 
     // PERMISOS
     Route::controller(PermisosController::class)->group(function () {
-        Route::resource('permisos', PermisosController::class);
-        Route::post('crear_permiso', 'crearPermiso')->name('crear_permiso');
-        Route::post('crear_rol', 'crearRol')->name('crear_rol');
-        Route::post('consultar_permisos_usuario', 'consultarPermisosUsuario')->name('consultar_permisos_usuario');
+        Route::resource('permisos', PermisosController::class)->middleware('permission');
+        Route::post('crear_permiso', 'crearPermiso')->name('crear_permiso')->middleware('permission');
+        Route::post('consultar_permisos_usuario', 'consultarPermisosUsuario')->name('consultar_permisos_usuario')->middleware('permission');
     });
 }); // FIN Route::middleware(['web', 'prevent-back-history'])

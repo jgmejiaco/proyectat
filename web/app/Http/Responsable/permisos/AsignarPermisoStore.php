@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Contracts\Support\Responsable;
 use GuzzleHttp\Client;
 
-class PermisoStore implements Responsable
+class AsignarPermisoStore implements Responsable
 {
     protected $baseUri;
     protected $clientApi;
@@ -20,11 +20,11 @@ class PermisoStore implements Responsable
     public function toResponse($request)
     {
         try {
-            $idUsuario = request('id_usuario', null);
+            $idRol = request('id_rol', null);
             $arrayPermisos = request('permisos', null);
 
-            if(!isset($idUsuario) || is_null($idUsuario) || empty($idUsuario)) {
-                alert()->error("El campo usuario es obligatorio");
+            if(!isset($idRol) || is_null($idRol) || empty($idRol)) {
+                alert()->error("El campo Rol es obligatorio");
                 return back();
             }
 
@@ -33,7 +33,7 @@ class PermisoStore implements Responsable
                 [
                     'json' => [
                         'permissions' => $arrayPermisos,
-                        'id_usuario' => $idUsuario,
+                        'id_rol' => $idRol,
                         'id_audit' => session('id_usuario')
                     ]
                 ]);

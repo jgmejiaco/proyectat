@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Traits\MetodosTrait;
 use Exception;
-use App\Http\Responsable\permisos\PermisoStore;
+use App\Http\Responsable\permisos\AsignarPermisoStore;
 
 class PermisosController extends Controller
 {
@@ -45,32 +45,6 @@ class PermisosController extends Controller
         }
     }
 
-    public function create()
-    {
-        try
-        {
-            if (!$this->checkDatabaseConnection()) {
-                return view('db_conexion');
-            } else {
-                $sesion = $this->validarVariablesSesion();
-    
-                if (empty($sesion[0]) || is_null($sesion[0]) &&
-                    empty($sesion[1]) || is_null($sesion[1]) &&
-                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
-                {
-                    return redirect()->to(route('login'));
-                } else
-                {
-                    return view('home.permisos_quitar');
-                }
-            }
-        } catch (Exception $e)
-        {
-            alert()->error("Exception Quitar Permisos!");
-            return back();
-        }
-    }
-
     public function store(Request $request)
     {
         try {
@@ -85,7 +59,7 @@ class PermisosController extends Controller
                 {
                     return redirect()->to(route('login'));
                 } else {
-                    return new PermisoStore();
+                    return new AsignarPermisoStore();
                 }
             }
         } catch (Exception $e) {
@@ -108,14 +82,13 @@ class PermisosController extends Controller
                 {
                     return redirect()->route('login');
                 } else {
-                    $usuario = request('id_usuario', null);
+                    $rol = request('id_rol', null);
 
-                    $peticionPermisos = $this->clientApi->post($this->baseUri . 'consultar_permisos', [
-                        'json' => ['id_usuario' => $usuario]
+                    $peticionPermisos = $this->clientApi->get($this->baseUri . 'consultar_permisos', [
+                        'json' => ['id_rol' => $rol]
                     ]);
 
-                    $permisos = $peticionPermisos->getBody()->getContents();
-                    return $permisos;
+                    return $peticionPermisos->getBody()->getContents();
                 }
             }
             
@@ -162,51 +135,6 @@ class PermisosController extends Controller
             
         } catch (Exception $e) {
             alert()->error("Error creando el permiso!");
-            return back();
-        }
-    }
-
-    public function crearRol(Request $request)
-    {
-        try {
-            if (!$this->checkDatabaseConnection()) {
-                return view('db_conexion');
-            } else {
-                $sesion = $this->validarVariablesSesion();
-    
-                if (empty($sesion[0]) || is_null($sesion[0]) &&
-                    empty($sesion[1]) || is_null($sesion[1]) &&
-                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
-                {
-                    return redirect()->to(route('login'));
-                } else {
-
-                    $rol = request('rol', null);
-
-                    $peticionRolStore = $this->clientApi->post($this->baseUri . 'crear_rol',
-                    [
-                        'json' => [
-                            'name' => $rol,
-                            'id_audit' => session('id_usuario')
-                        ]
-                    ]);
-                    $rol = json_decode($peticionRolStore->getBody()->getContents());
-
-                    if(isset($rol->success) && $rol->success) {
-                        alert()->success($rol->message);
-                        return back();
-                    }
-
-                    if(isset($rol->error) && $rol->error) {
-                        alert()->error($rol->message);
-                        return back();
-                    }
-
-                }
-            }
-            
-        } catch (Exception $e) {
-            alert()->error("Ha ocurrido un error creando el rol!");
             return back();
         }
     }

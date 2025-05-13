@@ -20,6 +20,7 @@ class Permission extends Model implements Auditable
     public $timestamps = true;
     protected $fillable = [
         'name',
-        'guard_name'
+        'guard_name',
+        'route_name'
     ];
 }

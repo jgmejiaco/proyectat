@@ -22,12 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('layouts.header', function ($view)
-        {
+        View::composer('layouts.header', function ($view) {
             try {
                 $idUsuario = session('id_usuario');
 
-                // Consultar el usuario en la base de datos
+                // Datos del usuario
                 $usuario = Usuario::leftJoin('roles', 'roles.id', '=', 'usuarios.id_rol')
                     ->where('id_usuario', $idUsuario)
                     ->select(
@@ -38,11 +37,17 @@ class AppServiceProvider extends ServiceProvider
                     )
                     ->first();
 
-                $view->with('usuarioLogueado', $usuario);
-               
-            } catch (Exception $e)
-            {
-                alert()->error('Error', 'Exception Usuario Logueado');
+                // Permisos
+                $permisosController = app(\App\Http\Controllers\permisos\PermisosController::class);
+                
+                // Pasamos ambas variables
+                $view->with([
+                    'usuarioLogueado' => $usuario,
+                    'permisos' => $permisosController
+                ]);
+            
+            } catch (Exception $e) {
+                alert()->error('Error', 'Exception al cargar datos de sesión');
                 return back();
             }
         });

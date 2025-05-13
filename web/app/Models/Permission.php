@@ -15,7 +15,8 @@ class Permission extends Model
     public $timestamps = true;
     protected $fillable = [
         'name',
-        'guard_name'
+        'guard_name',
+        'route_name'
     ];
     protected $casts = [
         'deleted_at' => 'datetime',
