@@ -88,7 +88,6 @@ trait MetodosTrait
 
     public function shareData()
     {
-        //
         view()->share('estados', Estado::orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('estados_gral', Estado::whereIn('id_estado',[1,2])->orderBy('estado','asc')->pluck('estado', 'id_estado'));
         view()->share('roles', Rol::orderBy('name','asc')->pluck('name', 'id'));
@@ -120,20 +119,6 @@ trait MetodosTrait
         )
         ->orderBy('tomador', 'asc')
         ->pluck('nombre_completo', 'id_tomador'));
-
-        // ======================================
-
-        // PERMISOS
-        view()->share('usuarios', Usuario::leftJoin('roles','roles.id','=','usuarios.id_rol')
-                        ->select(
-                            DB::raw("CONCAT(nombre_usuario, ' ', apellido_usuario, ' - ', usuario, ' => ', name) AS user"),
-                            'id_usuario'
-                        )
-                        ->orderBy('id_usuario')
-                        ->where('id_estado', 1)
-                        ->pluck('user', 'id_usuario')); // SIN USO, alimentada el select de usuarios, ahora roles
-
-        view()->share('permisos', Permission::orderBy('name')->get()); // Retorna a @foreach ($permisos as $permiso) de permisos.index
 
         // ======================================
     }

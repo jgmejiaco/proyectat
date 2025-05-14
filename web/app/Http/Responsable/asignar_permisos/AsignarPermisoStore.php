@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Responsable\permisos;
+namespace App\Http\Responsable\asignar_permisos;
 
 use Exception;
 use Illuminate\Contracts\Support\Responsable;
@@ -29,7 +29,7 @@ class AsignarPermisoStore implements Responsable
             }
 
             if(isset($arrayPermisos) && !is_null($arrayPermisos) && !empty($arrayPermisos)) {
-                $peticionPermisoStore = $this->clientApi->post($this->baseUri . 'asignar_permiso_usuario',
+                $peticionPermisoStore = $this->clientApi->post($this->baseUri . 'asignar_permiso_rol',
                 [
                     'json' => [
                         'permissions' => $arrayPermisos,
@@ -42,7 +42,7 @@ class AsignarPermisoStore implements Responsable
 
                 if(isset($permission->success) && $permission->success) {
                     alert()->success($permission->message);
-                    return redirect()->route('permisos.index');
+                    return redirect()->route('asignar_permisos.index');
                 }
 
             } else {

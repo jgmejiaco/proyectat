@@ -1,11 +1,9 @@
 <x-form
-    action="{{route('actualizar_permiso')}}"
-    method="POST"
+    action="{{route('permisos.update',$resPermisoEdit->id)}}"
+    method="PUT"
     class="mt-2"
     id="formEditarPermiso_{{$resPermisoEdit->id}}"
     autocomplete="off">
-
-    <x-input name="id_permiso" type="hidden" value="{{$resPermisoEdit->id}}" id="id_permiso_{{$resPermisoEdit->id}}" autocomplete="off" />
 
     <div class="rounded-top text-white" style="background-color: #337AB7; border: solid 1px #337AB7;">
         <h5 class="fw-bold text-center" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Permiso: {{$resPermisoEdit->name}}</h5>

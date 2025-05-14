@@ -1,12 +1,14 @@
 @extends('layouts.app')
-@section('title', 'Permisos')
+@section('title', 'Ver Permisos')
 
 {{-- =============================================================== --}}
 {{-- =============================================================== --}}
 {{-- =============================================================== --}}
 
 @section('css')
-    
+    <style>
+        
+    </style>
 @stop
 
 {{-- =============================================================== --}}
@@ -16,80 +18,114 @@
 @section('content')
     <div class="p-3 d-flex flex-column">
         <div class="p-0" style="border: solid 1px #337AB7; border-radius: 5px;">
-            <h4 class="border rounded-top text-white text-center pt-2 pb-2 text-uppercase" style="background-color: #337AB7;">Asignar Permiso</h4>
+            <h5 class="border rounded-top text-white text-center pt-2 pb-2" style="background-color: #337AB7;">Permisos</h5>
 
-            {{-- ====================================================== --}}
-            {{-- ====================================================== --}}
-            {{-- ====================================================== --}}
+            <div class="row pe-3 mt-3">
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalCrearPermiso">
+                        <i class="fa-solid fa-unlock-keyhole"></i> Crear Permiso
+                    </button>
+                </div>
+            </div>
 
-            <x-form action="{{route('permisos.store')}}" method="POST" class="mt-0" id="formAsignarPermisos" autocomplete="off" >
-                <div class="m-0 p-3">
-                    <div class="row">
-                        <div class="col-12 col-md-3">
-                            <x-select name="id_rol" label="Rol" id="id_rol" autocomplete="organization-title" required >
-                                <option value="">Seleccionar...</option>
-                                @foreach($roles as $id_rol => $rol)
-                                    <option value="{{$id_rol}}">{{$rol}}</option>
-                                @endforeach
-                            </x-select>
-                        </div>
-                
-                        <div class="col-12 col-md-6 text-center">
-                            <div id="loadingPermissions" class="aligned-middle d-none">
-                                <img src="{{ asset('img/loading.gif') }}" alt="Procesando..." height="50" width="50">
-                                <p class="mb-0"><strong>Procesando...</strong></p>
+            {{-- INICIO Modal CREAR PERMISO --}}
+            <div class="modal fade" id="modalCrearPermiso" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog" style="min-width: 55%">
+                    <div class="modal-content border-0 p-3">
+                        <x-form
+                            action="{{route('permisos.store')}}"
+                            method="POST"
+                            class="mt-0"
+                            id="formCrearPermiso"
+                            autocomplete="off"
+                        >
+                            <div class="rounded-top text-white text-center"
+                                style="background-color: #337AB7; border: solid 1px #337AB7;">
+                                <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Crear Permiso</h5>
                             </div>
-                        </div>
-                    </div>
-            
-                    <div class="mt-5">
-                        <h3 class="border rounded text-center pt-2 pb-2 m-0" style="background-color: #EEEEEE;">Permisos Asignados</h3>
-                    </div>
-        
-                    <div class="mt-4 mb-4">
-                        <h5 class="text-start">Seleccione los permisos que deseas asignar</h5>
-                    </div>
-        
-                    <div class="col-12 pt-2">
-                        {{-- Checkbox para seleccionar todos --}}
-                        <div class="permiso-item" style="padding-bottom: 20px;">
-                            <input type="checkbox" id="seleccionar_todos">
-                            <label for="seleccionar_todos" class="pointer"><strong>Seleccionar todos</strong></label>
-                        </div>
-        
-                        <div class="permiso-grid" id="permisos-grid">
-                            @foreach ($permisos as $permiso)
-                                <div class="permiso-item">
-                                    <input
-                                        type="checkbox"
-                                        class="permiso-checkbox"
-                                        name="permisos[]"
-                                        value="{{ $permiso->id }}"
-                                        id="permiso_{{ $permiso->id }}"
-                                    >
-                                    <label for="permiso_{{ $permiso->id }}" class="pointer">{{ $permiso->name }}</label>
+
+                            <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
+                                <div class="row p-2">
+                                    <div class="col-12 col-md-6 mt-3 mb-4">
+                                        <x-input name="nombre_permiso" type="text" label="Nombre Permiso" id="nombre_permiso" autocomplete="off" required />
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-3 mb-4">
+                                        <x-input name="ruta_permiso" type="text" label="Ruta Permiso" id="ruta_permiso" autocomplete="off" required />
+                                    </div>
                                 </div>
-                            @endforeach
-                        </div>
-                    </div>
-            
-                    <!-- Contenedor para el GIF -->
-                    <div id="loadingIndicatorAsignarPermiso" class="loadingIndicator">
-                        <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                    </div>
-            
-                    {{-- ====================================================== --}}
-            
-                    <div class="mt-5 mb-2 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success rounded-2 me-3" id="btnAsignarPermisos">
-                            <i class="fa-regular fa-floppy-disk"></i>
-                            Asignar
-                        </button>
+                            </div>
+
+                            <div class="modal-footer d-block mt-0 border border-0 p-0">
+                                <!-- Contenedor para el GIF -->
+                                <div id="loadingIndicatorCrearPermiso" class="loadingIndicator">
+                                    <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
+                                </div>
+
+                                <div class="d-flex justify-content-center mt-4">
+                                    <button type="button" id="btn_cancelar_permiso" class="btn btn-secondary me-3" data-bs-dismiss="modal">
+                                        <i class="fa fa-times"></i> Cancelar
+                                    </button>
+
+                                    <button type="submit" id="btn_crear_permiso" class="btn btn-success">
+                                        <i class="fa-regular fa-floppy-disk"></i> Crear
+                                    </button>
+                                </div>
+                            </div>
+                        </x-form>
                     </div>
                 </div>
-            </x-form>
-        </div> {{-- FIN div_p-0 --}}
-    </div> {{-- FIN div_p-3 d-flex flex-column --}}
+            </div>
+            {{-- FINAL Modal CREAR PERMISO --}}
+
+            {{-- =============================================================== --}}
+            {{-- =============================================================== --}}
+            {{-- =============================================================== --}}
+
+            <div class="col-12 p-3" id="">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered w-100 mb-0" id="tbl_permisos" aria-describedby="permisos">
+                        <thead>
+                            <tr class="header-table text-center">
+                                <th>ID Permiso</th>
+                                <th>Nombre</th>
+                                <th>Ruta</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        {{-- ============================== --}}
+                        <tbody>
+                            @foreach ($permisosIndex as $permiso)
+                                <tr class="text-center">
+                                    <td>{{$permiso->id}}</td>
+                                    <td>{{$permiso->name}}</td>
+                                    <td>{{$permiso->route_name}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success btn-editar-permiso" data-id="{{ $permiso->id }}">
+                                            <i class="fa-solid fa-pencil"></i> Editar
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div> {{-- FIN div_ --}}
+        </div> {{-- FIN div_ --}}
+    </div>
+    
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal EDITAR PERMISO --}}
+    <div class="modal fade" id="modalEditarPermiso" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-2" id="modalEditarPermisoContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR PERMISO --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -98,72 +134,128 @@
 
 @section('scripts')
     <script>
-        // Variable que se comparte desde el trait
-
         $(document).ready(function() {
-
-            $("#id_rol").change(function() {
-                let idRol = $("#id_rol").val();
-                $('.permiso-checkbox').prop('checked', false);
-                const submitButton = $("#btnAsignarPermisos");
-
-                $.ajax({
-                    url: "{{route('consultar_permisos_usuario')}}",
-                    type: 'POST',
-                    dataType: 'JSON',
-                    data: {
-                        '_token': "{{ csrf_token() }}",
-                        'id_rol': idRol
-                    },
-                    beforeSend: function()
+            // INICIO DataTable Lista producto
+            $("#tbl_permisos").DataTable({
+                dom: 'Blfrtip',
+                buttons: [
                     {
-                        $("#loadingPermissions").show('slow');
-                        $("#loadingPermissions").removeClass('d-none');
-                    
-                        submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+                        extend: 'excelHtml5',
+                        text: '📥 Exportar Excel',
+                        className: 'waves-effect waves-light btn btn-sm btn-success rounded-pill',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('row:first c', sheet).attr('s', '42');
+                        }
                     },
-                    success: function(response)
                     {
-                        $("#loadingPermissions").hide('slow').addClass('d-none');
-                        submitButton.prop("disabled", false).html("<i class='fa-regular fa-floppy-disk'></i> Asignar");
-
-                        if (response == "error_exception") {
-                            Swal.fire('Error!', 'Ha ocurrido un error consultando los permisos', 'error');
-                            return;
-                        }
-
-                        // Si tiene permisos asignados, marcarlos
-                        if (response.permisos && response.permisos.length > 0) {
-                            response.permisos.forEach(id => {
-                                $('#permiso_' + id).prop('checked', true);
-                            });
-                        }
-                    } // FIN success:
-                }); // FIN $.ajax
-            }); // FIN $("#id_rol").change(function()
-
-            // ===============================================================
-
-            document.getElementById('seleccionar_todos').addEventListener('change', function () {
-                const checkboxes = document.querySelectorAll('.permiso-checkbox');
-                checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+                        extend: 'pdfHtml5',
+                        text: '📄 Exportar PDF',
+                        className: 'waves-effect waves-light btn btn-sm btn-danger rounded-pill',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'letter',
+                        title: 'Listado de Permisos'
+                    }
+                ],
+                language: {
+                    url: "{{ asset('DataTable1.13.6/es-ES.json') }}"
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, -1],
+                    [10, 20, 30, "Todos"]
+                ],
+                scrollX: true,
+                bSort: true,
+                stripe: true,
+                responsive: true,
+                infoEmpty: "No hay registros disponibles",
+                order: [[1, 'asc']]  // Indicar la columna predeterminada contando desde 0
             });
+            // CIERRE DataTable Lista producto
 
-            // ===============================================================
+            // ===========================================================================================
 
-            $("#formAsignarPermisos").on("submit", function (e) {
+            // formCrearPermiso Submit para cargar gif en el submit
+            $(document).on("submit", "form[id^='formCrearPermiso']", function(e) {
+                e.preventDefault(); // Evita el envío si hay errores
+
                 const form = $(this);
                 const submitButton = form.find('button[type="submit"]');
-                const loadingIndicator = form.find("div[id^='loadingIndicatorAsignarPermiso']"); // Busca el GIF del form actual
-        
+                const cancelButton = form.find('button[type="button"]');
+                const loadingIndicator = form.find("div[id^='loadingIndicatorCrearPermiso']");
+
                 // Dessactivar Botones
+                cancelButton.prop("disabled", true);
                 submitButton.prop("disabled", true).html("Procesando... <i class='fa fa-spinner fa-spin'></i>");
+
+                const nombrePermiso = '#nombre_permiso';
+                $(nombrePermiso).prop("readonly", true).addClass("bg-secondary-subtle");
+
+                const rutaPermiso = '#ruta_permiso';
+                $(rutaPermiso).prop("readonly", true).addClass("bg-secondary-subtle");
                 
                 // Mostrar Spinner
                 loadingIndicator.show();
+
+                // Enviar formulario manualmente
+                this.submit();
             });
+
+            // ===========================================================================================
+
+            $(document).on('click', '.btn-editar-permiso', function () {
+                const idPermiso = $(this).data('id');
+
+                $.ajax({
+                    url: `/permisos/${idPermiso}/edit`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEditarPermisoContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarPermiso').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarPermisoContent').html(html);
+                    },
+                    error: function () {
+                        $('#modalEditarPermisoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
+            });
+
+            // ===========================================================================================
+
+            $(document).on("submit", "form[id^='formEditarPermiso_']", function(e) {
+                const form = $(this);
+                const formId = form.attr('id');
+                const id = formId.split('_')[1];
+
+                // Capturar dinámicamente spinner y btns
+                const submitButton = $(`#btn_editar_permiso_${id}`);
+                const cancelButton = $(`#btn_cancelar_permiso_${id}`);
+                const loadingIndicator = $(`#loadingIndicatorEditPermiso_${id}`);
+
+                // Bloquear botones
+                cancelButton.prop("disabled", true);
+                submitButton.prop("disabled", true).html(
+                    "Procesando... <i class='fa fa-spinner fa-spin'></i>"
+                );
+                    
+                // Capturo campos
+                const nombrePermiso = $(`#nombre_permiso_${id}`);
+                const rutaPermiso = $(`#ruta_permiso_${id}`);
+
+                nombrePermiso.prop("readonly", true).addClass("bg-secondary-subtle");
+                rutaPermiso.prop("readonly", true).addClass("bg-secondary-subtle");
+
+                loadingIndicator.show();
+            }); // FIN submit.formEditarProducto_
         }); // FIN document.ready
     </script>
 @stop
-
-

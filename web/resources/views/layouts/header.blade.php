@@ -38,9 +38,9 @@
                                     </li>
                                 @endif
 
-                                @if($permisos->tienePermisoRuta('ver_permisos'))
+                                @if($permisos->tienePermisoRuta('permisos.index'))
                                     <li class="nav-item">
-                                        <a href="{{route('ver_permisos')}}" class="dropdown-item text-black hover-li">Permisos</a>
+                                        <a href="{{route('permisos.index')}}" class="dropdown-item text-black hover-li">Permisos</a>
                                     </li>
                                 @endif
                             </ul>
@@ -56,9 +56,9 @@
 
                         {{-- ==================== --}}
 
-                        @if($permisos->tienePermisoRuta('permisos.index'))
+                        @if($permisos->tienePermisoRuta('asignar_permisos.index'))
                             <li class="nav-item">
-                                <a href="{{route('permisos.index')}}" title="Permisos" class="nav-link text-white fw-bold">Asignar Permisos</a>
+                                <a href="{{route('asignar_permisos.index')}}" title="Asignar Permisos" class="nav-link text-white fw-bold">Asignar Permisos</a>
                             </li>
                         @endif
 

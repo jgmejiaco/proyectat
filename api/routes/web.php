@@ -148,10 +148,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
 // PERMISOS
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('consultar_permisos', 'permisos\PermisosController@consultarPermisosPorUsuario');
-    $router->post('crear_permiso', 'permisos\PermisosController@crearPermiso');
-    $router->post('asignar_permiso_usuario', 'permisos\PermisosController@asignarPermisoUsuario');
-    $router->get('ver_permisos', 'permisos\PermisosController@verPermisos');
-    $router->get('permiso_edit/{idPermiso}', 'permisos\PermisosController@permisoEdit');
-    $router->post('permiso_update/{idPermiso}', 'permisos\PermisosController@permisoUpdate');
+    $router->get('permiso_index', 'permisos\PermisosController@index');
+    $router->post('permiso_store', 'permisos\PermisosController@store');
+    $router->get('permiso_edit/{idPermiso}', 'permisos\PermisosController@edit');
+    $router->put('permiso_update/{idPermiso}', 'permisos\PermisosController@update');
+});
+
+// =====================================================================
+// =====================================================================
+
+// ASIGNAR PERMISOS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('asignar_permiso_index', 'asignar_permisos\AsignarPermisosController@index');
+    $router->get('consultar_permisos_rol', 'asignar_permisos\AsignarPermisosController@consultarPermisosRol');
+    $router->post('asignar_permiso_rol', 'asignar_permisos\AsignarPermisosController@store');
 });

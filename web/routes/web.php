@@ -5,6 +5,7 @@ use App\Http\Controllers\inicio_sesion\LoginController;
 use App\Http\Controllers\home\HomeController;
 use App\Http\Controllers\usuarios\UsuariosController;
 use App\Http\Controllers\lineas_personales\LineasPersonalesController;
+use App\Http\Controllers\asignar_permisos\AsignarPermisosController;
 use App\Http\Controllers\permisos\PermisosController;
 use App\Http\Controllers\aseguradoras\AseguradorasController;
 use App\Http\Controllers\consultores\ConsultoresController;
@@ -153,10 +154,14 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // PERMISOS
     Route::controller(PermisosController::class)->group(function () {
         Route::resource('permisos', PermisosController::class)->middleware('permission');
-        Route::post('consultar_permisos_usuario', 'consultarPermisosUsuario')->name('consultar_permisos_usuario')->middleware('permission');
-        Route::post('crear_permiso', 'crearPermiso')->name('crear_permiso')->middleware('permission');
-        Route::get('ver_permisos', 'verPermisos')->name('ver_permisos')->middleware('permission');
-        Route::get('permiso_edit/{idPermiso}', 'permisoEdit')->name('permiso_edit');
-        Route::post('actualizar_permiso', 'actualizarPermiso')->name('actualizar_permiso')->middleware('permission');
+    });
+
+    // ===========================================================================
+    // ===========================================================================
+
+    // ASIGNAR PERMISOS
+    Route::controller(AsignarPermisosController::class)->group(function () {
+        Route::resource('asignar_permisos', AsignarPermisosController::class)->middleware('permission');
+        Route::get('consultar_permisos_rol', 'consultarPermisosRol')->name('consultar_permisos_rol')->middleware('permission');
     });
 }); // FIN Route::middleware(['web', 'prevent-back-history'])
