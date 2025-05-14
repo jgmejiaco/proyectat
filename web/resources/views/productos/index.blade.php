@@ -134,125 +134,10 @@
                                     <td>{{$producto->ramo}}</td>
                                     <td>{{$producto->estado}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto_{{$producto->id_producto}}">
+                                        <button type="button" class="btn btn-success btn-editar-producto" data-id="{{$producto->id_producto}}">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal EDITAR PRODUCTO --}}
-                                    <div class="modal fade" id="modalEditarProducto_{{$producto->id_producto}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog" style="min-width: 55%">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('productos.update', $producto->id_producto)}}"
-                                                    method="PUT"
-                                                    class="mt-2"
-                                                    id="formEditarProducto_{{$producto->id_producto}}"
-                                                    autocomplete="off"
-                                                >
-
-                                                    <x-input name="id_producto" type="hidden" value="{{$producto->id_producto}}" id="id_producto_{{$producto->id_producto}}" autocomplete="given-name" />
-
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Producto</h5>
-                                                    </div>
-
-                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-4">
-                                                                <x-input
-                                                                    name="codigo_producto"
-                                                                    type="text"
-                                                                    label="Código Producto"
-                                                                    value="{{$producto->codigo_producto}}"
-                                                                    id="codigo_producto_{{$producto->id_producto}}"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-8">
-                                                                <x-input
-                                                                    name="producto"
-                                                                    type="text"
-                                                                    label="Producto"
-                                                                    value="{{$producto->producto}}"
-                                                                    id="producto_{{$producto->id_producto}}"
-                                                                    class="text-lowercase text-capitalize"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-6 mt-3">
-                                                                <x-select
-                                                                    name="id_ramo"
-                                                                    label="Ramo"
-                                                                    id="idRamo_{{$producto->id_producto}}"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($ramos as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($producto) && $producto->id_ramo == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-
-                                                            <div class="col-12 col-md-6 mt-3">
-                                                                <x-select
-                                                                    name="id_estado"
-                                                                    label="Estado"
-                                                                    id="idEstado_{{$producto->id_producto}}"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($estados_gral as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($producto) && $producto->id_estado == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer d-block mt-0 border border-0">
-                                                        <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditProducto_{{$producto->id_producto}}"
-                                                            class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <button type="button" id="btn_cancelar_producto_{{ $producto->id_producto }}"
-                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"></i> Cancelar
-                                                            </button>
-
-                                                            <button type="submit" id="btn_editar_producto_{{$producto->id_producto}}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </x-form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- FINAL Modal EDITAR PRODUCTO --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -261,6 +146,19 @@
             </div> {{-- FIN div_ --}}
         </div> {{-- FIN div_ --}}
     </div>
+
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal EDITAR PRODUCTO --}}
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" style="min-width: 55%">
+            <div class="modal-content border-0 p-3" id="modalEditarProductoContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR PRODUCTO --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -358,14 +256,30 @@
 
             // ===========================================================================================
 
-            // Cargar el select2 cuando el modal está abierto
-            $(document).on('shown.bs.modal', "div[id^='modalEditarProducto_']", function () {
-                $(this).find('.select2').select2({
-                    dropdownParent: $(this),
-                    allowClear: false,
-                    width: '100%'
+            $(document).on('click', '.btn-editar-producto', function () {
+                const idProducto = $(this).data('id');
+
+                $.ajax({
+                    url: `/productos/${idProducto}/edit`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEditarProductoContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarProducto').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarProductoContent').html(html);
+
+                        // Reinicializar select2 si lo usas en el modal
+                        $('#modalEditarProducto .select2').select2({
+                            dropdownParent: $('#modalEditarProducto'),
+                            width: '100%'
+                        });
+                    },
+                    error: function () {
+                        $('#modalEditarProductoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
                 });
-            }); // FIN shown.bs.modal->modalEditarProducto_
+            });
 
             // ===========================================================================================
 
@@ -384,7 +298,7 @@
                 submitButton.prop("disabled", true).html(
                     "Procesando... <i class='fa fa-spinner fa-spin'></i>"
                 );
-                    
+
                 // Capturo campos
                 const codigoProducto = $(`#codigo_producto_${id}`);
                 const producto = $(`#producto_${id}`);

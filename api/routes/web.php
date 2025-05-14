@@ -119,6 +119,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_producto', 'productos\ProductosController@consultarProducto');
     $router->post('producto_store', 'productos\ProductosController@store');
     $router->put('producto_update/{idProducto}', 'productos\ProductosController@update');
+    $router->put('producto_edit/{idProducto}', 'productos\ProductosController@edit');
 });
 
 // =====================================================================

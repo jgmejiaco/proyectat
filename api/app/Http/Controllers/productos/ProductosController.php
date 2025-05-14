@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\productos\ProductoIndex;
 use App\Http\Responsable\productos\ProductoStore;
 use App\Http\Responsable\productos\ProductoUpdate;
+use App\Http\Responsable\productos\ProductoEdit;
 use App\Models\Producto;
 
 class ProductosController extends Controller
@@ -59,9 +60,9 @@ class ProductosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idProducto)
     {
-        //
+        return new ProductoEdit($idProducto);
     }
 
     // ======================================================================
