@@ -86,6 +86,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_frecuencia', 'frecuencias\FrecuenciasController@consultarFrecuencia');
     $router->post('frecuencia_store', 'frecuencias\FrecuenciasController@store');
     $router->put('frecuencia_update/{idFrecuencia}', 'frecuencias\FrecuenciasController@update');
+    $router->get('frecuencia_edit/{idFrecuencia}', 'frecuencias\FrecuenciasController@edit');
 });
 
 // =====================================================================

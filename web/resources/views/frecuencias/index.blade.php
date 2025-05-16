@@ -98,102 +98,16 @@
                         </thead>
                         {{-- ============================== --}}
                         <tbody>
-                            @php
-                                // dd($usuariosIndex);
-                            @endphp
                             @foreach ($frecuenciasIndex as $frecuencia)
                                 <tr class="text-center">
                                     <td>{{$frecuencia->id_frecuencia}}</td>
                                     <td>{{$frecuencia->frecuencia}}</td>
                                     <td>{{$frecuencia->estado}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarFrecuencia_{{$frecuencia->id_frecuencia}}">
+                                        <button type="button" class="btn btn-success btn-editar-frecuencia" data-id="{{$frecuencia->id_frecuencia}}">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal EDITAR FRECUENCIA --}}
-                                    <div class="modal fade" id="modalEditarFrecuencia_{{$frecuencia->id_frecuencia}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('frecuencias.update', $frecuencia->id_frecuencia)}}"
-                                                    method="PUT"
-                                                    class="mt-2"
-                                                    id="formEditarFrecuencia_{{$frecuencia->id_frecuencia}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Frecuencia</h5>
-                                                    </div>
-
-                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-8">
-                                                                <x-input
-                                                                    name="frecuencia"
-                                                                    type="text"
-                                                                    label="Frecuencia"
-                                                                    value="{{$frecuencia->frecuencia}}"
-                                                                    id="frecuencia_{{$frecuencia->id_frecuencia}}"
-                                                                    class="text-lowercase text-capitalize"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-4">
-                                                                <x-select
-                                                                    name="id_estado"
-                                                                    label="Estado"
-                                                                    id="idEstado_{{$frecuencia->id_frecuencia}}"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($estados_gral as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($frecuencia) && $frecuencia->id_estado == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer d-block mt-0 border border-0">
-                                                        <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditFrecuencia_{{$frecuencia->id_frecuencia}}"
-                                                            class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <button type="button" id="btn_cancelar_frecuencia_{{ $frecuencia->id_frecuencia }}"
-                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"></i> Cancelar
-                                                            </button>
-
-                                                            <button type="submit" id="btn_editar_frecuencia_{{$frecuencia->id_frecuencia}}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </x-form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- FINAL Modal EDITAR FRECUENCIA --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -202,6 +116,19 @@
             </div> {{-- FIN div_campos_usuarios --}}
         </div> {{-- FIN div_crear_usuario --}}
     </div>
+
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal EDITAR FRECUENCIA --}}
+    <div class="modal fade" id="modalEditarFrecuencia" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalEditarFrecuenciaContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR FRECUENCIA --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -211,16 +138,6 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-
-            $(document).on('shown.bs.modal', "div[id^='modalEditarFrecuencia_']", function () {
-                $(this).find('.select2').select2({
-                    dropdownParent: $(this),
-                    allowClear: false,
-                    width: '100%'
-                });
-            });
-
-            // ===========================================================================================
 
             // INICIO DataTable Lista Usuarios
             $("#tbl_frecuencias").DataTable({
@@ -290,6 +207,33 @@
 
                 // Enviar formulario manualmente
                 this.submit();
+            });
+
+            // ===========================================================================================
+
+            $(document).on('click', '.btn-editar-frecuencia', function () {
+                const idFrecuencia = $(this).data('id');
+
+                $.ajax({
+                    url: `/frecuencias/${idFrecuencia}/edit`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEditarFrecuenciaContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarFrecuencia').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarFrecuenciaContent').html(html);
+
+                        // Reinicializar select2 si lo usas en el modal
+                        $('#modalEditarFrecuencia .select2').select2({
+                            dropdownParent: $('#modalEditarFrecuencia'),
+                            width: '100%'
+                        });
+                    },
+                    error: function () {
+                        $('#modalEditarFrecuenciaContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
             });
 
             // ===========================================================================================

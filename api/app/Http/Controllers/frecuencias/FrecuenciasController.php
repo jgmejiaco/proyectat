@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\frecuencias\FrecuenciaIndex;
 use App\Http\Responsable\frecuencias\FrecuenciaStore;
 use App\Http\Responsable\frecuencias\FrecuenciaUpdate;
+use App\Http\Responsable\frecuencias\FrecuenciaEdit;
 use App\Models\Frecuencia;
 
 class FrecuenciasController extends Controller
@@ -59,9 +60,9 @@ class FrecuenciasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idFrecuencia)
     {
-        //
+        return new FrecuenciaEdit($idFrecuencia);
     }
 
     // ======================================================================
