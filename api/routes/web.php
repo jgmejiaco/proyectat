@@ -132,6 +132,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_ramo', 'ramos\RamosController@consultarRamo');
     $router->post('ramo_store', 'ramos\RamosController@store');
     $router->put('ramo_update/{idRamo}', 'ramos\RamosController@update');
+    $router->get('ramo_edit/{idRamo}', 'ramos\RamosController@edit');
 });
 
 // =====================================================================

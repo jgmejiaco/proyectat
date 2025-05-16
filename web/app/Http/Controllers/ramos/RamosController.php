@@ -10,6 +10,7 @@ use App\Traits\MetodosTrait;
 use App\Http\Responsable\ramos\RamoIndex;
 use App\Http\Responsable\ramos\RamoStore;
 use App\Http\Responsable\ramos\RamoUpdate;
+use App\Http\Responsable\ramos\RamoEdit;
 
 class RamosController extends Controller
 {
@@ -46,7 +47,7 @@ class RamosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Ramo!");
+            alert()->error("Cargando los Ramos!");
             return redirect()->route('login');
         }
     }
@@ -80,7 +81,7 @@ class RamosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Ramo!");
+            alert()->error("Creando el Ramo!");
             return redirect()->route('login');
         }
     }
@@ -96,9 +97,27 @@ class RamosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idRamo)
     {
-        //
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return new RamoEdit($idRamo);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Consultando el Ramo!");
+            return redirect()->to(route('login'));
+        }
     }
 
     /**
@@ -122,7 +141,7 @@ class RamosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Ramo!");
+            alert()->error("Actualizando el Ramo!");
             return redirect()->to(route('login'));
         }
     }

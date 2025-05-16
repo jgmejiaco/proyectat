@@ -104,93 +104,10 @@
                                     <td>{{$ramo->ramo}}</td>
                                     <td>{{$ramo->estado}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarRamo_{{$ramo->id_ramo}}">
+                                        <button type="button" class="btn btn-success btn-editar-ramo" data-id="{{$ramo->id_ramo}}">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal EDITAR RAMO --}}
-                                    <div class="modal fade" id="modalEditarRamo_{{$ramo->id_ramo}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('ramos.update', $ramo->id_ramo)}}"
-                                                    method="PUT"
-                                                    class="mt-2"
-                                                    id="formEditarRamo_{{$ramo->id_ramo}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Ramo</h5>
-                                                    </div>
-
-                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-8">
-                                                                <x-input
-                                                                    name="ramo"
-                                                                    type="text"
-                                                                    label="Ramo"
-                                                                    value="{{$ramo->ramo}}"
-                                                                    id="ramo_{{$ramo->id_ramo}}"
-                                                                    class="text-lowercase text-capitalize"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-4">
-                                                                <x-select
-                                                                    name="id_estado"
-                                                                    label="Estado"
-                                                                    id="idEstado_{{$ramo->id_ramo}}"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($estados_gral as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($ramo) && $ramo->id_estado == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer d-block mt-0 border border-0">
-                                                        <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditRamo_{{$ramo->id_ramo}}"
-                                                            class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <button type="button" id="btn_cancelar_ramo_{{ $ramo->id_ramo }}"
-                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"></i> Cancelar
-                                                            </button>
-
-                                                            <button type="submit" id="btn_editar_ramo_{{$ramo->id_ramo}}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </x-form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- FINAL Modal EDITAR RAMO --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -199,6 +116,19 @@
             </div> {{-- FIN div_campos_usuarios --}}
         </div> {{-- FIN div_crear_usuario --}}
     </div>
+
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal EDITAR RAMO --}}
+    <div class="modal fade" id="modalEditarRamo" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalEditarRamoContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR RAMO --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -208,16 +138,6 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-
-            $(document).on('shown.bs.modal', "div[id^='modalEditarRamo_']", function () {
-                $(this).find('.select2').select2({
-                    dropdownParent: $(this),
-                    allowClear: false,
-                    width: '100%'
-                });
-            });
-
-            // ===========================================================================================
 
             // INICIO DataTable Lista Ramos
             $("#tbl_ramos").DataTable({
@@ -287,6 +207,33 @@
 
                 // Enviar formulario manualmente
                 this.submit();
+            });
+
+            // ===========================================================================================
+
+            $(document).on('click', '.btn-editar-ramo', function () {
+                const idRamo = $(this).data('id');
+
+                $.ajax({
+                    url: `/ramos/${idRamo}/edit`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEditarRamoContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarRamo').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarRamoContent').html(html);
+
+                        // Reinicializar select2 si lo usas en el modal
+                        $('#modalEditarRamo .select2').select2({
+                            dropdownParent: $('#modalEditarRamo'),
+                            width: '100%'
+                        });
+                    },
+                    error: function () {
+                        $('#modalEditarRamoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
             });
 
             // ===========================================================================================

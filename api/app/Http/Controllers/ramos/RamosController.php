@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\ramos\RamoIndex;
 use App\Http\Responsable\ramos\RamoStore;
 use App\Http\Responsable\ramos\RamoUpdate;
+use App\Http\Responsable\ramos\RamoEdit;
 use App\Models\Ramo;
 
 class RamosController extends Controller
@@ -59,9 +60,9 @@ class RamosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idRamo)
     {
-        //
+        return new RamoEdit($idRamo);
     }
 
     // ======================================================================
