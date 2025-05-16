@@ -97,7 +97,6 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // CONSULTORES
     Route::controller(ConsultoresController::class)->group(function () {
         Route::resource('consultores', ConsultoresController::class)->middleware('permission');
-        Route::get('consultores_edit/{idConsultor}', 'edit')->name('consultores_edit');
     });
 
     // ===========================================================================

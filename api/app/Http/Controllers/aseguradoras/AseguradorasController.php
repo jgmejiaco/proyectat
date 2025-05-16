@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\aseguradoras\AseguradoraIndex;
 use App\Http\Responsable\aseguradoras\AseguradoraStore;
 use App\Http\Responsable\aseguradoras\AseguradoraUpdate;
+use App\Http\Responsable\aseguradoras\AseguradoraEdit;
 use App\Models\Aseguradora;
 
 class AseguradorasController extends Controller
@@ -59,9 +60,9 @@ class AseguradorasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idAseguradora)
     {
-        //
+        return new AseguradoraEdit($idAseguradora);
     }
 
     // ======================================================================

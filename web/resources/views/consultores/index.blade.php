@@ -281,7 +281,7 @@
                 const idConsultor = $(this).data('id');
 
                 $.ajax({
-                    url: `consultores_edit/${idConsultor}`,
+                    url: `/consultores/${idConsultor}/edit`,
                     type: 'GET',
                     beforeSend: function () {
                         $('#modalEditarConsultorContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');

@@ -120,108 +120,10 @@
                                     <td>{{$aseguradora->nit_aseguradora}}</td>
                                     <td>{{$aseguradora->estado}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarAseguradora_{{$aseguradora->id_aseguradora}}">
+                                        <button type="button" class="btn btn-success btn-editar-aseguradora" data-id="{{$aseguradora->id_aseguradora}}">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal EDITAR ASEGURADORA --}}
-                                    <div class="modal fade" id="modalEditarAseguradora_{{$aseguradora->id_aseguradora}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('aseguradoras.update', $aseguradora->id_aseguradora)}}"
-                                                    method="PUT"
-                                                    class="mt-2"
-                                                    id="formEditarAseguradora_{{$aseguradora->id_aseguradora}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Aseguradora</h5>
-                                                    </div>
-
-                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-6">
-                                                                <x-input
-                                                                    name="aseguradora"
-                                                                    type="text"
-                                                                    label="Aseguradora"
-                                                                    value="{{$aseguradora->aseguradora}}"
-                                                                    id="aseguradora_{{$aseguradora->id_aseguradora}}"
-                                                                    class="text-lowercase text-capitalize"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-6">
-                                                                <x-input
-                                                                    name="nit_aseguradora"
-                                                                    type="text"
-                                                                    label="Nit Aseguradora"
-                                                                    value="{{$aseguradora->nit_aseguradora}}"
-                                                                    id="nit_aseguradora_{{$aseguradora->id_aseguradora}}"
-                                                                    pattern="\d{9,}"
-                                                                    inputmode="numeric"
-                                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-6">
-                                                                <x-select
-                                                                    name="id_estado"
-                                                                    label="Estado"
-                                                                    id="idEstado_{{$aseguradora->id_aseguradora}}"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($estados_gral as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($aseguradora) && $aseguradora->id_estado == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer d-block mt-0 border border-0">
-                                                        <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditAdministradora_{{$aseguradora->id_aseguradora}}"
-                                                            class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <button type="button" id="btn_cancelar_admin_{{ $aseguradora->id_aseguradora }}"
-                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"></i> Cancelar
-                                                            </button>
-
-                                                            <button type="submit" id="btn_editar_admin_{{$aseguradora->id_aseguradora}}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </x-form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- FINAL Modal EDITAR ASEGURADORA --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -230,6 +132,16 @@
             </div> {{-- FIN div_campos_usuarios --}}
         </div> {{-- FIN div_crear_usuario --}}
     </div>
+
+    {{-- INICIO Modal EDITAR ASEGURADORA --}}
+    <div class="modal fade" id="modalEditarAseguradora" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalEditarAseguradoraContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR ASEGURADORA --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -239,16 +151,6 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-
-            $(document).on('shown.bs.modal', "div[id^='modalEditarAseguradora_']", function () {
-                $(this).find('.select2').select2({
-                    dropdownParent: $(this),
-                    allowClear: false,
-                    width: '100%'
-                });
-            });
-
-            // ===========================================================================================
 
             // INICIO DataTable Lista Usuarios
             $("#tbl_aseguradoras").DataTable({
@@ -321,6 +223,33 @@
 
                 // Enviar formulario manualmente
                 this.submit();
+            });
+
+            // ===========================================================================================
+
+            $(document).on('click', '.btn-editar-aseguradora', function () {
+                const idAseguradora = $(this).data('id');
+
+                $.ajax({
+                    url: `/aseguradoras/${idAseguradora}/edit`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEditarAseguradoraContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarAseguradora').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarAseguradoraContent').html(html);
+
+                        // Reinicializar select2 si lo usas en el modal
+                        $('#modalEditarAseguradora .select2').select2({
+                            dropdownParent: $('#modalEditarAseguradora'),
+                            width: '100%'
+                        });
+                    },
+                    error: function () {
+                        $('#modalEditarAseguradoraContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
             });
 
             // ===========================================================================================
