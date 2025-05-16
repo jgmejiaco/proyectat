@@ -10,6 +10,7 @@ use App\Traits\MetodosTrait;
 use App\Http\Responsable\estados\EstadoIndex;
 use App\Http\Responsable\estados\EstadoStore;
 use App\Http\Responsable\estados\EstadoUpdate;
+use App\Http\Responsable\estados\EstadoEdit;
 
 class EstadosController extends Controller
 {
@@ -96,9 +97,27 @@ class EstadosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idEstado)
     {
-        //
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return new EstadoEdit($idEstado);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Error consultando el Estado!");
+            return redirect()->route('login');
+        }
     }
 
     /**

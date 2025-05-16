@@ -96,6 +96,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_estado', 'estados\EstadosController@consultarEstado');
     $router->post('estado_store', 'estados\EstadosController@store');
     $router->put('estado_update/{idEstado}', 'estados\EstadosController@update');
+    $router->get('estado_edit/{idEstado}', 'estados\EstadosController@edit');
 });
 
 // =====================================================================

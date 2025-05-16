@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\estados\EstadoIndex;
 use App\Http\Responsable\estados\EstadoStore;
 use App\Http\Responsable\estados\EstadoUpdate;
+use App\Http\Responsable\estados\EstadoEdit;
 use App\Models\Estado;
 
 class EstadosController extends Controller
@@ -59,9 +60,9 @@ class EstadosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idEstado)
     {
-        //
+        return new EstadoEdit($idEstado);
     }
 
     // ======================================================================
