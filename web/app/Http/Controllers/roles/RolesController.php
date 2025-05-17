@@ -47,7 +47,7 @@ class RolesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Consultando el Rol!");
+            alert()->error("Consultando los Roles!");
             return redirect()->route('login');
         }
     }
