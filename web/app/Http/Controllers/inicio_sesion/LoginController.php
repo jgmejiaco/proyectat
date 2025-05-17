@@ -158,7 +158,7 @@ class LoginController extends Controller
             return redirect()->route('login');
 
         } catch (Exception $e) {
-            alert()->error('error Exception, contacte a soporte!');
+            alert()->error('Cerradno la Sesión, contacte a soporte!');
             return back();
         }
     }

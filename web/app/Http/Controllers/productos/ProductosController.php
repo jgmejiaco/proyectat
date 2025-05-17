@@ -47,7 +47,7 @@ class ProductosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Producto!");
+            alert()->error("Consultando los Productos!");
             return redirect()->route('login');
         }
     }
@@ -81,7 +81,7 @@ class ProductosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Producto!");
+            alert()->error("Guardando el Producto!");
             return redirect()->route('login');
         }
     }
@@ -115,7 +115,7 @@ class ProductosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Consultando el Producto!");
+            alert()->error("Editando el Producto!");
             return redirect()->to(route('login'));
         }
     }
@@ -141,7 +141,7 @@ class ProductosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Producto!");
+            alert()->error("Actualizando el Producto!");
             return redirect()->to(route('login'));
         }
     }
@@ -149,7 +149,7 @@ class ProductosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idUsuario)
+    public function destroy(string $idProducto)
     {
         //
     }

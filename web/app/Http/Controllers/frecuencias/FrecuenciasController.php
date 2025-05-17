@@ -115,7 +115,7 @@ class FrecuenciasController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Editando la frecuencia!");
+            alert()->error("Editando la Frecuencia!");
             return redirect()->to(route('login'));
         }
     }

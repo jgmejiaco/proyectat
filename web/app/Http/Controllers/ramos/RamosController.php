@@ -47,7 +47,7 @@ class RamosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Cargando los Ramos!");
+            alert()->error("Consultando los Ramos!");
             return redirect()->route('login');
         }
     }
@@ -115,7 +115,7 @@ class RamosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Consultando el Ramo!");
+            alert()->error("Editando el Ramo!");
             return redirect()->to(route('login'));
         }
     }
@@ -149,7 +149,7 @@ class RamosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idUsuario)
+    public function destroy(string $idRamo)
     {
         //
     }

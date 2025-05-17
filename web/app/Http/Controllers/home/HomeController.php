@@ -49,7 +49,7 @@ class HomeController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Inicio!");
+            alert()->error("Visualizando el Inicio!");
             return redirect()->to(route('home.index'));
         }
     }
@@ -150,7 +150,7 @@ class HomeController extends Controller
             return json_decode($peticion->getBody()->getContents());
 
         } catch (Exception $e) {
-            alert()->error('Error', 'Exception datosUsuario, si el problema persiste, contacte a Soporte.');
+            alert()->error('Error consultando el Usuario, contacte a Soporte.');
             return back();
         }
     }

@@ -103,7 +103,7 @@ class LoginStore implements Responsable
                 return $respuesta;
             }
         } catch (Exception $e) {
-            alert()->error('Error', 'Exception consultarUsuario!');
+            alert()->error('Consultando el usuario de inicion de sesión!');
             return back();
         }
     }
@@ -122,7 +122,7 @@ class LoginStore implements Responsable
             json_decode($response->getBody()->getContents());
 
         } catch (Exception $e) {
-            alert()->error('Error', 'Exception inactivarUsuario, si el problema persiste, contacte a Soporte.');
+            alert()->error('Inactivando el usuario!');
             return back();
         }
     }
@@ -143,7 +143,7 @@ class LoginStore implements Responsable
             json_decode($response->getBody()->getContents());
 
         } catch (Exception $e) {
-            alert()->error('Error', 'Exception actualizarClaveFallas, si el problema persiste, contacte a Soporte.');
+            alert()->error('Error actualizando los intentos de inicio de sesión!');
             return back();
         }
     }

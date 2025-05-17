@@ -47,7 +47,7 @@ class UsuariosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Usuario!");
+            alert()->error("Consultando los Usuarios!");
             return redirect()->to(route('login'));
         }
     }
@@ -81,7 +81,7 @@ class UsuariosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Usuario!");
+            alert()->error("Creando el Usuario!");
             return redirect()->to(route('login'));
         }
     }
@@ -123,7 +123,7 @@ class UsuariosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Usuario!");
+            alert()->error("Actualizando el Usuario!");
             return redirect()->to(route('login'));
         }
     }
@@ -149,7 +149,7 @@ class UsuariosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Destroy Usuario!");
+            alert()->error("Eliminando el Usuario!");
             return redirect()->to(route('usuarios.index'));
         }
     }

@@ -46,7 +46,7 @@ class GerentesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Gerentes!");
+            alert()->error("Consultando los Gerentes!");
             return redirect()->route('login');
         }
     }
@@ -80,7 +80,7 @@ class GerentesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Gerente!");
+            alert()->error("Creando el Gerente!");
             return redirect()->route('login');
         }
     }
@@ -122,7 +122,7 @@ class GerentesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Gerente!");
+            alert()->error("Actualizando el Gerente!");
             return redirect()->to(route('login'));
         }
     }

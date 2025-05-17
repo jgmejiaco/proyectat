@@ -46,7 +46,6 @@ class PermisoUpdate implements Responsable
                 return redirect()->route('permisos.index');
             }
         } catch (Exception $e) {
-            dd($e);
             alert()->error("Error editandoo el permiso!");
             return back();
         }

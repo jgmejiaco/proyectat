@@ -67,7 +67,7 @@ class CambiarClave implements Responsable
                         return redirect()->to(route('cambiar_clave'));
                     }
                 } catch (Exception $e) {
-                    alert()->error('Error', 'Error Exception, si el problema persiste, contacte a Soporte.');
+                    alert()->error('Cambiando la contraseña!');
                     return back();
                 }
             } else {

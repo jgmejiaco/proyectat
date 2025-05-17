@@ -47,7 +47,7 @@ class EstadosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Estado!");
+            alert()->error("Consultando los Estados!");
             return redirect()->route('login');
         }
     }
@@ -81,7 +81,7 @@ class EstadosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Estado!");
+            alert()->error("Creando el Estado!");
             return redirect()->route('login');
         }
     }
@@ -115,7 +115,7 @@ class EstadosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Error consultando el Estado!");
+            alert()->error("Editando el Estado!");
             return redirect()->route('login');
         }
     }
@@ -141,7 +141,7 @@ class EstadosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Estado!");
+            alert()->error("Actualizando el Estado!");
             return redirect()->route('login');
         }
     }
@@ -149,7 +149,7 @@ class EstadosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idUsuario)
+    public function destroy(string $idEstado)
     {
         //
     }

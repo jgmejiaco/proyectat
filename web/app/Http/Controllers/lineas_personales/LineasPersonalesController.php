@@ -50,7 +50,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Líneas Personales!");
+            alert()->error("Consultando los Radicados!");
             return redirect()->to(route('login'));
         }
     }
@@ -76,7 +76,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Create Líneas Personales!");
+            alert()->error("Creando el Radicado!");
             return redirect()->to(route('login'));
         }
     }
@@ -102,7 +102,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Radicado!");
+            alert()->error("Guardando el Radicado!!");
             return redirect()->to(route('login'));
         }
     }
@@ -140,7 +140,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Edit Radicado!");
+            alert()->error("Editando el Radicado!");
             return redirect()->to(route('login'));
         }
     }
@@ -166,7 +166,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Radicado!");
+            alert()->error("Actualizando el Radicado!");
             return redirect()->to(route('login'));
         }
     }
@@ -192,7 +192,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Destroy Radicado!");
+            alert()->error("Eliminando el Radicado!");
             return redirect()->to(route('login'));
         }
     }
@@ -219,7 +219,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Radicado!");
+            alert()->error("Consultando el Radicado!");
             return redirect()->to(route('login'));
         }
     }
@@ -242,7 +242,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception consulta consultor!");
+            alert()->error("Consultando el consultor!");
             return redirect()->route('login');
         }
     }
@@ -265,7 +265,7 @@ class LineasPersonalesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception consulta consultor!");
+            alert()->error("Consultando el Productor!");
             return redirect()->route('login');
         }
     }

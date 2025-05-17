@@ -43,7 +43,7 @@ class PermisosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Error conultando los permisos!");
+            alert()->error("Consultando los permisos!");
             return back();
         }
     }
@@ -66,7 +66,7 @@ class PermisosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Error creando el Permiso!");
+            alert()->error("Creando el Permiso!");
             return back();
         }
     }
@@ -90,7 +90,7 @@ class PermisosController extends Controller
             }
             
         } catch (Exception $e) {
-            alert()->error("Error consultando el permiso!");
+            alert()->error("Editando el permiso!");
             return back();
         }
     }
@@ -114,49 +114,8 @@ class PermisosController extends Controller
             }
             
         } catch (Exception $e) {
-            dd($e);
-            alert()->error("Error editando el permiso!");
+            alert()->error("Actualizando el permiso!");
             return back();
         }
     }
-    
-    // public function actualizarPermiso(Request $request)
-    // {
-    //     try {
-    //         if (!$this->checkDatabaseConnection()) {
-    //             return view('db_conexion');
-    //         } else {
-    //             $sesion = $this->validarVariablesSesion();
-    
-    //             if (empty($sesion[0]) || is_null($sesion[0]) &&
-    //                 empty($sesion[1]) || is_null($sesion[1]) &&
-    //                 empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
-    //             {
-    //                 return redirect()->to(route('login'));
-    //             } else {
-    //                 $idPermiso = request('id_permiso', null);
-    //                 $nombrePermiso = request('nombre_permiso', null);
-    //                 $rutaPermiso = request('ruta_permiso', null);
-
-    //                 $peticionPermisoUpdate = $this->clientApi->post($this->baseUri . 'permiso_update/'.$idPermiso, [
-    //                     'json' => [
-    //                         'name' => $nombrePermiso,
-    //                         'route_name' => $rutaPermiso,
-    //                         'id_audit' => session('id_usuario')
-    //                     ]
-    //                 ]);
-    //                 $resPermisoUpdate = json_decode($peticionPermisoUpdate->getBody()->getContents());
-
-    //                 if (isset($resPermisoUpdate) && $resPermisoUpdate->success) {
-    //                     alert()->success('Exito', 'Permiso editado satisfactoriamente.');
-    //                     return redirect()->route('ver_permisos');
-    //                 }
-    //             }
-    //         }
-            
-    //     } catch (Exception $e) {
-    //         alert()->error("Error actualizando el permiso!");
-    //         return redirect()->route('ver_permisos');
-    //     }
-    // }
 } // FIN Class PermisosController

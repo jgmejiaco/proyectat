@@ -36,7 +36,6 @@ class RolEdit implements Responsable
             return view('roles.modal_editar_rol', compact('resRolEdit'));
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error consultando el Rol, contacte a Soporte.');
             return redirect()->route('roles.index');
         }

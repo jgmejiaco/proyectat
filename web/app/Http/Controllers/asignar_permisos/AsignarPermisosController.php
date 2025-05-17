@@ -41,7 +41,7 @@ class AsignarPermisosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Productos!");
+            alert()->error("Consultando los Permisos Asignados!");
             return back();
         }
     }
@@ -64,7 +64,7 @@ class AsignarPermisosController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Permisos!");
+            alert()->error("Asignando el Permiso!");
             return back();
         }
     }

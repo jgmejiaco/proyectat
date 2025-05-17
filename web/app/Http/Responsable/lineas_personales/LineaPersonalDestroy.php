@@ -53,7 +53,6 @@ class LineaPersonalDestroy implements Responsable
             }
 
         } catch (Exception $e) {
-            dd($e);
             alert()->error('Error eliminando el Radicado, contacte a Soporte.');
             return redirect()->route('lineas_personales.index');
         }

@@ -115,7 +115,7 @@ class AseguradorasController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Consultando la Aseguradora!");
+            alert()->error("Editando la Aseguradora!");
             return redirect()->to(route('login'));
         }
     }
@@ -141,7 +141,7 @@ class AseguradorasController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Editando la Aseguradora!");
+            alert()->error("Actualizando la Aseguradora!");
             return redirect()->to(route('login'));
         }
     }

@@ -47,7 +47,7 @@ class ConsultoresController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Consultor!");
+            alert()->error("Consultando los Consultores!");
             return redirect()->route('login');
         }
     }
@@ -81,7 +81,7 @@ class ConsultoresController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Consultor!");
+            alert()->error("Creando el Consultor!");
             return redirect()->route('login');
         }
     }
@@ -115,7 +115,7 @@ class ConsultoresController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Usuario!");
+            alert()->error("Editando el Consultando!");
             return redirect()->to(route('login'));
         }
     }
@@ -141,7 +141,7 @@ class ConsultoresController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Usuario!");
+            alert()->error("Actualizando el Consultor!");
             return redirect()->to(route('login'));
         }
     }
@@ -149,7 +149,7 @@ class ConsultoresController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idUsuario)
+    public function destroy(string $idConsultor)
     {
         //
     }
