@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Responsable\roles\RolIndex;
 use App\Http\Responsable\roles\RolStore;
 use App\Http\Responsable\roles\RolUpdate;
+use App\Http\Responsable\roles\RolEdit;
 use App\Models\Rol;
 
 class RolesController extends Controller
@@ -59,9 +60,9 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idRol)
     {
-        //
+        return new RolEdit($idRol);
     }
 
     // ======================================================================

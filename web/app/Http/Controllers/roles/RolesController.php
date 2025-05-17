@@ -10,6 +10,7 @@ use App\Traits\MetodosTrait;
 use App\Http\Responsable\roles\RolIndex;
 use App\Http\Responsable\roles\RolStore;
 use App\Http\Responsable\roles\RolUpdate;
+use App\Http\Responsable\roles\RolEdit;
 
 class RolesController extends Controller
 {
@@ -46,7 +47,7 @@ class RolesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Index Rol!");
+            alert()->error("Consultando el Rol!");
             return redirect()->route('login');
         }
     }
@@ -80,7 +81,7 @@ class RolesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Store Rol!");
+            alert()->error("Creando el Rol!");
             return redirect()->route('login');
         }
     }
@@ -96,9 +97,27 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idRol)
     {
-        //
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return new RolEdit($idRol);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Editando el Ramo!");
+            return redirect()->to(route('login'));
+        }
     }
 
     /**
@@ -122,7 +141,7 @@ class RolesController extends Controller
                 }
             }
         } catch (Exception $e) {
-            alert()->error("Exception Update Ramo!");
+            alert()->error("Actualizando el Ramo!");
             return redirect()->to(route('login'));
         }
     }

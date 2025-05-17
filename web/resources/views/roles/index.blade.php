@@ -92,7 +92,6 @@
                             <tr class="header-table text-center">
                                 <th>Id Rol</th>
                                 <th>Rol</th>
-                                {{-- <th>Estado</th> --}}
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -102,90 +101,12 @@
                                 <tr class="text-center">
                                     <td>{{$rol->id_rol}}</td>
                                     <td>{{$rol->rol}}</td>
-                                    {{-- <td>{{$rol->estado}}</td> --}}
                                     <td>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEditarRol_{{$rol->id_rol}}">
+                                        <button type="button" class="btn btn-success btn-editar-rol" data-id="{{$rol->id_rol}}">
                                             <i class="fa-solid fa-pencil"></i> Editar
                                         </button>
                                     </td>
 
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal EDITAR ROL --}}
-                                    <div class="modal fade" id="modalEditarRol_{{$rol->id_rol}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('roles.update', $rol->id_rol)}}"
-                                                    method="PUT"
-                                                    class="mt-2"
-                                                    id="formEditarRol_{{$rol->id_rol}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Rol</h5>
-                                                    </div>
-
-                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-2 mb-3">
-                                                            <div class="col-12 col-md-6">
-                                                                <x-input
-                                                                    name="rol"
-                                                                    type="text"
-                                                                    label="Rol"
-                                                                    value="{{$rol->rol}}"
-                                                                    id="rol_{{$rol->id_rol}}"
-                                                                    class="text-lowercase text-capitalize"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            {{-- <div class="col-12 col-md-4">
-                                                                <x-select
-                                                                    name="id_estado"
-                                                                    label="Estado"
-                                                                    id="idEstado_{{$rol->id_rol}}"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($estados_gral as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($rol) && $rol->id_estado == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div> --}}
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer d-block mt-0 border border-0">
-                                                        <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditRol_{{$rol->id_rol}}"
-                                                            class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <button type="button" id="btn_cancelar_rol_{{ $rol->id_rol }}"
-                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"></i> Cancelar
-                                                            </button>
-
-                                                            <button type="submit" id="btn_editar_rol_{{$rol->id_rol}}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </x-form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- FINAL Modal EDITAR ROL --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -194,6 +115,19 @@
             </div> {{-- FIN div_campos_usuarios --}}
         </div> {{-- FIN div_crear_usuario --}}
     </div>
+    
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal EDITAR ROL --}}
+    <div class="modal fade" id="modalEditarRol" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalEditarRolContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR ROL --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -203,16 +137,6 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-
-            $(document).on('shown.bs.modal', "div[id^='modalEditarRol_']", function () {
-                $(this).find('.select2').select2({
-                    dropdownParent: $(this),
-                    allowClear: false,
-                    width: '100%'
-                });
-            });
-
-            // ===========================================================================================
 
             // INICIO DataTable Lista Roles
             $("#tbl_roles").DataTable({
@@ -285,6 +209,27 @@
             });
 
             // ===========================================================================================
+
+            $(document).on('click', '.btn-editar-rol', function () {
+                const idRol = $(this).data('id');
+
+                $.ajax({
+                    url: `/roles/${idRol}/edit`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#modalEditarRolContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarRol').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarRolContent').html(html);
+                    },
+                    error: function () {
+                        $('#modalEditarRolContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
+            });
+
+            // ===========================================================================================
             
             // Botón de submit de editar usuario
             $(document).on("submit", "form[id^='formEditarRol_']", function(e) {
@@ -305,20 +250,6 @@
 
                 const rol = `#rol_${id}`;
                 $(rol).prop("readonly", true).addClass("bg-secondary-subtle");
-
-
-                // const idEstado = `#idEstado_${id}`;
-                // $(idEstado)
-                //     .prop("disabled", true)  // Lo desactivamos visualmente
-                //     .addClass("bg-secondary-subtle")
-                //     .each(function() {
-                //         // Antes de submit, para que el select desactivado envíe su valor:
-                //         $('<input>').attr({
-                //             type: 'hidden',
-                //             name: $(this).attr('name'), // mismo name que el select
-                //             value: $(this).val()
-                //         }).appendTo(form);
-                //     });
 
                 // Mostrar Spinner
                 loadingIndicator.show();

@@ -146,6 +146,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('consultar_rol', 'roles\RolesController@consultarRol');
     $router->post('rol_store', 'roles\RolesController@store');
     $router->put('rol_update/{idRol}', 'roles\RolesController@update');
+    $router->get('rol_edit/{idRol}', 'roles\RolesController@edit');
 });
 
 // =====================================================================
