@@ -16,8 +16,17 @@
                         <li class="nav-item dropdown">
                             <a href="#" role="button" class="nav-link dropdown-toggle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">Informe Producción</a>
                             <ul class="dropdown-menu bg-white">
-                                <li><a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Líneas Personales</a></li>
-                                <li><a href="{{route('lineas_personales.create')}}" class="dropdown-item text-black hover-li">Crear Radicado</a></li>
+                                @if($permisos->tienePermisoRuta('lineas_personales.index'))
+                                    <li>
+                                        <a href="{{route('lineas_personales.index')}}" class="dropdown-item text-black hover-li">Líneas Personales</a>
+                                    </li>
+                                @endif
+                                
+                                @if($permisos->tienePermisoRuta('lineas_personales.create'))
+                                    <li>
+                                        <a href="{{route('lineas_personales.create')}}" class="dropdown-item text-black hover-li">Crear Radicado</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
 
@@ -26,12 +35,42 @@
                         <li class="nav-item dropdown">
                             <a href="#" role="button" class="nav-link dropdown-toggle text-white fw-bold" data-bs-toggle="dropdown" aria-expanded="false">Auxiliares</a>
                             <ul class="dropdown-menu bg-white">
-                                <li><a href="{{route('aseguradoras.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a></li>
-                                <li><a href="{{route('consultores.index')}}" class="dropdown-item text-black hover-li">Consultores</a></li>
-                                <li><a href="{{route('estados.index')}}" class="dropdown-item text-black hover-li">Estados</a></li>
-                                <li><a href="{{route('frecuencias.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a></li>
-                                <li><a href="{{route('productos.index')}}" class="dropdown-item text-black hover-li">Productos</a></li>
-                                <li><a href="{{route('ramos.index')}}" class="dropdown-item text-black hover-li">Ramos</a></li>
+                                @if($permisos->tienePermisoRuta('aseguradoras.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('aseguradoras.index')}}" class="dropdown-item text-black hover-li">Aseguradoras</a>
+                                    </li>
+                                @endif
+                                
+                                @if($permisos->tienePermisoRuta('consultores.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('consultores.index')}}" class="dropdown-item text-black hover-li">Consultores</a>
+                                    </li>
+                                @endif
+
+                                @if($permisos->tienePermisoRuta('estados.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('estados.index')}}" class="dropdown-item text-black hover-li">Estados</a>
+                                    </li>
+                                @endif
+
+                                @if($permisos->tienePermisoRuta('frecuencias.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('frecuencias.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a>
+                                    </li>
+                                @endif
+
+                                @if($permisos->tienePermisoRuta('productos.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('productos.index')}}" class="dropdown-item text-black hover-li">Productos</a>
+                                    </li>
+                                @endif
+
+                                @if($permisos->tienePermisoRuta('ramos.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('ramos.index')}}" class="dropdown-item text-black hover-li">Ramos</a>
+                                    </li>
+                                @endif
+
                                 @if($permisos->tienePermisoRuta('roles.index'))
                                     <li class="nav-item">
                                         <a href="{{route('roles.index')}}" class="dropdown-item text-black hover-li">Roles</a>

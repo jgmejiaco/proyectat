@@ -364,7 +364,6 @@
                     url: `/usuarios/${idUsuario}/edit`,
                     type: 'GET',
                     data: {
-                        // '_token': "{{ csrf_token() }}",
                         tipo_modal: 'editar_usuario'
                     },
                     beforeSend: function () {
@@ -412,7 +411,6 @@
                     url: `/usuarios/${idUsuario}/edit`,
                     type: 'GET',
                     data: {
-                        // '_token': "{{ csrf_token() }}",
                         tipo_modal: 'cambiar_clave'
                     },
                     beforeSend: function () {
@@ -490,7 +488,6 @@
                     url: `/usuarios/${idUsuario}/edit`,
                     type: 'GET',
                     data: {
-                        // '_token': "{{ csrf_token() }}",
                         tipo_modal: 'cambiar_estado'
                     },
                     beforeSend: function () {
