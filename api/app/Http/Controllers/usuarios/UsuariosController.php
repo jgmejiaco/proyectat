@@ -11,6 +11,7 @@ use App\Http\Responsable\usuarios\UsuarioStore;
 use App\Http\Responsable\usuarios\UsuarioUpdate;
 use App\Http\Responsable\usuarios\DatosUsuario;
 use App\Http\Responsable\usuarios\UsuarioDestroy;
+use App\Http\Responsable\usuarios\UsuarioEdit;
 use App\Models\Usuario;
 
 class UsuariosController extends Controller
@@ -62,9 +63,9 @@ class UsuariosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idUsuario)
     {
-        //
+        return new UsuarioEdit($idUsuario);
     }
 
     // ======================================================================

@@ -11,6 +11,7 @@ use App\Http\Responsable\usuarios\UsuarioIndex;
 use App\Http\Responsable\usuarios\UsuarioStore;
 use App\Http\Responsable\usuarios\UsuarioUpdate;
 use App\Http\Responsable\usuarios\UsuarioDestroy;
+use App\Http\Responsable\usuarios\UsuarioEdit;
 
 class UsuariosController extends Controller
 {
@@ -97,9 +98,27 @@ class UsuariosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idUsuario)
     {
-        //
+        try {
+            if (!$this->checkDatabaseConnection()) {
+                return view('db_conexion');
+            } else {
+                $sesion = $this->validarVariablesSesion();
+
+                if (empty($sesion[0]) || is_null($sesion[0]) &&
+                    empty($sesion[1]) || is_null($sesion[1]) &&
+                    empty($sesion[2]) || is_null($sesion[2]) && !$sesion[3])
+                {
+                    return redirect()->to(route('login'));
+                } else {
+                    return new UsuarioEdit($idUsuario);
+                }
+            }
+        } catch (Exception $e) {
+            alert()->error("Error, editando el Usuario!");
+            return redirect()->to(route('login'));
+        }
     }
 
     /**

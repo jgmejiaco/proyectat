@@ -153,7 +153,6 @@
                         aria-describedby="users-usuarios">
                         <thead>
                             <tr class="header-table text-center">
-                                {{-- <th>Id Usuario</th> --}}
                                 <th>Nombres</th>
                                 <th>Usuario</th>
                                 <th>Correo</th>
@@ -164,266 +163,26 @@
                         </thead>
                         {{-- ============================== --}}
                         <tbody>
-                            @php
-                                // dd($usuariosIndex);
-                            @endphp
                             @foreach ($usuariosIndex as $usuario)
                                 <tr class="text-center">
-                                    {{-- <td>{{$usuario->id_usuario}}</td> --}}
                                     <td>{{$usuario->nombre_completo}}</td>
                                     <td>{{$usuario->usuario}}</td>
                                     <td>{{$usuario->correo}}</td>
                                     <td>{{$usuario->name}}</td>
                                     <td>{{$usuario->estado}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-success rounded-circle btn-circle"
-                                            title="Editar" data-bs-toggle="modal"
-                                            data-bs-target="#modalEditarUsuario_{{$usuario->id_usuario}}">
+                                        <button type="button" class="btn btn-success rounded-circle btn-circle btn-editar-usuario" title="Editar Usuario" data-id="{{$usuario->id_usuario}}">
                                             <i class="fa-solid fa-pencil"></i>
                                         </button>
                                         {{-- ============================== --}}
-                                        <button type="button" class="btn btn-warning rounded-circle btn-circle"
-                                            title="Cambiar contraseña" data-bs-toggle="modal"
-                                            data-bs-target="#modalCambiarClave_{{$usuario->id_usuario}}">
+                                        <button type="button" class="btn btn-warning rounded-circle btn-circle btn-cambiar-clave" title="Cambiar contraseña" data-id="{{$usuario->id_usuario}}">
                                             <i class="fa fa-key"></i>
                                         </button>
                                         {{-- ============================== --}}
-                                        <button class="btn btn-danger rounded-circle btn-circle" data-bs-toggle="modal"
-                                            data-bs-target="#modalCambiarEstado_{{$usuario->id_usuario}}"
-                                            title="Cambiar Estado">
+                                        <button type="button" class="btn btn-danger rounded-circle btn-circle btn-cambiar-estado" title="Cambiar Estado" data-id="{{$usuario->id_usuario}}">
                                             <i class="fa fa-solid fa-recycle"></i>
                                         </button>
                                     </td>
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal CAMBIAR CONTRASEÑA --}}
-                                    <div class="modal fade" id="modalCambiarClave_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('cambiar_clave', $usuario->id_usuario)}}"
-                                                    method="POST"
-                                                    class="mt-2"
-                                                    id="formCambiarClave_{{$usuario->id_usuario}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <div class="rounded-top" style="border: solid 1px #337AB7">
-                                                        <div class="rounded-top text-white text-center" style="background-color: #337AB7; border: solid 1px #337AB7">
-                                                            <h5>Cambiar Contraseña de: {{$usuario->nombre_usuario}}</h5>
-                                                        </div>
-
-                                                        <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required >
-
-                                                        {{-- ====================================================== --}}
-                                                        {{-- ====================================================== --}}
-
-                                                        <div class="modal-body p-0 m-0">
-                                                            <div class="row m-0 pt-4 pb-4">
-                                                                <div class="col-12 col-md-6">
-                                                                    <div class="form-group d-flex flex-column">
-                                                                        <x-input name="nueva_clave" type="text" label="Nueva Contraseña" id="nueva_clave_{{$usuario->id_usuario}}" autocomplete="password" required />
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-12 col-md-6">
-                                                                    <div class="form-group d-flex flex-column">
-                                                                        <x-input name="confirmar_clave" type="text" label="Confirmar Contraseña" id="confirmar_clave_{{$usuario->id_usuario}}" autocomplete="password" required />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {{-- ====================================================== --}}
-                                                    {{-- ====================================================== --}}
-
-                                                    <!-- Contenedor para el GIF -->
-                                                    <div id="loadingIndicatorEditClave_{{$usuario->id_usuario}}" class="loadingIndicator">
-                                                        <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                    </div>
-
-                                                    {{-- ====================================================== --}}
-                                                    {{-- ====================================================== --}}
-
-                                                    <div class="d-flex justify-content-center mt-2">
-                                                        <button type="button" class="btn btn-secondary me-3" id="btn_cancelar_clave_{{$usuario->id_usuario}}" data-bs-dismiss="modal">
-                                                            <i class="fa fa-times"></i> Cancelar
-                                                        </button>
-
-                                                        <button type="submit" title="Guardar Configuración" class="btn btn-success" id="btn_editar_clave_{{$usuario->id_usuario}}">
-                                                            <i class="fa-regular fa-floppy-disk"></i> Modificar
-                                                        </button>
-                                                    </div>
-                                                </x-form> {{-- FIN x-form --}}
-                                            </div> {{-- FIN modal-content --}}
-                                        </div> {{-- FIN modal-dialog --}}
-                                    </div> {{-- FIN modal fade modal-gral --}}
-                                    {{-- FINAL Modal CAMBIAR CONTRASEÑA --}}
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal EDITAR USUARIO --}}
-                                    <div class="modal fade" id="modalEditarUsuario_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('usuarios.update', $usuario->id_usuario)}}"
-                                                    method="PUT"
-                                                    class="mt-2"
-                                                    id="formEditarUsuario_{{$usuario->id_usuario}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required>
-                                                    
-                                                    <div class="rounded-top text-white text-center"
-                                                        style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                        <h5 class="fw-bold" style="margin-top: 0.3rem; margin-bottom: 0.3rem;">Editar Usuario</h5>
-                                                    </div>
-
-                                                    <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
-                                                        <div class="row m-4">
-                                                            <div class="col-12 col-md-6">
-                                                                <x-input
-                                                                    name="nombre_usuario"
-                                                                    type="text"
-                                                                    label="Nombres"
-                                                                    value="{{$usuario->nombre_usuario}}"
-                                                                    id="nombre_usuario"
-                                                                    autocomplete="given-name"
-                                                                    required
-                                                                />
-                                                            </div>
-                                                            
-                                                            <div class="col-12 col-md-6">
-                                                                <x-input
-                                                                    name="apellido_usuario"
-                                                                    type="text"
-                                                                    label="Apellidos"
-                                                                    value="{{$usuario->apellido_usuario}}"
-                                                                    id="apellido_usuario"
-                                                                    autocomplete="family-name"
-                                                                    required
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="row m-4">
-                                                            <div class="col-12 col-md-6">
-                                                                <x-input
-                                                                    name="correo"
-                                                                    type="email"
-                                                                    label="Correo"
-                                                                    value="{{$usuario->correo}}"
-                                                                    id="correo"
-                                                                    autocomplete="email"
-                                                                    required
-                                                                />
-                                                            </div>
-
-                                                            <div class="col-12 col-md-6">
-                                                                <x-select
-                                                                    name="id_rol"
-                                                                    label="Rol"
-                                                                    id="id_rol"
-                                                                    autocomplete="organization-title"
-                                                                    required
-                                                                >
-                                                                    <option value="">Seleccionar...</option>
-                                                                    @foreach($roles as $key => $value)
-                                                                        <option value="{{$key}}" {{(isset($usuario) && $usuario->id_rol == $key) ? 'selected' : ''}}>
-                                                                            {{$value}}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </x-select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer d-block mt-0 border border-0">
-                                                        <!-- Contenedor para el GIF -->
-                                                        <div id="loadingIndicatorEditUser_{{$usuario->id_usuario}}"
-                                                            class="loadingIndicator">
-                                                            <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <button type="button" id="btn_cancelar_user_{{ $usuario->id_usuario }}"
-                                                                class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                                <i class="fa fa-times"></i> Cancelar
-                                                            </button>
-
-                                                            <button type="submit" id="btn_editar_user_{{$usuario->id_usuario}}"
-                                                                class="btn btn-success" title="Editar">
-                                                                <i class="fa-regular fa-floppy-disk"></i> Editar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </x-form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- FINAL Modal EDITAR USUARIO --}}
-
-                                    {{-- ====================================================== --}}
-                                    {{-- ====================================================== --}}
-
-                                    {{-- INICIO Modal ESTADO USUARIO --}}
-                                    <div class="modal fade" id="modalCambiarEstado_{{$usuario->id_usuario}}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content border-0 p-3">
-                                                <x-form
-                                                    action="{{route('usuarios.destroy', $usuario->id_usuario)}}"
-                                                    method="DELETE"
-                                                    class="mt-0"
-                                                    id="formCambiarEstado_{{$usuario->id_usuario}}"
-                                                    autocomplete="off"
-                                                >
-                                                    <div class="rounded-top" style="border: solid 1px #337AB7;">
-                                                        <div class="rounded-top text-white text-center"
-                                                            style="background-color: #337AB7; border: solid 1px #337AB7;">
-                                                            <h5>Cambiar estado de: <br>
-                                                                <span class="text-warning">{{$usuario->nombre_usuario}}</span>
-                                                            </h5>
-                                                        </div>
-
-                                                        <div class="mt-4 mb-4 text-center">
-                                                            <span class="text-danger fs-5">¿Realmente desea cambiar el estado de esta usuario?</span>
-                                                        </div>
-
-                                                        <input type="hidden" name="id_usuario" value="{{$usuario->id_usuario}}" required >
-                                                    </div>
-
-                                                    {{-- ====================================================== --}}
-                                                    {{-- ====================================================== --}}
-
-                                                    <!-- Contenedor para el GIF -->
-                                                    <div id="loadingIndicatorEstado_{{$usuario->id_usuario}}"
-                                                        class="loadingIndicator">
-                                                        <img src="{{ asset('img/loading.gif') }}" alt="Procesando...">
-                                                    </div>
-
-                                                    {{-- ====================================================== --}}
-                                                    {{-- ====================================================== --}}
-
-                                                    <div class="d-flex justify-content-center mt-3">
-                                                        <button type="button" id="btn_cancelar_estado_{{$usuario->id_usuario}}"
-                                                            class="btn btn-secondary me-3" data-bs-dismiss="modal">
-                                                            <i class="fa fa-times"></i> Cancelar
-                                                        </button>
-
-                                                        <button type="submit" id="btn_cambiar_estado_{{$usuario->id_usuario}}"
-                                                            class="btn btn-success">
-                                                            <i class="fa-regular fa-floppy-disk"></i> Cambiar
-                                                        </button>
-                                                    </div>
-                                                </x-form> {{-- FIN x-form --}}
-                                            </div> {{-- FIN modal-content --}}
-                                        </div> {{-- FIN modal-dialog --}}
-                                    </div> {{-- FIN modal --}}
-                                    {{-- FINAL Modal ESTADO USUARIO --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -432,6 +191,45 @@
             </div> {{-- FIN div_campos_usuarios --}}
         </div> {{-- FIN div_crear_usuario --}}
     </div>
+    
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal CAMBIAR CONTRASEÑA --}}
+    <div class="modal fade" id="modalCambiarClave" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalCambiarClaveContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div> {{-- FIN modal-content --}}
+        </div> {{-- FIN modal-dialog --}}
+    </div> {{-- FIN modal fade modal-gral --}}
+    {{-- FINAL Modal CAMBIAR CONTRASEÑA --}}
+
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal EDITAR USUARIO --}}
+    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalEditarUsuarioContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div>
+        </div>
+    </div>
+    {{-- FINAL Modal EDITAR USUARIO --}}
+
+    {{-- ====================================================== --}}
+    {{-- ====================================================== --}}
+
+    {{-- INICIO Modal ESTADO USUARIO --}}
+    <div class="modal fade" id="modalCambiarEstado" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 p-3" id="modalCambiarEstadoContent">
+                {{-- El contenido AJAX se cargará aquí --}}
+            </div> {{-- FIN modal-content --}}
+        </div> {{-- FIN modal-dialog --}}
+    </div> {{-- FIN modal --}}
+    {{-- FINAL Modal ESTADO USUARIO --}}
 @stop
 
 {{-- =============================================================== --}}
@@ -445,14 +243,6 @@
             $('#modalCrearUsuario').on('shown.bs.modal', function () {
                 $(this).find('.select2').select2({
                     dropdownParent: $(this), // clave para que funcione dentro del modal
-                    allowClear: false,
-                    width: '100%'
-                });
-            });
-
-            $(document).on('shown.bs.modal', "div[id^='modalEditarUsuario_']", function () {
-                $(this).find('.select2').select2({
-                    dropdownParent: $(this),
                     allowClear: false,
                     width: '100%'
                 });
@@ -566,6 +356,31 @@
             });
 
             // ===========================================================================================
+
+            $(document).on('click', '.btn-editar-usuario', function () {
+                const idUsuario = $(this).data('id');
+
+                $.ajax({
+                    url: `/usuarios/${idUsuario}/edit`,
+                    type: 'GET',
+                    data: {
+                        // '_token': "{{ csrf_token() }}",
+                        tipo_modal: 'editar_usuario'
+                    },
+                    beforeSend: function () {
+                        $('#modalEditarUsuarioContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalEditarUsuario').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalEditarUsuarioContent').html(html);
+                    },
+                    error: function () {
+                        $('#modalEditarUsuarioContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
+            });
+
+            // ===========================================================================================
             
             // Botón de submit de editar usuario
             $(document).on("submit", "form[id^='formEditarUsuario_']", function(e) {
@@ -586,6 +401,31 @@
 
                 // Mostrar Spinner
                 loadingIndicator.show();
+            });
+
+            // ===========================================================================================
+            
+            $(document).on('click', '.btn-cambiar-clave', function () {
+                const idUsuario = $(this).data('id');
+
+                $.ajax({
+                    url: `/usuarios/${idUsuario}/edit`,
+                    type: 'GET',
+                    data: {
+                        // '_token': "{{ csrf_token() }}",
+                        tipo_modal: 'cambiar_clave'
+                    },
+                    beforeSend: function () {
+                        $('#modalCambiarClaveContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalCambiarClave').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalCambiarClaveContent').html(html);
+                    },
+                    error: function () {
+                        $('#modalCambiarClaveContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
             });
 
             // ===========================================================================================
@@ -642,8 +482,33 @@
             });
 
             // ===========================================================================================
+             
+            $(document).on('click', '.btn-cambiar-estado', function () {
+                const idUsuario = $(this).data('id');
 
-             // Botón de submit de editar usuario
+                $.ajax({
+                    url: `/usuarios/${idUsuario}/edit`,
+                    type: 'GET',
+                    data: {
+                        // '_token': "{{ csrf_token() }}",
+                        tipo_modal: 'cambiar_estado'
+                    },
+                    beforeSend: function () {
+                        $('#modalCambiarEstadoContent').html('<div class="text-center p-5"><i class="fa fa-spinner fa-spin fa-2x"></i> Cargando...</div>');
+                        $('#modalCambiarEstado').modal('show');
+                    },
+                    success: function (html) {
+                        $('#modalCambiarEstadoContent').html(html);
+                    },
+                    error: function () {
+                        $('#modalCambiarEstadoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    }
+                });
+            });
+
+            // ===========================================================================================
+
+            // Botón de submit de Cambiar Estado
              $(document).on("submit", "form[id^='formCambiarEstado_']", function(e) {
                 const form = $(this);
                 const formId = form.attr('id'); // Obtenemos el ID del formulario

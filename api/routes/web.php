@@ -30,6 +30,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('actualizar_clave_fallas/{idUsuario}', 'usuarios\UsuariosController@actualizarClaveFallas');
     $router->post('datos_usuario/{idUsuario}', 'usuarios\UsuariosController@datosUsuario');
     $router->put('usuario_update/{idUsuario}', 'usuarios\UsuariosController@update');
+    $router->get('usuario_edit/{idUsuario}', 'usuarios\UsuariosController@edit');
 
     $router->post('cambiar_clave/{idUsuario}', 'usuarios\UsuariosController@cambiarClave');
     $router->post('cambiar_estado_usuario/{idUsuario}', 'usuarios\UsuariosController@destroy');
