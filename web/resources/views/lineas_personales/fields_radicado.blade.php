@@ -45,10 +45,48 @@
     </div>
 
     {{-- ======================= --}}
-
+    
     <div class="col-12 col-md-3 mt-3">
         <x-input name="tomador" type="text" value="{{ $resLineaPersonalEdit->tomador ?? null }}" id="tomador" label="Tomador"  autocomplete="off" class="text-capitaliz" required />
         @error('tomador')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-3 mt-5">
+        <x-input name="direccion_tomador" type="text" value="{{ $resLineaPersonalEdit->direccion_tomador ?? null }}" id="direccion_tomador" label="Dirección Tomador"  autocomplete="off" />
+        @error('direccion_tomador')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-3 mt-5">
+        <x-input name="celular_tomador" type="text" value="{{ $resLineaPersonalEdit->celular_tomador ?? null }}" id="celular_tomador" label="Celular Tomador"  autocomplete="off" />
+        @error('celular_tomador')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-3 mt-5">
+        <x-input name="correo_tomador" type="text" value="{{ $resLineaPersonalEdit->correo_tomador ?? null }}" id="correo_tomador" label="Correo Tomador"  autocomplete="off" />
+        @error('correo_tomador')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
+
+    <div class="col-12 col-md-3 mt-5">
+        <x-date-input
+            name="fecha_nacimiento"
+            id="fecha_nacimiento"
+            label="Fecha Nacimiento"
+            value="{{ $resLineaPersonalEdit->fecha_nacimiento ?? null }}"
+            icon="fa-calendar-days"
+            addonClass="bg-primary text-white"
+            wrapperClass="mb-3"
+            minDate="{{ \Carbon\Carbon::now()->subYears(100)->format('Y-m-d') }}"
+            maxDate="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+        />
+        @error('fecha_nacimiento')<div class="text-danger mt-1">{{ $message }}</div>@enderror
     </div>
 
     {{-- ======================= --}}

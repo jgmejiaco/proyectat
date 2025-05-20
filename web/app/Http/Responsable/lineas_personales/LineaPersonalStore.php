@@ -91,6 +91,10 @@ class LineaPersonalStore implements Responsable
         $polizaAsistente = $request->input('poliza_asistente');
         $identificacionTomador = $request->input('identificacion_tomador');
         $tomador = ucwords(strtolower(trim($request->input('tomador'))));
+        $direccionTomador = $request->input('direccion_tomador');
+        $celularTomador = $request->input('celular_tomador');
+        $correoTomador = $request->input('correo_tomador');
+        $fechaNacimiento = $request->input('fecha_nacimiento');
         $idProducto = $request->input('id_producto');
         $primaAnualizada = $request->input('prima_anualizada');
         $idFrecuencia = $request->input('id_frecuencia');
@@ -182,6 +186,10 @@ class LineaPersonalStore implements Responsable
                     'poliza_asistente' => $polizaAsistente,
                     'identificacion_tomador' => $identificacionTomador,
                     'tomador' =>  $tomador,
+                    'direccion_tomador' =>  $direccionTomador,
+                    'celular_tomador' =>  $celularTomador,
+                    'correo_tomador' =>  $correoTomador,
+                    'fecha_nacimiento' =>  $fechaNacimiento,
                     'id_producto' => $idProducto,
                     'prima_anualizada' => $primaAnualizada,
                     'id_frecuencia' => $idFrecuencia,
