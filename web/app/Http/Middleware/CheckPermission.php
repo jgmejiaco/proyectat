@@ -21,14 +21,20 @@ class CheckPermission
         
         // Usamos tu mismo controlador de permisos
         $permisosController = app(PermisosController::class);
-        
-        // Verificamos con tu método existente
+
+        // Verifica el permiso
         if (!$permisosController->tienePermisoRuta($routeName)) {
-            // Si no tiene permiso, redirigimos al inicio con error
-            return redirect()->route('inicio.index')->with([
-                'error' => 'No tienes permisos para acceder a esta sección',
-                'error_detail' => 'Intento de acceso a: '.$routeName
-            ]);
+            // Si es una petición AJAX o espera HTML (por ejemplo, para cargar un modal)
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->view('errores.permiso_modal', [
+                    'mensaje' => 'No tienes permisos para realizar esta acción.'
+                ], 403);
+            }
+
+            // Si es una petición normal (navegación clásica)
+            return response()->view('errores.permiso_general', [
+                'mensaje' => 'No tienes permisos para realizar esta acción.'
+            ], 403);
         }
 
         return $next($request);

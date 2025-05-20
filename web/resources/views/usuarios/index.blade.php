@@ -373,8 +373,18 @@
                     success: function (html) {
                         $('#modalEditarUsuarioContent').html(html);
                     },
-                    error: function () {
-                        $('#modalEditarUsuarioContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    error: function (xhr) {
+                        if (xhr.status === 403 && xhr.responseText) {
+                            // Mostrar el HTML de la vista de permiso denegado
+                            $('#modalEditarUsuarioContent').html(xhr.responseText);
+
+                            // Cerrar el modal después de 3 segundos (3000 ms)
+                            setTimeout(() => {
+                                $('#modalEditarUsuario').modal('hide');
+                            }, 3000);
+                        } else {
+                            $('#modalEditarUsuarioContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                        }
                     }
                 });
             });
@@ -420,8 +430,18 @@
                     success: function (html) {
                         $('#modalCambiarClaveContent').html(html);
                     },
-                    error: function () {
-                        $('#modalCambiarClaveContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    error: function (xhr) {
+                        if (xhr.status === 403 && xhr.responseText) {
+                            // Mostrar el HTML de la vista de permiso denegado
+                            $('#modalCambiarClaveContent').html(xhr.responseText);
+
+                            // Cerrar el modal después de 3 segundos (3000 ms)
+                            setTimeout(() => {
+                                $('#modalCambiarClave').modal('hide');
+                            }, 3000);
+                        } else {
+                            $('#modalCambiarClaveContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                        }
                     }
                 });
             });
@@ -497,8 +517,18 @@
                     success: function (html) {
                         $('#modalCambiarEstadoContent').html(html);
                     },
-                    error: function () {
-                        $('#modalCambiarEstadoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    error: function (xhr) {
+                        if (xhr.status === 403 && xhr.responseText) {
+                            // Mostrar el HTML de la vista de permiso denegado
+                            $('#modalCambiarEstadoContent').html(xhr.responseText);
+
+                            // Cerrar el modal después de 3 segundos (3000 ms)
+                            setTimeout(() => {
+                                $('#modalCambiarEstado').modal('hide');
+                            }, 3000);
+                        } else {
+                            $('#modalCambiarEstadoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                        }
                     }
                 });
             });

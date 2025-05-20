@@ -230,8 +230,18 @@
                             width: '100%'
                         });
                     },
-                    error: function () {
-                        $('#modalEditarRamoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    error: function (xhr) {
+                        if (xhr.status === 403 && xhr.responseText) {
+                            // Mostrar el HTML de la vista de permiso denegado
+                            $('#modalEditarRamoContent').html(xhr.responseText);
+
+                            // Cerrar el modal después de 3 segundos (3000 ms)
+                            setTimeout(() => {
+                                $('#modalEditarRamo').modal('hide');
+                            }, 3000);
+                        } else {
+                            $('#modalEditarRamoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                        }
                     }
                 });
             });

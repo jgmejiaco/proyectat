@@ -219,8 +219,18 @@
                     success: function (html) {
                         $('#modalEditarEstadoContent').html(html);
                     },
-                    error: function () {
-                        $('#modalEditarEstadoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                    error: function (xhr) {
+                        if (xhr.status === 403 && xhr.responseText) {
+                            // Mostrar el HTML de la vista de permiso denegado
+                            $('#modalEditarEstadoContent').html(xhr.responseText);
+
+                            // Cerrar el modal después de 3 segundos (3000 ms)
+                            setTimeout(() => {
+                                $('#modalEditarEstado').modal('hide');
+                            }, 3000);
+                        } else {
+                            $('#modalEditarEstadoContent').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
+                        }
                     }
                 });
             });
