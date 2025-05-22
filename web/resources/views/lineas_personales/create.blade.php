@@ -62,6 +62,17 @@
 @section('scripts')
     <script>
         $( document ).ready(function() {
+            // Destruye Select2 solo en estos campos específicos
+            if ($('#id_medio_pago').hasClass('select2-hidden-accessible')) {
+                $('#id_medio_pago').select2('destroy');
+                $('#id_medio_pago').removeClass('select2');
+            }
+
+            if ($('#id_financiera').hasClass('select2-hidden-accessible')) {
+                $('#id_financiera').select2('destroy');
+                $('#id_financiera').removeClass('select2');
+            }
+
             $('#fecha_radicado').focus();
 
             // ===================================================================================
@@ -146,14 +157,15 @@
 
             $('#id_medio_pago').change(function() {
                 let idMedioPago = $(this).val();
-                console.log(idMedioPago);
 
                 if (idMedioPago == 1) {
                     $('#div_id_financiera').show();
-                    $('#id_financiera').addAttr('required');
+                    $('#id_financiera').attr('required',true);
+                    $('#id_financiera').focus();
                 } else {
                     $('#div_id_financiera').hide();
                     $('#id_financiera').removeAttr('required');
+                    $('#id_financiera').val('');
                 }
             });
 
