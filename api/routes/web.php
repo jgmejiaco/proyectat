@@ -116,6 +116,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// MEDIOS DE PAGO
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('medio_pago_index', 'medios_pago\MediosPagoController@index');
+    $router->post('consultar_medio_pago', 'medios_pago\MediosPagoController@consultarMedioPago');
+    $router->post('medio_pago_store', 'medios_pago\MediosPagoController@store');
+    $router->put('medio_pago_update/{idMedioPago}', 'medios_pago\MediosPagoController@update');
+    $router->get('medio_pago_edit/{idMedioPago}', 'medios_pago\MediosPagoController@edit');
+});
+
+// =====================================================================
+// =====================================================================
+
 // PRODUCTOS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('producto_index', 'productos\ProductosController@index');

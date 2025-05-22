@@ -53,9 +53,21 @@
                                     </li>
                                 @endif
 
+                                {{-- @if($permisos->tienePermisoRuta('financieras.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('financieras.index')}}" class="dropdown-item text-black hover-li">Financieras</a>
+                                    </li>
+                                @endif --}}
+
                                 @if($permisos->tienePermisoRuta('frecuencias.index'))
                                     <li class="nav-item">
                                         <a href="{{route('frecuencias.index')}}" class="dropdown-item text-black hover-li">Frecuencias</a>
+                                    </li>
+                                @endif
+
+                                @if($permisos->tienePermisoRuta('medios_pago.index'))
+                                    <li class="nav-item">
+                                        <a href="{{route('medios_pago.index')}}" class="dropdown-item text-black hover-li">Medios de Pago</a>
                                     </li>
                                 @endif
 
