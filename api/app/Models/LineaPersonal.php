@@ -24,6 +24,7 @@ class LineaPersonal extends Model implements Auditable
         'id_tomador',
         'identificacion_tomador',
         'tomador',
+        'ciudad',
         'direccion_tomador',
         'celular_tomador',
         'correo_tomador',

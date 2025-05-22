@@ -91,6 +91,7 @@ class LineaPersonalStore implements Responsable
         $polizaAsistente = $request->input('poliza_asistente');
         $identificacionTomador = $request->input('identificacion_tomador');
         $tomador = ucwords(strtolower(trim($request->input('tomador'))));
+        $ciudad = ucwords(strtolower(trim($request->input('ciudad'))));
         $direccionTomador = $request->input('direccion_tomador');
         $celularTomador = $request->input('celular_tomador');
         $correoTomador = $request->input('correo_tomador');
@@ -188,6 +189,7 @@ class LineaPersonalStore implements Responsable
                     'poliza_asistente' => $polizaAsistente,
                     'identificacion_tomador' => $identificacionTomador,
                     'tomador' =>  $tomador,
+                    'ciudad' => $ciudad,
                     'direccion_tomador' =>  $direccionTomador,
                     'celular_tomador' =>  $celularTomador,
                     'correo_tomador' =>  $correoTomador,

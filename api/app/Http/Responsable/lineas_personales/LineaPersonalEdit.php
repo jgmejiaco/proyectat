@@ -38,6 +38,7 @@ class LineaPersonalEdit implements Responsable
                     'poliza_asistente',
                     'identificacion_tomador',
                     'tomador',
+                    'ciudad',
                     'direccion_tomador',
                     'celular_tomador',
                     'correo_tomador',

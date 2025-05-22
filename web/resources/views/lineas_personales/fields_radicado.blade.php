@@ -54,6 +54,13 @@
     {{-- ======================= --}}
     
     <div class="col-12 col-md-3 mt-5">
+        <x-input name="ciudad" type="text" value="{{ $resLineaPersonalEdit->ciudad ?? null }}" id="ciudad" label="Ciudad"  autocomplete="off" />
+        @error('ciudad')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
+        
+    <div class="col-12 col-md-3 mt-5">
         <x-input name="direccion_tomador" type="text" value="{{ $resLineaPersonalEdit->direccion_tomador ?? null }}" id="direccion_tomador" label="Dirección Tomador"  autocomplete="off" />
         @error('direccion_tomador')<div class="text-danger mt-1">{{ $message }}</div>@enderror
     </div>

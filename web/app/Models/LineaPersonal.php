@@ -20,6 +20,7 @@ class LineaPersonal extends Model
         'id_tomador',
         'identificacion_tomador',
         'tomador',
+        'ciudad',
         'direccion_tomador',
         'celular_tomador',
         'correo_tomador',

@@ -55,6 +55,7 @@
                                 <th class="text-center align-content-center">Póliza Asistente</th>
                                 <th class="text-center align-content-center">Identificación Tomador</th>
                                 <th class="text-center align-content-center">Nombres Tomador</th>
+                                <th class="text-center align-content-center">Ciudad</th>
                                 <th class="text-center align-content-center">Dirección Tomador</th>
                                 <th class="text-center align-content-center">Celular Tomador</th>
                                 <th class="text-center align-content-center">Correo Tomador</th>
@@ -94,6 +95,7 @@
                                     <td class="text-center align-content-center">{{$radicado->poliza_asistente}}</td>
                                     <td class="text-center align-content-center">{{$radicado->identificacion_tomador}}</td>
                                     <td class="text-center align-content-center">{{$radicado->tomador}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->ciudad}}</td>
                                     <td class="text-center align-content-center">{{$radicado->direccion_tomador}}</td>
                                     <td class="text-center align-content-center">{{$radicado->celular_tomador}}</td>
                                     <td class="text-center align-content-center">{{$radicado->correo_tomador}}</td>
