@@ -10,7 +10,7 @@ use App\Http\Controllers\permisos\PermisosController;
 use App\Http\Controllers\aseguradoras\AseguradorasController;
 use App\Http\Controllers\consultores\ConsultoresController;
 use App\Http\Controllers\estados\EstadosController;
-// use App\Http\Controllers\financieras\FinancierasController;
+use App\Http\Controllers\financieras\FinancierasController;
 use App\Http\Controllers\frecuencias\FrecuenciasController;
 use App\Http\Controllers\medios_pago\MediosPagoController;
 use App\Http\Controllers\gerentes\GerentesController;
@@ -121,9 +121,9 @@ Route::middleware(['web', 'prevent-back-history'])->group(function () {
     // ===========================================================================
     
     // FINANCIERAS
-    // Route::controller(FinancierasController::class)->group(function () {
-    //     Route::resource('financieras', FinancierasController::class)->middleware('permission');
-    // });
+    Route::controller(FinancierasController::class)->group(function () {
+        Route::resource('financieras', FinancierasController::class)->middleware('permission');
+    });
 
     // ===========================================================================
     // ===========================================================================

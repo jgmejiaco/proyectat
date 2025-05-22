@@ -53,11 +53,11 @@
                                     </li>
                                 @endif
 
-                                {{-- @if($permisos->tienePermisoRuta('financieras.index'))
+                                @if($permisos->tienePermisoRuta('financieras.index'))
                                     <li class="nav-item">
                                         <a href="{{route('financieras.index')}}" class="dropdown-item text-black hover-li">Financieras</a>
                                     </li>
-                                @endif --}}
+                                @endif
 
                                 @if($permisos->tienePermisoRuta('frecuencias.index'))
                                     <li class="nav-item">
