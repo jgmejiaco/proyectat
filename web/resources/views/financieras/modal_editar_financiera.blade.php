@@ -12,7 +12,7 @@
 
     <div class="modal-body p-0 m-0" style="border: solid 1px #337AB7;">
         <div class="row m-2 mb-3">
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <x-input
                     name="financiera"
                     type="text"
