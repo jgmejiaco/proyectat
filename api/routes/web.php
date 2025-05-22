@@ -81,6 +81,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
+// ESTADOS
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('estado_index', 'estados\EstadosController@index');
+    $router->post('consultar_estado', 'estados\EstadosController@consultarEstado');
+    $router->post('estado_store', 'estados\EstadosController@store');
+    $router->put('estado_update/{idEstado}', 'estados\EstadosController@update');
+    $router->get('estado_edit/{idEstado}', 'estados\EstadosController@edit');
+});
+
+// =====================================================================
+// =====================================================================
+
 // FRECUENCIAS
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('frecuencia_index', 'frecuencias\FrecuenciasController@index');
@@ -93,17 +105,18 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 // =====================================================================
 // =====================================================================
 
-// ESTADOS
+// FINANCIERAS
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('estado_index', 'estados\EstadosController@index');
-    $router->post('consultar_estado', 'estados\EstadosController@consultarEstado');
-    $router->post('estado_store', 'estados\EstadosController@store');
-    $router->put('estado_update/{idEstado}', 'estados\EstadosController@update');
-    $router->get('estado_edit/{idEstado}', 'estados\EstadosController@edit');
+    $router->get('financiera_index', 'financieras\FinancierasController@index');
+    $router->post('consultar_financiera', 'financieras\FinancierasController@consultarFinanciera');
+    $router->post('financiera_store', 'financieras\FinancierasController@store');
+    $router->put('financiera_update/{idFinanciera}', 'financieras\FinancierasController@update');
+    $router->get('financiera_edit/{idFinanciera}', 'financieras\FinancierasController@edit');
 });
 
 // =====================================================================
 // =====================================================================
+
 
 // GERENTES
 $router->group(['prefix' => 'api'], function () use ($router) {
