@@ -71,6 +71,8 @@
                                 <th class="text-center align-content-center">Gerente</th>
                                 <th class="text-center align-content-center">Estado Póliza</th>
                                 <th class="text-center align-content-center">Fecha Cancelación</th>
+                                <th class="text-center align-content-center">Medio Pago</th>
+                                <th class="text-center align-content-center">Financiera</th>
                                 <th class="text-center align-content-center bg-warning-subtle">Cédula</th>
                                 <th class="text-center align-content-center bg-warning-subtle">Matrícula</th>
                                 <th class="text-center align-content-center bg-warning-subtle">Asegurabilidad</th>
@@ -108,6 +110,8 @@
                                     <td class="text-center align-content-center">{{$radicado->gerente_comercial}}</td>
                                     <td class="text-center align-content-center">{{$radicado->estado_poliza}}</td>
                                     <td class="text-center align-content-center">{{$radicado->fecha_cancelacion}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->medio_pago}}</td>
+                                    <td class="text-center align-content-center">{{$radicado->financiera}}</td>
 
                                     @if (isset($radicado->file_cedula) && !empty($radicado->file_cedula) && !is_null($radicado->file_cedula))
                                         <td class="text-center align-content-center bg-warning-subtle"><a href="storage/{{$radicado->file_cedula}}" target="_blank" class="text-decoration-none">Cédula</a></td>
