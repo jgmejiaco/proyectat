@@ -255,6 +255,34 @@
     </div>
 
     {{-- ======================= --}}
+    
+    <div class="col-12 col-md-2 mt-5">
+        <x-select name="id_medio_pago" label="Medio Pago" id="id_medio_pago" autocomplete="organization-title" required>
+            <option value="">Seleccionar...</option>
+            @foreach($mediosPago as $key => $value)
+                <option value="{{ $key }}" {{ old('id_medio_pago', $resLineaPersonalEdit->id_medio_pago ?? null) == $key ? 'selected' : '' }}>
+                    {{ $value }}
+                </option>
+            @endforeach
+        </x-select>
+        @error('id_medio_pago')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
+    
+    <div class="col-12 col-md-2 mt-5" id="div_id_financiera">
+        <x-select name="id_financiera" label="Financiera" id="id_financiera" autocomplete="organization-title">
+            <option value="">Seleccionar...</option>
+            @foreach($financieras as $key => $value)
+                <option value="{{ $key }}" {{ old('id_financiera', $resLineaPersonalEdit->id_financiera ?? null) == $key ? 'selected' : '' }}>
+                    {{ $value }}
+                </option>
+            @endforeach
+        </x-select>
+        @error('id_financiera')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+    </div>
+
+    {{-- ======================= --}}
 
     <div class="col-12 col-md-2 mt-5">
         <x-file-input

@@ -42,6 +42,8 @@ class LineaPersonalUpdate implements Responsable
                 $radicado->id_consultor = $request->input('id_consultor');
                 $radicado->id_estado_poliza = $request->input('id_estado_poliza');
                 $radicado->fecha_cancelacion = $request->input('fecha_cancelacion');
+                $radicado->id_medio_pago = $request->input('id_medio_pago');
+                $radicado->id_financiera = $request->input('id_financiera');
                 $radicado->file_cedula = $request->input('file_cedula');
                 $radicado->file_matricula = $request->input('file_matricula');
                 $radicado->file_asegurabilidad = $request->input('file_asegurabilidad');

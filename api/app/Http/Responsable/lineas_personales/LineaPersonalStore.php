@@ -29,6 +29,8 @@ class LineaPersonalStore implements Responsable
         $idConsultor = $request->input('id_consultor');
         $idEstadoPoliza = $request->input('id_estado_poliza');
         $fechaCancelacion = $request->input('fecha_cancelacion');
+        $idMedioPago = $request->input('id_medio_pago');
+        $idFinanciera = $request->input('id_financiera');
 
         $fileCedula = $request->input('file_cedula');
         $fileMatricula = $request->input('file_matricula');
@@ -62,6 +64,8 @@ class LineaPersonalStore implements Responsable
                 'id_consultor' => $idConsultor,
                 'id_estado_poliza' => $idEstadoPoliza,
                 'fecha_cancelacion' => $fechaCancelacion,
+                'id_medio_pago' => $idMedioPago,
+                'id_financiera' => $idFinanciera,
                 'file_cedula' => $fileCedula,
                 'file_matricula' => $fileMatricula,
                 'file_asegurabilidad' => $fileSolicitudAsegurabilidad,

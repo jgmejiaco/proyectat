@@ -139,6 +139,27 @@
             // ===================================================================================
             // ===================================================================================
 
+            $('#div_id_financiera').hide();
+            $('#id_financiera').removeAttr('required');
+
+            // ===================================================================================
+
+            $('#id_medio_pago').change(function() {
+                let idMedioPago = $(this).val();
+                console.log(idMedioPago);
+
+                if (idMedioPago == 1) {
+                    $('#div_id_financiera').show();
+                    $('#id_financiera').addAttr('required');
+                } else {
+                    $('#div_id_financiera').hide();
+                    $('#id_financiera').removeAttr('required');
+                }
+            });
+
+            // ===================================================================================
+            // ===================================================================================
+
             // formCrearUsuario para cargar gif en el submit
             $(document).on("submit", "form[id^='formCrearRadicado']", function(e) {
                 e.preventDefault(); // Evita el envío si hay errores
@@ -154,11 +175,6 @@
                 // Enviar formulario manualmente
                 this.submit();
             });
-
-            // ===================================================================================
-            // ===================================================================================
-
-            
         }); // FIN document.readey
     </script>
 @stop
