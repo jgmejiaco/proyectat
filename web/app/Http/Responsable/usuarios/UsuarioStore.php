@@ -98,7 +98,7 @@ class UsuarioStore implements Responsable
                 );
             }
         } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
+            return $this->respuestaException('Creando el usuario, contacte a Soporte.');
         }
     } // FIN toResponse($request)
 
@@ -113,7 +113,7 @@ class UsuarioStore implements Responsable
             return json_decode($queryCorreoUser->getBody()->getContents());
 
         } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
+            return $this->respuestaException('Consultando el correo, contacte a Soporte.');
         }
     }
 
@@ -139,7 +139,7 @@ class UsuarioStore implements Responsable
             return json_decode($queryUsuario->getBody()->getContents());
 
         } catch (Exception $e) {
-            return $this->respuestaException('Exception, contacte a Soporte.');
+            return $this->respuestaException('Consultando el usuario, contacte a Soporte.');
         }
     }
 
